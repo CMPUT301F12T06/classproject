@@ -123,7 +123,7 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp" />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -134,16 +134,26 @@
         android:orientation="horizontal" >
 
         <Button
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/add_submission_button" />
+            android:background="#262626"
+            android:padding="10dp"
+            android:text="@string/add_submission_button"
+            android:textColor="#FFFFFF" 
+            android:onClick="addSubmissionHandler"/>
 
         <Button
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/okay_button" />
+            android:background="#262626"
+            android:padding="10dp"
+            android:text="@string/okay_button"
+            android:textColor="#FFFFFF" 
+            android:onClick="okayClicked"/>
     </LinearLayout>
 
 </LinearLayout>

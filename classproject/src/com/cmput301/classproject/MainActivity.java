@@ -2,6 +2,7 @@ package com.cmput301.classproject;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 
@@ -87,7 +88,8 @@ public class MainActivity extends Activity {
      * @param v
      */
     public void addTaskHandler(View v) {
-    	
+    	Intent intent = new Intent(this, AddTaskActivity.class);
+    	startActivity(intent);
     }
     
 }

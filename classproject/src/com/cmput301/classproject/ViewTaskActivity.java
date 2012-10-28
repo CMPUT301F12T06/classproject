@@ -2,8 +2,10 @@ package com.cmput301.classproject;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.support.v4.app.NavUtils;
 
 public class ViewTaskActivity extends Activity {
@@ -30,6 +32,29 @@ public class ViewTaskActivity extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    /**
+     * Name: 		okayClicked
+     * Description: User is finished viewing the Task
+     * 				Upon clicking Okay they will be 
+     * 				returned to the MainActivity
+     * @param v
+     */
+    public void okayClicked(View v) {
+    	
+    	
+    }
+    
+    /**
+     * Name: 		addSubmissionHandler
+     * Description: This will navigate the user to the
+     * 				AddSubmissionActivity
+     * @param v
+     */
+    public void addSubmissionHandler(View v) {
+    	Intent intent = new Intent(this, AddSubmissionActivity.class);
+    	startActivity(intent);
     }
 
 }

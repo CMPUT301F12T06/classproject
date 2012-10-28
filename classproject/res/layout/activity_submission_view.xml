@@ -60,31 +60,6 @@
             android:hint="@string/default_text" />
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/photos_label" />
-
-    <!--
-         It will be a list of photos for now until we implement the thumbnails 
-    	It's also set to 200dp height for now
-    -->
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/audio_label" />
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1" />
-
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -102,12 +77,39 @@
             android:layout_height="wrap_content"
             android:hint="@string/default_text" />
     </LinearLayout>
-    
-    <Button
-        android:layout_height="wrap_content"
+
+    <TextView
         android:layout_width="wrap_content"
-        android:text="@string/okay_button"
+        android:layout_height="wrap_content"
+        android:text="@string/photos_label" />
+
+<!--          It will be a list of photos for now until we implement the thumbnails -->
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/audio_label" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1" />
+
+    <Button
+        android:id="@+id/submission_view_okay_id"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="right"
-    />
+        android:background="#262626"
+        android:padding="10dp"
+        android:text="@string/okay_button"
+        android:textColor="#FFFFFF" 
+        android:onClick="okayClicked"/>
 
 </LinearLayout>

@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <!--  Summary Label -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -24,6 +25,8 @@
             android:inputType="none" />
     </LinearLayout>
 
+    
+    <!--  Submission Text Label  -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -43,6 +46,8 @@
             android:hint="@string/default_text" />
     </LinearLayout>
 
+    
+    <!--  Add Photo/Audio -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -51,18 +56,24 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/add_photo_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/add_photo_label" />
+            android:text="@string/add_photo_label"
+            android:onClick="addPhotoHandler" />
 
         <Button
+            android:id="@+id/add_audio_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/add_audio_label" />
+            android:text="@string/add_audio_label" 
+            android:onClick="addAudioHandler"/>
     </LinearLayout>
 
+    
+    <!--  Submission Sharing -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -105,6 +116,7 @@
             android:text="@string/submission_sharing_public" />
     </RadioGroup>
 
+    <!-- Submit/Cancel -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -114,18 +126,28 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/submission_cancel_id"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/cancel_button" />
+            android:background="#262626"
+            android:padding="10dp"
+            android:text="@string/cancel_button"
+            android:textColor="#FFFFFF" 
+            android:onClick="cancelSubmissionHandler"/>
 
         <Button
+            android:id="@+id/submission_submit_id"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@string/submit_button" />
+            android:background="#262626"
+            android:padding="10dp"
+            android:text="@string/submit_button"
+            android:textColor="#FFFFFF" 
+            android:onClick="submitSubmissionHandler"/>
     </LinearLayout>
-
-</LinearLayout><LinearLayout>
 
 </LinearLayout>

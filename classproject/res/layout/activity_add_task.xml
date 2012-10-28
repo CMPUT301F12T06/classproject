@@ -88,18 +88,21 @@
             android:id="@+id/requires_photo_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
             android:text="@string/task_requires_photo_label" />
 
         <CheckBox
             android:id="@+id/requires_audio_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
             android:text="@string/task_requires_audio_label" />
 
         <CheckBox
             android:id="@+id/requires_text_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
             android:text="@string/task_requires_text_label" />
     </LinearLayout>
 
@@ -119,7 +122,7 @@
         android:paddingTop="8dp"
         android:text="@string/task_requires_label"
         android:textSize="14dp" />
-    
+
     <!-- Task Sharing Radio Buttons -->
 
     <RadioGroup
@@ -142,30 +145,36 @@
             android:onClick="onSharingChange"
             android:text="@string/task_sharing_private_label" />
     </RadioGroup>
-    
-   	<LinearLayout
-   	    xmlns:android="http://schemas.android.com/apk/res/android"
-   	    xmlns:tools="http://schemas.android.com/tools"
-   	    android:layout_width="match_parent"
-   	    android:layout_height="match_parent"
-   	    android:gravity="bottom"
-   	    android:orientation="horizontal" >
-    
-		<Button
-		    android:layout_height="wrap_content"
-		    android:layout_width="0dp"
-		    android:layout_weight="0.5"
-		    android:text="@string/cancel_button"  
-		/>	
-		
-		<Button
-		    android:layout_height="wrap_content"
-		    android:layout_width="0dp"
-		    android:layout_weight="0.5"
-		    android:text="@string/submit_button"    
-		/>	
-	    
-	</LinearLayout>
-    
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="#262626"
+            android:onClick="onCancelHandler"
+            android:padding="10dp"
+            android:text="@string/cancel_button"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="#262626"
+            android:onClick="onSubmitHandler"
+            android:padding="10dp"
+            android:text="@string/submit_button"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
 
 </LinearLayout>

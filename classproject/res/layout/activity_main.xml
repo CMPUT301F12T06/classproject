@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <!--  Filtering of tasks -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -13,44 +14,51 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/view_public_tasks_id"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
             android:background="#262626"
             android:onClick="handlePublicTasks"
-            android:padding="10"
+            android:padding="10dp"
             android:text="@string/public_tasks_button_text"
             android:textColor="#FFFFFF" />
 
         <Button
+             android:id="@+id/view_your_tasks_id"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
             android:background="#262626"
             android:onClick="handleYourTasks"
-            android:padding="10"
+            android:padding="10dp"
             android:text="@string/your_tasks_button_text"
             android:textColor="#FFFFFF" />
 
         <Button
+             android:id="@+id/view_specific_creator_tasks_id"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
             android:background="#262626"
             android:onClick="handleSpecificTasks"
-            android:padding="10"
+            android:padding="10dp"
             android:text="@string/specific_creator_tasks_button_text"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
+    
+    <!--  List View  -->
     <ListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.9" />
 
+    
+    <!--  Add Task/Sync Tasks -->
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -60,20 +68,30 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/add_task_button_id"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="0.5"
+            android:background="#262626"
             android:onClick="addTaskHandler"
-            android:text="@string/add_task_button_text" />
+            android:padding="10dp"
+            android:text="@string/add_task_button_text"
+            android:textColor="#FFFFFF" />
 
         <Button
+            android:id="@+id/sync_task_button_id"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_weight="0.5"
+            android:background="#262626"
             android:onClick="onSyncHandler"
-            android:text="@string/sync_task_button_text" />
+            android:padding="10dp"
+            android:text="@string/sync_task_button_text"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
 </LinearLayout>

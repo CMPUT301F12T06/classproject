@@ -2,8 +2,10 @@ package com.cmput301.classproject;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.support.v4.app.NavUtils;
 
 public class SubmissionViewActivity extends Activity {
@@ -32,4 +34,17 @@ public class SubmissionViewActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    
+    /**
+     * Name: 		okayClicked
+     * Description: User is finished viewing the submission
+     * 				this will redirect them back to the
+     * 				ViewTasksActivity
+     * @param v
+     */
+    public void okayClicked(View v) {
+    	Intent intent = new Intent(this, ViewTaskActivity.class);
+    	startActivity(intent);
+    	
+    }
 }
