@@ -1,0 +1,131 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_summary_label"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/default_text"
+            android:inputType="none" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_text_label"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/default_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/add_photo_label" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/add_audio_label" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_sharing_label"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <RadioGroup
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/submission_private_sharing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onSharingChange"
+            android:text="@string/submission_sharing_private" />
+
+        <RadioButton
+            android:id="@+id/submission_creator_sharing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onSharingChange"
+            android:text="@string/submission_sharing_creator" />
+
+        <RadioButton
+            android:id="@+id/submission_public_sharing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onSharingChange"
+            android:text="@string/submission_sharing_public" />
+    </RadioGroup>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/cancel_button" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/submit_button" />
+    </LinearLayout>
+
+</LinearLayout><LinearLayout>
+
+</LinearLayout>

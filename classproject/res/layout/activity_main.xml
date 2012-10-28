@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="horizontal" >
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:background="#262626"
+            android:onClick="handlePublicTasks"
+            android:padding="10"
+            android:text="@string/public_tasks_button_text"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:background="#262626"
+            android:onClick="handleYourTasks"
+            android:padding="10"
+            android:text="@string/your_tasks_button_text"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:background="#262626"
+            android:onClick="handleSpecificTasks"
+            android:padding="10"
+            android:text="@string/specific_creator_tasks_button_text"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9" />
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.5"
+            android:onClick="addTaskHandler"
+            android:text="@string/add_task_button_text" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="0.5"
+            android:onClick="onSyncHandler"
+            android:text="@string/sync_task_button_text" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,61 @@
+<resources>
+
+    <string name="app_name">CrowdSourcing</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">List of Public Tasks</string>
+
+    <!-- General -->
+    <string name="cancel_button">Cancel</string>
+    <string name="submit_button">Submit</string>
+    <string name="okay_button">Okay</string>
+
+    <!-- Main UI elements -->
+    <string name="public_tasks_button_text">Public Tasks</string>
+    <string name="your_tasks_button_text">Your Tasks</string>
+    <string name="specific_creator_tasks_button_text">Specific Tasks</string>
+    <string name="specific_creator_tasks_dialog_text">Enter the name of the user you would like to view tasks from</string>
+    <string name="add_task_button_text">Add Task</string>
+    <string name="sync_task_button_text">Sync</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_add_task">AddTaskActivity</string>
+
+    <!-- Tasks elements -->
+    <string name="task_name_label">Task Name: </string>
+    <string name="task_description_label">Task Description: </string>
+    <string name="task_creator_label">Task Creator: </string>
+    <string name="task_access_label">Task Access: </string>
+    <string name="task_requires_label">Task Requires: </string>
+    <string name="task_requires_photo_label">Photo</string>
+    <string name="task_requires_audio_label">Audio</string>
+    <string name="task_requires_text_label">Text</string>
+    <string name="task_sharing_label">Task Sharing: </string>
+    <string name="task_sharing_private_label">Private</string>
+    <string name="task_sharing_public_label">Public</string>
+    <string name="default_text">Please enter something</string>
+    <string name="title_activity_view_task">ViewTaskActivity</string>
+    <string name="task_submissions_label">Submissions: </string>
+    <string name="add_submission_button">Add Submission</string>
+
+    <!-- Submission View elements -->
+    <string name="author_label">Author: </string>
+    <string name="summary_label">Summary: </string>
+    <string name="text_label">Text: </string>
+    <string name="photos_label">Photos: </string>
+    <string name="audio_label">Audio: </string>
+    <string name="access_label">Access: </string>
+    <string name="title_activity_submission_view">SubmissionViewActivity</string>
+    <string name="title_activity_add_submission">AddSubmissionActivity</string>
+    
+    
+    <!--  Add Submission elements -->
+    <string name="submission_summary_label">Submission Summary: </string>
+    <string name="submission_text_label">Submission Text: </string>
+    <string name="add_photo_label">Add Photo</string>
+    <string name="add_audio_label">Add Audio</string>
+    <string name="submission_sharing_label">Submission Sharing</string>
+    <string name="submission_sharing_private">Private</string>
+    <string name="submission_sharing_creator">Creator</string>
+    <string name="submission_sharing_public">Public</string>
+    
+
+</resources>
