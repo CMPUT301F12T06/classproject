@@ -1,9 +1,14 @@
 package com.cmput301.classproject;
 
+import java.util.List;
+
 import android.app.Application;
 
 public class JSONServer extends Application {
 	
+	public static enum Code {
+	    FAILURE, SUCCESS
+	}
 	
 	@Override
 	public void onCreate() {
@@ -12,11 +17,11 @@ public class JSONServer extends Application {
 	}
 	
 	/**
-	 * Name: 		checkConnection
-	 * Description:	this will check the connection to the server
+	 * Name: 		isConnected
+	 * Description:	this will check the connection to the json server
 	 * @return
 	 */
-	public boolean checkConnection() {
+	public boolean isConnected() {
 		return false;
 		
 	}
@@ -26,18 +31,19 @@ public class JSONServer extends Application {
 	 * Description:	this will add the task in JSON
 	 * 				format to the server
 	 */
-	public void addTask() {
-		
-		
+	public Code addTask(Task task) {
+		//TODO update task id from server response
+		return Code.SUCCESS;
 	}
 	
 	/**
 	 * Name: 		getTask
-	 * Description:	This will retrieve a task in JSON form
-	 * 				convert it to a "Task" object and return it
+	 * Description:	This will retrieve all tasks in JSON form
+	 * 				convert it to a "Task" list and return it
+	 * 				It is null if something went wrong.
 	 * @return
 	 */
-	public Task getTask() {
+	public List<Task> getAllTasks() {
 		
 		return null;
 		
@@ -48,7 +54,16 @@ public class JSONServer extends Application {
 	 * Description:	This will update the task with the provided
 	 * 				Task object information
 	 */
-	public void updateTask(Task t) {
-		
+	public Code updateTask(Task t) {
+	
+		return Code.SUCCESS;
 	}
+	
+	public Code addSubmission(int taskId, Submission submission) {
+		// get latest task via taskId
+		// add submission to task
+		// run updateTask on our task 
+		return Code.SUCCESS;
+	}
+
 }

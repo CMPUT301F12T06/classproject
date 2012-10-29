@@ -18,6 +18,7 @@ public class Task {
 		return id;
 	}
 	
+	//TODO this should be updated by JSON server class only
 	public void setId(int id) {
 		this.id = id;
 	}
