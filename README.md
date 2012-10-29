@@ -1,9 +1,9 @@
 CMPUT_301 Team Members X
 ============
-Thomas Polasek (tpolasek 1237430)
+Thomas Polasek (tpolasek )
 
-Benson Trinh (btrinh1 1246372)
+Benson Trinh (btrinh1 )
 
-Remco Uittenbogerd (remco 1271070)
+Remco Uittenbogerd (remco )
 
-Clinton Wong (ciwong 1213441)
+Clinton Wong (ciwong )
