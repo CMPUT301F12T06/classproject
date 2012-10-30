@@ -98,14 +98,27 @@ public class AddTaskActivity extends Activity {
 	 */
 	public void onSubmitHandler(View v) {
 
-		String title = TaskManager.getStringFromId(this, R.id.task_title);
-		String description = TaskManager.getStringFromId(this,
+		String title = ApplicationCore.getStringFromId(this, R.id.task_title);
+		String description = ApplicationCore.getStringFromId(this,
 				R.id.task_description);
-		
-		int requires = Submission.ACCESS_AUDIO | Submission.ACCESS_PHOTO;
 
-		TaskManager.displayToastMessage(getApplicationContext(), title
-				+ description);
+		CheckBox audioCheckBox = ((CheckBox) this
+				.findViewById(R.id.requires_audio_checkbox));
+		CheckBox photoCheckBox = ((CheckBox) this
+				.findViewById(R.id.requires_photo_checkbox));
+		CheckBox textCheckBox = ((CheckBox) this
+				.findViewById(R.id.requires_text_checkbox));
+
+		int requires = 0;
+		if (audioCheckBox != null && audioCheckBox.isSelected())
+			requires |= Submission.ACCESS_AUDIO;
+		if (photoCheckBox != null && photoCheckBox.isSelected())
+			requires |= Submission.ACCESS_PHOTO;
+		if (textCheckBox != null && textCheckBox.isSelected())
+			requires |= Submission.ACCESS_TEXT;
+
+		ApplicationCore.displayToastMessage(getApplicationContext(), title
+				+ description + ":" + Integer.toString(requires));
 	}
 
 	/**

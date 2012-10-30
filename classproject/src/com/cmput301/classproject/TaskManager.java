@@ -1,6 +1,5 @@
 package com.cmput301.classproject;
 
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -14,23 +13,21 @@ import android.widget.Toast;
 // storage amoung other singletons.
 public class TaskManager extends Application {
 
-	public static void displayToastMessage(Context context, CharSequence text) {
-		int duration = Toast.LENGTH_SHORT;
-		Toast toast = Toast.makeText(context, text, duration);
-		toast.show();
+	private Application appRef = null;
+	private static TaskManager instance = null;
+
+	private TaskManager() {
 	}
 
-	public static String getStringFromId(Activity act, int id) {
-		return (((TextView) act.findViewById(id)).getText().toString());
+	public static TaskManager getInstance() {
+		if (instance == null) {
+			instance = new TaskManager();
+		}
+		return instance;
 	}
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-
-		// pass our single Application instance to other singleton classes
-		JSONServer.getInstance().setApplicatonReference(this);
-		LocalStorage.getInstance().setApplicatonReference(this);
+	public void setApplicatonReference(Application appRef) {
+		this.appRef = appRef;
 	}
 
 }
