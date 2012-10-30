@@ -7,61 +7,56 @@ public class Task {
 	private ArrayList<Submission> submissions;
 	private String name;
 	private String description;
-	private Byte requires;
-	private int access;
-	
-	public Task() {
-		//TODO - implement Constructor
+	private int requires; // logical OR based settings
+	private boolean publicAccess; // if false then this is a private task
+
+	public Task(String name, String description, int requires,
+			boolean publicAccess) {
+		this.id = 0;
+		this.name = name;
+		this.description = description;
+		this.name = name;
+		this.requires = requires;
+		this.publicAccess = publicAccess;
+		this.submissions = new ArrayList<Submission>();
 	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	//TODO this should be updated by JSON server class only
+
+	// TODO this should be updated by JSON server class only
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
+	public int getId() {
+		return id;
+	}
+
 	public ArrayList<Submission> getSubmissions() {
 		return submissions;
 	}
-	
+
 	public void setSubmissions(ArrayList<Submission> submissions) {
 		this.submissions = submissions;
 	}
-	
+
+	public void addSubmission(Submission submission) {
+		if (this.submissions != null)
+			this.submissions.add(submission);
+	}
+
 	public String getName() {
 		return name;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public Byte getRequires() {
+
+	public int getRequires() {
 		return requires;
 	}
-	
-	public void setRequires(Byte requires) {
-		this.requires = requires;
+
+	public boolean isPublicAccess() {
+		return publicAccess;
 	}
-	
-	public int getAccess() {
-		return access;
-	}
-	
-	public void setAccess(int access) {
-		this.access = access;
-	}
-	
-	
+
 }

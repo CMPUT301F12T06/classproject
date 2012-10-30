@@ -2,11 +2,13 @@ package com.cmput301.classproject;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 
 public class AddTaskActivity extends Activity {
@@ -35,9 +37,8 @@ public class AddTaskActivity extends Activity {
 	}
 
 	/**
-	 * Name: 		onSharingChange 
-	 * Description: This will check the type of sharing
-	 * 				permissions when the user changes any of the options in the radio.
+	 * Name: onSharingChange Description: This will check the type of sharing
+	 * permissions when the user changes any of the options in the radio.
 	 * 
 	 * @param v
 	 */
@@ -61,9 +62,8 @@ public class AddTaskActivity extends Activity {
 	}
 
 	/**
-	 * Name: 		onCheckboxClicked 
-	 * Description: This will check whether the task
-	 * 				"requires" photos, audio or text. Can be none or can be all
+	 * Name: onCheckboxClicked Description: This will check whether the task
+	 * "requires" photos, audio or text. Can be none or can be all
 	 * 
 	 * @param v
 	 */
@@ -91,24 +91,31 @@ public class AddTaskActivity extends Activity {
 	}
 
 	/**
-	 * Name: 		onSubmitHandler 
-	 * Description: Verify that the fields entered are
-	 * 				valid then add the task to the server using the JSONServer Object
+	 * Name: onSubmitHandler Description: Verify that the fields entered are
+	 * valid then add the task to the server using the JSONServer Object
 	 * 
 	 * @param v
 	 */
 	public void onSubmitHandler(View v) {
 
+		String title = TaskManager.getStringFromId(this, R.id.task_title);
+		String description = TaskManager.getStringFromId(this,
+				R.id.task_description);
+		
+		int requires = Submission.ACCESS_AUDIO | Submission.ACCESS_PHOTO;
+
+		TaskManager.displayToastMessage(getApplicationContext(), title
+				+ description);
 	}
 
 	/**
-	 * Name: 		onCancelHandler
-	 * Description: Does not save anything and returns to
-	 * 				the main activity
+	 * Name: onCancelHandler Description: Does not save anything and returns to
+	 * the main activity
 	 * 
 	 * @param v
 	 */
 	public void onCancelHandler(View v) {
 		finish();
 	}
+
 }
