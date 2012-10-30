@@ -13,6 +13,9 @@ import android.support.v4.app.NavUtils;
 
 public class AddTaskActivity extends Activity {
 
+	private int submissionRequires = 0;
+	private boolean isAccessPublic = true;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,13 +51,13 @@ public class AddTaskActivity extends Activity {
 		switch (v.getId()) {
 		case R.id.private_sharing:
 			if (checked) {
-
+				isAccessPublic = false;
 			}
 
 			break;
 		case R.id.public_sharing:
 			if (checked) {
-
+				isAccessPublic = true;
 			}
 
 			break;
@@ -73,17 +76,23 @@ public class AddTaskActivity extends Activity {
 		switch (v.getId()) {
 		case R.id.requires_photo_checkbox:
 			if (checked) {
-
+				submissionRequires |= Submission.ACCESS_PHOTO;
+			} else {
+				submissionRequires &= ~Submission.ACCESS_PHOTO;
 			}
 			break;
 		case R.id.requires_text_checkbox:
 			if (checked) {
-
+				submissionRequires |= Submission.ACCESS_TEXT;
+			} else {
+				submissionRequires &= ~Submission.ACCESS_TEXT;
 			}
 			break;
 		case R.id.requires_audio_checkbox:
 			if (checked) {
-
+				submissionRequires |= Submission.ACCESS_AUDIO;
+			} else {
+				submissionRequires &= ~Submission.ACCESS_AUDIO;
 			}
 			break;
 		}
@@ -102,23 +111,33 @@ public class AddTaskActivity extends Activity {
 		String description = ApplicationCore.getStringFromId(this,
 				R.id.task_description);
 
-		CheckBox audioCheckBox = ((CheckBox) this
-				.findViewById(R.id.requires_audio_checkbox));
-		CheckBox photoCheckBox = ((CheckBox) this
-				.findViewById(R.id.requires_photo_checkbox));
-		CheckBox textCheckBox = ((CheckBox) this
-				.findViewById(R.id.requires_text_checkbox));
+		if (title == null || title.length() <= 0) {
+			ApplicationCore.displayToastMessage(getApplicationContext(),
+					"Invalid Task Name Specified");
+			return;
+		}
+		if (description == null || description.length() <= 0) {
+			ApplicationCore.displayToastMessage(getApplicationContext(),
+					"Invalid Task Description Specified");
+			return;
+		}
 
-		int requires = 0;
-		if (audioCheckBox != null && audioCheckBox.isSelected())
-			requires |= Submission.ACCESS_AUDIO;
-		if (photoCheckBox != null && photoCheckBox.isSelected())
-			requires |= Submission.ACCESS_PHOTO;
-		if (textCheckBox != null && textCheckBox.isSelected())
-			requires |= Submission.ACCESS_TEXT;
+		Task task = new Task(title, description, submissionRequires,
+				isAccessPublic);
 
-		ApplicationCore.displayToastMessage(getApplicationContext(), title
-				+ description + ":" + Integer.toString(requires));
+		if (JSONServer.getInstance().addTask(task) != JSONServer.Code.SUCCESS) {
+			ApplicationCore.displayToastMessage(getApplicationContext(),
+					"Error: Failed to send task to server");
+			return;
+		}
+
+		ApplicationCore.displayToastMessage(getApplicationContext(),
+				"Added Task:\n" + task.toString());
+
+		// TODO update MainActivity after this returns
+
+		finish();
+
 	}
 
 	/**

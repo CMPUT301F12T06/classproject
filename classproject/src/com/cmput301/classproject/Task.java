@@ -21,6 +21,12 @@ public class Task {
 		this.submissions = new ArrayList<Submission>();
 	}
 
+	public String toString() {
+		return "name/" + this.name + "\ndescription/" + description
+				+ "\nrequires/" + Integer.toString(requires) + "\naccess/"
+				+ Boolean.toString(publicAccess) + "\n";
+	}
+
 	// TODO this should be updated by JSON server class only
 	public void setId(int id) {
 		this.id = id;
