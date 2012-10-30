@@ -1,7 +1,9 @@
 package com.cmput301.classproject;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +12,9 @@ import android.support.v4.app.NavUtils;
 
 public class AddSubmissionActivity extends Activity {
 
+	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+	private Uri fileUri;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -77,9 +82,19 @@ public class AddSubmissionActivity extends Activity {
 	 * @param v
 	 */
 	public void addPhotoHandler(View v) {
-
+//		Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//		startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 	}
 
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK)
+//		{
+//			
+//		}
+//		
+//	}
+	
+	
 	/**
 	 * Name: 		addAudioHandler 
 	 * Description: Similar to the photo handler but This
@@ -115,4 +130,6 @@ public class AddSubmissionActivity extends Activity {
 		
 	}
 
+	
+	
 }
