@@ -136,14 +136,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSharingChange"
-            android:text="@string/task_sharing_public_label" />
+            android:text="@string/task_sharing_public_label"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/private_sharing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSharingChange"
-            android:text="@string/task_sharing_private_label" />
+            android:text="@string/task_sharing_private_label" 
+            android:enabled="false"/>
     </RadioGroup>
 
     <LinearLayout

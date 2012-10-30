@@ -109,6 +109,6 @@ public class AddTaskActivity extends Activity {
 	 * @param v
 	 */
 	public void onCancelHandler(View v) {
-
+		finish();
 	}
 }
