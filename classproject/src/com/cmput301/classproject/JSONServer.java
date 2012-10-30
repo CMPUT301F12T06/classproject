@@ -4,16 +4,28 @@ import java.util.List;
 
 import android.app.Application;
 
-public class JSONServer extends Application {
+// Singleton
+public class JSONServer {
 	
 	public static enum Code {
 	    FAILURE, SUCCESS
 	}
 	
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		
+	private Application appRef = null;
+	private static JSONServer instance = null;
+
+	private JSONServer() {
+	}
+
+	public static JSONServer getInstance() {
+		if (instance == null) {
+			instance = new JSONServer();
+		}
+		return instance;
+	}
+
+	public void setApplicatonReference(Application appRef) {
+		this.appRef = appRef;
 	}
 	
 	/**

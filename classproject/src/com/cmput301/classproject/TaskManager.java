@@ -1,24 +1,21 @@
 package com.cmput301.classproject;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import android.app.Application;
 
-
 //Singleton object - We extend application so we can use the
-//ApplicationContext and treat this like a singleton
-//remember to add this to the android manifest 
-//<application name="com.cmput301.classproject.TaskManager">
-//I HAVE ADDED IT TO THE MANIFEST
+//ApplicationContext and treat this like a singleton.
+// Each additional singleton used in this project has a reference
+// to this application object so we can do operations like local file
+// storage amoung other singletons.
 public class TaskManager extends Application {
-	
-	private ArrayList<Task> list = new ArrayList<Task>();
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		
+		// pass our single Application instance to other singleton classes 
+		JSONServer.getInstance().setApplicatonReference(this);
+		LocalStorage.getInstance().setApplicatonReference(this);
 	}
 
 }
