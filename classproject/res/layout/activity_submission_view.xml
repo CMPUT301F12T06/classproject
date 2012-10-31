@@ -84,18 +84,20 @@
         android:text="@string/photos_label" />
 
 <!--          It will be a list of photos for now until we implement the thumbnails -->
-
+<!-- 		  Will try to implement a GridView of ImageButtons to make the thumbnails. -->
     <ListView
+        android:id="@+id/submissionPhotoList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1" />
-
+    
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/audio_label" />
 
     <ListView
+        android:id="@+id/submissionAudioList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.1" />
