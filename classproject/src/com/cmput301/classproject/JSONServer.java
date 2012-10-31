@@ -14,7 +14,11 @@ public class JSONServer {
 	private Application appRef = null;
 	private static JSONServer instance = null;
 
+	private FakeJSONServer fakeServer; //TODO REMOVE
+	
+	
 	private JSONServer() {
+		fakeServer = new FakeJSONServer(); //TODO REMOVE
 	}
 
 	public static JSONServer getInstance() {
@@ -34,7 +38,7 @@ public class JSONServer {
 	 * @return
 	 */
 	public boolean isConnected() {
-		return false;
+		return fakeServer.isConnected(); //TODO REMOVE
 		
 	}
 	
@@ -45,7 +49,7 @@ public class JSONServer {
 	 */
 	public Code addTask(Task task) {
 		//TODO update task id from server response
-		return Code.SUCCESS;
+		return fakeServer.addTask(task); //TODO REMOVE
 	}
 	
 	/**
@@ -57,25 +61,15 @@ public class JSONServer {
 	 */
 	public List<Task> getAllTasks() {
 		
-		return null;
+		return fakeServer.getAllTasks();//TODO REMOVE
 		
-	}
-	
-	/**
-	 * Name: 		updateTask
-	 * Description:	This will update the task with the provided
-	 * 				Task object information
-	 */
-	public Code updateTask(Task t) {
-	
-		return Code.SUCCESS;
 	}
 	
 	public Code addSubmission(int taskId, Submission submission) {
 		// get latest task via taskId
 		// add submission to task
 		// run updateTask on our task 
-		return Code.SUCCESS;
+		return  fakeServer.addSubmission(taskId, submission); //TODO REMOVE
 	}
 
 }
