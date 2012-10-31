@@ -20,6 +20,7 @@ public class AddSubmissionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_submission);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 	}
 
 	@Override
