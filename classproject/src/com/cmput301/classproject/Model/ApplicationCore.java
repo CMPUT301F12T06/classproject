@@ -25,6 +25,12 @@ import android.widget.Toast;
 
 public class ApplicationCore extends Application {
 
+	public static void displayToastMessageLong(Context context, CharSequence text) {
+		int duration = Toast.LENGTH_LONG;
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
+	}
+	
 	public static void displayToastMessage(Context context, CharSequence text) {
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(context, text, duration);

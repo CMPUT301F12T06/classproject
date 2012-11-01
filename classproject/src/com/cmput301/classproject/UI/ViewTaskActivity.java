@@ -21,6 +21,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.cmput301.classproject.R;
+import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
@@ -125,6 +126,10 @@ public class ViewTaskActivity extends Activity implements Observer {
 
 		submissionViewAdapter.clear();
 		submissionViewAdapter.addAll(task.getSubmissions());
+		
+		if(task.getSubmissions().size() == 0){
+			ApplicationCore.displayToastMessageLong(this, "This task has no submissions.\nPress 'Add Submission' to add a new one.");
+		}
 	}
 
 	@Override
