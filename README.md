@@ -3,10 +3,16 @@ Task Collaborator
 
 Welcome to Task Collaborator, our awesome CMPUT 301 project.
 
+
+
+**Group Members**  
 - Thomas Polasek (tpolasek )
 - Benson Trinh (btrinh1 )
 - Remco Uittenbogerd (remco )
-- Clinton Wong (ciwong )
+- Clinton Wong (ciwong )  
+
+**TA**
+- Chenlei Zhang
 
 See the [wiki](https://github.com/CMPUT301F12T06/classproject/wiki) for update to date information for
 exciting things!
