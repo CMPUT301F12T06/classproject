@@ -28,7 +28,6 @@ public class TaskManager extends Observable {
 		observers = new ArrayList<Observer>();
 	}
 	
-	
 	// MVC model any view that uses the JSONServer data
 	public void addObserver(Observer observer) {
 		if (!observers.contains(observer))
@@ -45,6 +44,9 @@ public class TaskManager extends Observable {
 	}
 
 	public Code addTask(Task task) {
+		
+		//TODO add creator field to task created using the phone serial
+		
 		//TODO add connection logic and locale file storage stuff logic
 		Code returnCode = JSONServer.getInstance().addTask(task);
 		if(returnCode == Code.SUCCESS){

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 public class ViewTaskActivity extends Activity {
@@ -22,14 +23,21 @@ public class ViewTaskActivity extends Activity {
 		if (extras != null) {
 			this.task = (Task) extras.getSerializable("Task");
 		}
-		
-		if(task == null){
+
+		if (task == null) {
 			finish();
+		} else {
+			TextView temp;
+
+			// TODO make this view look better
+			temp = ((TextView) findViewById(R.id.task_view_name));
+			temp.setText(task.getName());
+
+			temp = ((TextView) findViewById(R.id.task_view_description));
+			temp.setText(task.getDescription());
+
 		}
-		else{
-			
-		}
-		
+
 	}
 
 	@Override
@@ -55,7 +63,7 @@ public class ViewTaskActivity extends Activity {
 	 * @param v
 	 */
 	public void okayClicked(View v) {
-
+		finish();
 	}
 
 	/**

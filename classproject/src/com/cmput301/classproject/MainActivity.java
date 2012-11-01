@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -24,7 +23,8 @@ public class MainActivity extends Activity implements Observer {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		new DeviceUuidFactory(this);
+
 		final MainActivity selfRef = this;
 
 		mainTaskListView = (ListView) findViewById(R.id.main_task_list_view);
@@ -34,28 +34,27 @@ public class MainActivity extends Activity implements Observer {
 		mainTaskListView.setStackFromBottom(false);
 		mainTaskListView.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
-				Task t = (Task)mainTaskListView.getItemAtPosition(position);
-				if(t != null){
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Task t = (Task) mainTaskListView.getItemAtPosition(position);
+				if (t != null) {
 					Intent intent = new Intent(selfRef, ViewTaskActivity.class);
-					intent.putExtra("Task",t);
+					intent.putExtra("Task", t);
 					startActivity(intent);
 				}
-				
-			}}
-		);
-		
-		
+
+			}
+		});
+
 		taskViewAdapter = new ArrayAdapter<Task>(this,
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, new ArrayList<Task>());
 		taskViewAdapter.setNotifyOnChange(true);
 		mainTaskListView.setAdapter(taskViewAdapter);
-		
+
 		// MVC model attach this view to our data model
 		TaskManager.getInstance().addObserver(this);
-	
+
 	}
 
 	@Override
@@ -130,14 +129,13 @@ public class MainActivity extends Activity implements Observer {
 		Intent intent = new Intent(this, AddTaskActivity.class);
 		startActivity(intent);
 	}
-	
-	
-	//MVC model this is updated when the data model (taskmanager) changes.
+
+	// MVC model this is updated when the data model (taskmanager) changes.
 	@SuppressWarnings("unchecked")
 	public void update(Observable observable, Object data) {
 		taskViewAdapter.clear();
-		if(data != null)
-			taskViewAdapter.addAll((ArrayList<Task>)data);	
+		if (data != null)
+			taskViewAdapter.addAll((ArrayList<Task>) data);
 	}
 
 }

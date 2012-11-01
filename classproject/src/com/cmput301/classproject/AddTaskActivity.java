@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
+import android.telephony.TelephonyManager;
 
 public class AddTaskActivity extends Activity {
 
@@ -98,6 +99,12 @@ public class AddTaskActivity extends Activity {
 		}
 
 	}
+	public String getPhoneID() {
+		TelephonyManager tManager = (TelephonyManager) this
+				.getSystemService(Context.TELEPHONY_SERVICE);
+		String uid = tManager.getDeviceId();
+		return uid;
+	}
 
 	/**
 	 * Name: onSubmitHandler Description: Verify that the fields entered are
@@ -115,14 +122,15 @@ public class AddTaskActivity extends Activity {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
 					"Invalid Task Name Specified");
 			return;
-		}
+		} 
 		if (description == null || description.length() <= 0) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
 					"Invalid Task Description Specified");
 			return;
 		}
 
-		Task task = new Task(title, description, submissionRequires,
+		
+		Task task = new Task(title, description,(new DeviceUuidFactory(this)).getDeviceUuid(), submissionRequires,
 				isAccessPublic);
 
 		
