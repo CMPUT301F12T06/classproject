@@ -25,7 +25,6 @@ import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
 
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -68,6 +67,27 @@ public class ViewTaskActivity extends Activity implements Observer {
 
 			temp = ((TextView) findViewById(R.id.task_view_description));
 			temp.setText(task.getDescription());
+
+			temp = ((TextView) findViewById(R.id.task_view_creator));
+			temp.setText(task.getCreator());
+
+			temp = ((TextView) findViewById(R.id.task_view_requires));
+			String requires = "";
+			if(task.getRequires() == 0)
+				requires = "Nothing";
+			if ((task.getRequires() & Submission.ACCESS_PHOTO) > 0)
+				requires += "Photo ";
+			if ((task.getRequires() & Submission.ACCESS_AUDIO) > 0)
+				requires += "Audio ";
+			if ((task.getRequires() & Submission.ACCESS_TEXT) > 0)
+				requires += "Text ";
+			temp.setText(requires);
+
+			temp = ((TextView) findViewById(R.id.task_view_access));
+			if (task.isPublicAccess())
+				temp.setText("Public");
+			else
+				temp.setText("Private");
 
 		}
 
