@@ -1,4 +1,5 @@
-Cmput 301 Task Collaborator
+Cmput 301  
+Task Collaborator
 ==========
 
 Welcome to Task Collaborator, our awesome CMPUT 301 project.
@@ -8,7 +9,7 @@ Welcome to Task Collaborator, our awesome CMPUT 301 project.
 - Remco Uittenbogerd (remco )
 - Clinton Wong (ciwong )
 
-See the [wiki](https://github.com/CMPUT301F12T01/classproject/wiki) for update to date information for
+See the [wiki](https://github.com/CMPUT301F12T06/classproject/wiki) for update to date information for
 exciting things!
 
 This project's source and documentation is licensed under the [GPL License Version 2.0][GPL License].  
