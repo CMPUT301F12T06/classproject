@@ -10,11 +10,18 @@ public class FakeJSONServer {
 
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 
+	public FakeJSONServer() {
+		tasks.clear();
+		tasks.add(new Task("Bacon Pictures", "Get me bacon pics", "DEADBEAF",
+				Submission.ACCESS_PHOTO | Submission.ACCESS_TEXT, true));
+		tasks.add(new Task("Bacon Panckake Audio", "Get me bacon pancake audio", "Joe",
+				Submission.ACCESS_AUDIO, true));
+	}
+
 	public boolean isConnected() {
 		return true;
 	}
 
-	
 	// generates a random id for a task.
 	public Code addTask(Task task) {
 		Random r = new Random();
@@ -31,7 +38,8 @@ public class FakeJSONServer {
 
 		return Code.SUCCESS;
 	}
-	public Code sync(){
+
+	public Code sync() {
 		return Code.SUCCESS;
 	}
 

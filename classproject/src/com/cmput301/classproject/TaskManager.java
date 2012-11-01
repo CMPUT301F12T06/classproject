@@ -50,7 +50,7 @@ public class TaskManager extends Observable {
 		//TODO add connection logic and locale file storage stuff logic
 		Code returnCode = JSONServer.getInstance().addTask(task);
 		if(returnCode == Code.SUCCESS){
-			this.notifyAllObservers(JSONServer.getInstance().getAllTasks());
+			this.notifyAllObservers(JSONServer.getInstance().getAllTasks()); // updated our views
 		}		
 		return returnCode;
 	}
@@ -59,7 +59,7 @@ public class TaskManager extends Observable {
 		//TODO add connection logic and locale file storage stuff logic
 		Code returnCode = JSONServer.getInstance().sync();
 		if(returnCode == Code.SUCCESS){
-			this.notifyAllObservers(JSONServer.getInstance().getAllTasks());
+			this.notifyAllObservers(JSONServer.getInstance().getAllTasks()); // updated our views
 		}
 		return returnCode; 
 	}

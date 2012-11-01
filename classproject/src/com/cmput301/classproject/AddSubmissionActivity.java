@@ -128,7 +128,8 @@ public class AddSubmissionActivity extends Activity {
 	 */
 	public void submitSubmissionHandler(View v) {
 		//TODO implement the submission adding in TaskManager
-		//TaskManager should try to use the JSON server (look at the addTask method in TaskManager)
+		//TaskManager should try to use the JSON server (look at the addTask method in TaskManager for an exmaple)
+		
 	}
 
 	
