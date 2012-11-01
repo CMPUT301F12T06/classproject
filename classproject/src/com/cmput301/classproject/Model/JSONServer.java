@@ -1,4 +1,4 @@
-package com.cmput301.classproject;
+package com.cmput301.classproject.Model;
 
 import java.util.ArrayList;
 import java.util.List;

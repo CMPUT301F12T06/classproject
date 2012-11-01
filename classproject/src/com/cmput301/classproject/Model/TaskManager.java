@@ -1,11 +1,11 @@
-package com.cmput301.classproject;
+package com.cmput301.classproject.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.cmput301.classproject.JSONServer.Code;
+import com.cmput301.classproject.Model.JSONServer.Code;
 
 import android.app.Activity;
 import android.app.Application;

@@ -1,6 +1,12 @@
-package com.cmput301.classproject;
+package com.cmput301.classproject.UI;
 
 import java.util.*;
+
+import com.cmput301.classproject.R;
+import com.cmput301.classproject.Model.Submission;
+import com.cmput301.classproject.R.id;
+import com.cmput301.classproject.R.layout;
+import com.cmput301.classproject.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;

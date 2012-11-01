@@ -1,8 +1,16 @@
-package com.cmput301.classproject;
+package com.cmput301.classproject.UI;
 
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import com.cmput301.classproject.R;
+import com.cmput301.classproject.Model.DeviceUuidFactory;
+import com.cmput301.classproject.Model.Task;
+import com.cmput301.classproject.Model.TaskManager;
+import com.cmput301.classproject.R.id;
+import com.cmput301.classproject.R.layout;
+import com.cmput301.classproject.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
