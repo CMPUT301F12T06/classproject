@@ -67,8 +67,13 @@ public class JSONServer {
 		return fakeServer.getAllTasks();// TODO REMOVE
 
 	}
-	
-	public Code sync(){
+
+	/**
+	 * Name: This syncs our local tasks to the most recent server version
+	 * 
+	 * @return
+	 */
+	public Code sync() {
 		return fakeServer.sync();
 	}
 
