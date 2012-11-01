@@ -23,7 +23,8 @@
             android:onClick="handlePublicTasks"
             android:padding="10dp"
             android:text="@string/public_tasks_button_text"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF" 
+            /> 
 
         <Button
              android:id="@+id/view_your_tasks_id"

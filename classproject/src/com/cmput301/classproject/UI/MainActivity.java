@@ -21,6 +21,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.cmput301.classproject.R;
+import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.DeviceUuidFactory;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
@@ -32,6 +33,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -62,7 +64,7 @@ public class MainActivity extends Activity implements Observer {
 					Intent intent = new Intent(selfRef, ViewTaskActivity.class);
 					intent.putExtra("Task", t);
 					startActivity(intent);
-					//TODO
+					// TODO
 				}
 			}
 		});
@@ -75,8 +77,7 @@ public class MainActivity extends Activity implements Observer {
 
 		// MVC model attach this view to our data model
 		TaskManager.getInstance().addObserver(this);
-		
-		
+
 		TaskManager.getInstance().sync();
 	}
 
@@ -96,9 +97,7 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handlePublicTasks(View v) {
-
-		// TODO - Implement handlePublicTasks
-
+		ApplicationCore.displayToastMessage(this, "Public tasks filter button pressed"); //TODO default for phase 1
 	}
 
 	/**
@@ -111,7 +110,7 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handleYourTasks(View v) {
-		// TODO - Implement handleYourTasks
+		ApplicationCore.displayToastMessage(this, "Personal task filter will be implemented in phase 2"); //TODO phase 2
 	}
 
 	/**
@@ -129,7 +128,7 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handleSpecificTasks(View v) {
-
+		ApplicationCore.displayToastMessage(this, "Specific task filter will be implemented in phase 2"); //TODO phase 2
 	}
 
 	/**
@@ -140,6 +139,7 @@ public class MainActivity extends Activity implements Observer {
 	 */
 	public void onSyncHandler(View v) {
 		TaskManager.getInstance().sync();
+		ApplicationCore.displayToastMessage(this, "Synced with Server"); //TODO use return value from sync
 	}
 
 	/**
