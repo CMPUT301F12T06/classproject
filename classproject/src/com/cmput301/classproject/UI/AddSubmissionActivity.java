@@ -37,7 +37,7 @@ public class AddSubmissionActivity extends Activity {
 	private Task task = null; // reference to our task (this is passed by
 								// taskviewactivity)
 
-	@Override
+	@Override 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_submission);
