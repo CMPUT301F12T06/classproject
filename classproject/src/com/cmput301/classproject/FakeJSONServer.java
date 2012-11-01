@@ -12,10 +12,19 @@ public class FakeJSONServer {
 
 	public FakeJSONServer() {
 		tasks.clear();
-		tasks.add(new Task("Bacon Pictures", "Get me bacon pics", "DEADBEAF",
-				Submission.ACCESS_PHOTO | Submission.ACCESS_TEXT, true));
-		tasks.add(new Task("Bacon Panckake Audio", "Get me bacon pancake audio", "Joe",
-				Submission.ACCESS_AUDIO, true));
+
+		Task task1 = new Task("Bacon Pictures", "Get me bacon pics",
+				"DEADBEAF", Submission.ACCESS_PHOTO | Submission.ACCESS_TEXT,
+				true);
+		task1.addSubmission(new Submission("SUBMISSION XXX"));
+
+		Task task2 = new Task("Bacon Panckake Audio",
+				"Get me bacon pancake audio", "Joe", Submission.ACCESS_AUDIO,
+				true);
+		task2.addSubmission(new Submission("SUBMISSION YYYY"));
+
+		addTask(task1);
+		addTask(task2);
 	}
 
 	public boolean isConnected() {

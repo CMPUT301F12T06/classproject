@@ -1,9 +1,15 @@
 package com.cmput301.classproject;
 
+import java.io.Serializable;
+
 import android.provider.MediaStore;
 
-public class Submission {
+public class Submission implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3396630733841446186L;
 	private String author;
 	private String summary;
 	private MediaStore.Images images;
@@ -16,10 +22,15 @@ public class Submission {
 	public static int ACCESS_AUDIO = (1 << 1); 
 	public static int ACCESS_TEXT = (1 << 2); 
 
-	public Submission() {
+	public Submission(String summary) {
+		this.summary = summary;
 		// TODO - Implement
 	}
 
+	public String toString(){
+		return summary; //TODO implement
+	}
+	
 	public String getAuthor() {
 		return author;
 	}

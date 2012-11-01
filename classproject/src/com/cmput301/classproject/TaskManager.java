@@ -40,8 +40,8 @@ public class TaskManager extends Observable {
 		for (Observer observer : observers) {
 			observer.update(this, data);
 		}
-
 	}
+	
 
 	public Code addTask(Task task) {
 		

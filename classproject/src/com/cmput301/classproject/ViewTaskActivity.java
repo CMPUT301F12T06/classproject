@@ -1,17 +1,28 @@
 package com.cmput301.classproject;
 
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.support.v4.app.NavUtils;
 
-public class ViewTaskActivity extends Activity {
+public class ViewTaskActivity extends Activity implements Observer {
 
 	private Task task = null;
+
+	ListView submissionListView;
+	ArrayAdapter<Submission> submissionViewAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +49,40 @@ public class ViewTaskActivity extends Activity {
 
 		}
 
+		final ViewTaskActivity selfRef = this;
+
+		submissionListView = (ListView) findViewById(R.id.task_view_submission_list);
+		submissionListView
+				.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+		submissionListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		submissionListView.setStackFromBottom(false);
+		submissionListView.setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Submission submission = (Submission) submissionListView
+						.getItemAtPosition(position);
+				if (submission != null) {
+					Intent intent = new Intent(selfRef,
+							SubmissionViewActivity.class);
+					intent.putExtra("Submission", submission);
+					startActivity(intent);
+				}
+
+			}
+		});
+
+		submissionViewAdapter = new ArrayAdapter<Submission>(this,
+				android.R.layout.simple_list_item_activated_1,
+				android.R.id.text1, new ArrayList<Submission>());
+		submissionViewAdapter.setNotifyOnChange(true);
+		submissionListView.setAdapter(submissionViewAdapter);
+
+		// MVC model attach this view to our data model
+		TaskManager.getInstance().addObserver(this);
+
+		submissionViewAdapter.clear();
+		submissionViewAdapter.addAll(task.getSubmissions());
 	}
 
 	@Override
@@ -73,8 +118,29 @@ public class ViewTaskActivity extends Activity {
 	 * @param v
 	 */
 	public void addSubmissionHandler(View v) {
-		Intent intent = new Intent(this, AddSubmissionActivity.class);
-		startActivity(intent);
+		if (task == null) {
+			finish(); // TODO display error
+		} else {
+			Intent intent = new Intent(this, AddSubmissionActivity.class);
+			intent.putExtra("TaskID", (int)task.getId());
+			startActivity(intent);
+		}
+	}
+
+	public void update(Observable observable, Object data) {
+		if (data != null && task != null) {
+			@SuppressWarnings("unchecked")
+			ArrayList<Task> tasks = (ArrayList<Task>) data;
+			for (Task t : tasks) {
+				// only update the task we have a reference to.
+				if (t.getId() == this.task.getId()) {
+					submissionViewAdapter.clear();
+					submissionViewAdapter.addAll(t.getSubmissions());
+					return;
+				}
+			}
+
+		}
 	}
 
 }

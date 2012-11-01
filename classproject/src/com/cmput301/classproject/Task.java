@@ -18,7 +18,6 @@ public class Task implements Serializable {
 
 	public Task(String name, String description, String creator, int requires,
 			boolean publicAccess) {
-		this.id = 0;
 		this.creator = creator;
 		this.name = name;
 		this.description = description;
@@ -30,7 +29,7 @@ public class Task implements Serializable {
 
 	public String toString() {
 		return "name/" + this.name + "\ndescription/" + description
-				+ "\ncreator/" + creator + "\nrequires/"
+				+ "\ncreator/" + creator + "\nid/" + id + "\nrequires/"
 				+ Integer.toString(requires) + "\naccess/"
 				+ Boolean.toString(publicAccess) + "\n";
 	}

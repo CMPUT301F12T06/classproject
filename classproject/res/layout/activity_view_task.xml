@@ -124,8 +124,10 @@
         android:textSize="14dp" />
 
     <ListView
+        android:id="@+id/task_view_submission_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+         android:layout_height="wrap_content"
+      />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

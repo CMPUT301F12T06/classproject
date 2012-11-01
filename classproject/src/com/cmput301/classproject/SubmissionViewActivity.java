@@ -9,10 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 public class SubmissionViewActivity extends Activity implements Observer {
 
+	private Submission submission = null; //this is passed to from TaskViewActivity
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +25,24 @@ public class SubmissionViewActivity extends Activity implements Observer {
         // Start recognizing the Layout elements.
         GridView gridView = (GridView) findViewById(R.id.submissionPhotoList);
         
+        Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			this.submission = (Submission) extras.getSerializable("Submission");
+		}
+
+		if (submission == null) {
+			finish();
+		} 
+		else{
+			TextView temp;
+
+			// TODO make this view look better
+			temp = ((TextView) findViewById(R.id.submission_view_summary));
+			temp.setText(submission.getSummary());
+			
+			//Fill out activity view using the submission object
+		}
+
         
     }
 
@@ -51,9 +72,7 @@ public class SubmissionViewActivity extends Activity implements Observer {
      * @param v
      */
     public void okayClicked(View v) {
-    	Intent intent = new Intent(this, ViewTaskActivity.class);
-    	startActivity(intent);
-    	
+    	finish();
     }
 
     /**
