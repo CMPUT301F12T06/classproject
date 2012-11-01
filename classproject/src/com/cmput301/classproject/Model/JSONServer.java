@@ -16,10 +16,7 @@ MA 02110-1301, USA.
  **/
 package com.cmput301.classproject.Model;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import android.app.Application;
 
@@ -30,6 +27,7 @@ public class JSONServer {
 		FAILURE, SUCCESS
 	}
 
+	@SuppressWarnings("unused")
 	private Application appRef = null;
 	private static JSONServer instance = null;
 

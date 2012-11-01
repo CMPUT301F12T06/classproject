@@ -23,10 +23,6 @@ import com.cmput301.classproject.Model.JSONServer;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
-import com.cmput301.classproject.Model.JSONServer.Code;
-import com.cmput301.classproject.R.id;
-import com.cmput301.classproject.R.layout;
-import com.cmput301.classproject.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -36,7 +32,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
-import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 import android.telephony.TelephonyManager;
 

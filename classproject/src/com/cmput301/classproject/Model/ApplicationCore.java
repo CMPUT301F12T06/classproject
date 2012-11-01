@@ -20,7 +20,6 @@ package com.cmput301.classproject.Model;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.telephony.TelephonyManager;
 import android.widget.TextView;
 import android.widget.Toast;
 

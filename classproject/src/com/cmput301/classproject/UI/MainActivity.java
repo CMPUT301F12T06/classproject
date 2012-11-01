@@ -24,9 +24,6 @@ import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.DeviceUuidFactory;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
-import com.cmput301.classproject.R.id;
-import com.cmput301.classproject.R.layout;
-import com.cmput301.classproject.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;

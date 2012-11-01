@@ -19,14 +19,10 @@ package com.cmput301.classproject.UI;
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.Task;
-import com.cmput301.classproject.R.id;
-import com.cmput301.classproject.R.layout;
-import com.cmput301.classproject.R.menu;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
