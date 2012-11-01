@@ -31,6 +31,9 @@ public class FakeJSONServer {
 
 		return Code.SUCCESS;
 	}
+	public Code sync(){
+		return Code.SUCCESS;
+	}
 
 	public Code addSubmission(int taskId, Submission submission) {
 		for (Task t : tasks) {

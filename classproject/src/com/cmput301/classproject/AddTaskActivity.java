@@ -125,7 +125,8 @@ public class AddTaskActivity extends Activity {
 		Task task = new Task(title, description, submissionRequires,
 				isAccessPublic);
 
-		if (JSONServer.getInstance().addTask(task) != JSONServer.Code.SUCCESS) {
+		
+		if (TaskManager.getInstance().addTask(task) != JSONServer.Code.SUCCESS) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
 					"Error: Failed to send task to server");
 			return;
