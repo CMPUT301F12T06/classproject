@@ -1,4 +1,3 @@
-Cmput 301  
 Task Collaborator
 ==========
 
