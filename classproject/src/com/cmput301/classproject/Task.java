@@ -1,8 +1,9 @@
 package com.cmput301.classproject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Task {
+public class Task implements Serializable{
 	private int id;
 	private ArrayList<Submission> submissions;
 	private String name;
