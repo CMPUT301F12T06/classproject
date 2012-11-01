@@ -122,7 +122,7 @@ public class ViewTaskActivity extends Activity implements Observer {
 			finish(); // TODO display error
 		} else {
 			Intent intent = new Intent(this, AddSubmissionActivity.class);
-			intent.putExtra("TaskID", (int)task.getId());
+			intent.putExtra("Task", task);
 			startActivity(intent);
 		}
 	}

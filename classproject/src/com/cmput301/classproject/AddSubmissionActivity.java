@@ -15,8 +15,8 @@ public class AddSubmissionActivity extends Activity {
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
 
-	private int taskId = 0; // reference to our taskId (this is passed by
-							// taskviewactivity)
+	private Task task = null; // reference to our task (this is passed by
+								// taskviewactivity)
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,13 +26,14 @@ public class AddSubmissionActivity extends Activity {
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-			taskId = extras.getInt("TaskID");
+			task = (Task) extras.get("Task");
 		}
-		
-		if (taskId == 0) {
+
+		if (task == null) {
 			finish();
 		} else {
-			ApplicationCore.displayToastMessage(this, "Obtained Id: " + taskId);
+			ApplicationCore.displayToastMessage(this, "Obtained Task Id: "
+					+ task.getId());
 		}
 
 	}

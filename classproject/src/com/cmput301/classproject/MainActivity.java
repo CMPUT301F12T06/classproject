@@ -41,8 +41,8 @@ public class MainActivity extends Activity implements Observer {
 					Intent intent = new Intent(selfRef, ViewTaskActivity.class);
 					intent.putExtra("Task", t);
 					startActivity(intent);
+					//TODO
 				}
-
 			}
 		});
 
