@@ -36,6 +36,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -51,6 +52,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 
 	ListView addedPhotos;
 	ListView addedAudio;
+	EditText submissionText;
 	ArrayList<Bitmap> photosTaken = new ArrayList<Bitmap>();
 	
 	@Override 
@@ -81,7 +83,10 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		// Recognize the Views
 		addedPhotos = (ListView) findViewById(R.id.photos_added);
 		addedAudio = (ListView) findViewById(R.id.audio_added);
+		submissionText = (EditText) findViewById(R.id.submissionText);
 		
+		
+		// Attach the ImageAdapter to the ListView for photos.
 		addedPhotos.setAdapter(new ImageAdapter(this));
 	}
 	
@@ -193,6 +198,9 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		// TODO implement the submission adding in TaskManager
 		// TaskManager should try to use the JSON server (look at the addTask
 		// method in TaskManager for an exmaple)
+		
+		// The photos are stored in ArrayList<Bitmap> photosTaken.  Waiting on a storage implementation before we port it over.
+		
 		finish();
 
 	}
