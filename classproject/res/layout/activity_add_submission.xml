@@ -84,13 +84,15 @@
         <ListView
             android:id="@+id/photos_added"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
+            android:paddingLeft="20dp"
             android:layout_weight="0.5" />
         
         <ListView
             android:id="@+id/audio_added"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:layout_height="200dp"
             android:layout_weight="0.5" />
         
     </LinearLayout>
