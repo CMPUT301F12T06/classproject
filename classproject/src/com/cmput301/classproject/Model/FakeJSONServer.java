@@ -50,7 +50,7 @@ public class FakeJSONServer {
 	// generates a random id for a task.
 	public Code addTask(Task task) {
 		Random r = new Random();
-		task.setId(r.nextInt(10000));
+		task.setId(String.valueOf((r.nextInt(10000))));
 		tasks.add(task);
 		return Code.SUCCESS;
 	}
@@ -68,9 +68,9 @@ public class FakeJSONServer {
 		return Code.SUCCESS;
 	}
 
-	public Code addSubmission(int taskId, Submission submission) {
+	public Code addSubmission(String taskId, Submission submission) {
 		for (Task t : tasks) {
-			if (t.getId() == taskId) {
+			if (t.getId().equals(taskId)) {
 				t.addSubmission(submission);
 				return Code.SUCCESS;
 			}

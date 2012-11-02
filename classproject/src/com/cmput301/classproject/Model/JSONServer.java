@@ -20,16 +20,25 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.http.util.EntityUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +58,7 @@ public class JSONServer {
 	private HttpClient httpClient = new DefaultHttpClient();
 	private Gson gson = new Gson();
 	private HttpPost httpPost = new HttpPost("http://crowdsourcer.softwareprocess.es/F12/CMPUT301F12T06/");
+	private Type taskType = Task.class;
 	
 
 	@SuppressWarnings("unused")
@@ -72,7 +82,28 @@ public class JSONServer {
 	public void setApplicatonReference(Application appRef) {
 		this.appRef = appRef;
 	}
+	
+	/**
+	 * Name: isConnected Description: this will check the connection to the json
+	 * server
+	 * 
+	 * @return
+	 */
+	public boolean isConnected(HttpPost post) {
+		try {
+		HttpResponse response = httpClient.execute(post);
+		int status = response.getStatusLine().getStatusCode();
+		
+		LOGGER.log(Level.INFO,"Status: " + status);
+		return (status==HttpStatus.SC_OK);
 
+		} catch (Exception ex) {
+			//do nothing. It will return false
+		}
+		return false;
+
+	}
+	
 	/**
 	 * Name: isConnected Description: this will check the connection to the json
 	 * server
@@ -80,18 +111,7 @@ public class JSONServer {
 	 * @return
 	 */
 	public boolean isConnected() {
-		try {
-		HttpResponse response = httpClient.execute(httpPost);
-		int status = response.getStatusLine().getStatusCode();
-		
-		LOGGER.log(Level.INFO,"Status: " + status);
-		return (status==HttpStatus.SC_OK);
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return false;
-
+		return this.isConnected(httpPost);
 	}
 
 	/**
@@ -99,8 +119,61 @@ public class JSONServer {
 	 * server
 	 */
 	public Code addTask(Task task) {
-		// TODO update task id from server response
-		return fakeServer.addTask(task); // TODO REMOVE
+	try {
+		LOGGER.log(Level.INFO,"Retrieved Task: " + task.toString());
+		Task newTask = new Task();
+		//We don't have a generic type so we don't need to do the TypeToken creation
+		List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
+		
+		//This is equivalent to doing:
+		//http://path?action=post&summary=desc&content=content
+		values.add(new BasicNameValuePair("action","post"));
+		values.add(new BasicNameValuePair("content",gson.toJson(task)));
+		
+		httpPost.setEntity(new UrlEncodedFormEntity(values));
+		HttpResponse response = httpClient.execute(httpPost);
+		LOGGER.log(Level.INFO,"Task added. Status Code: " + response.getStatusLine().toString());
+		
+		
+		//Get the content of the response on the page
+		HttpEntity entity = response.getEntity();
+		if(entity!=null) {
+			InputStream is = entity.getContent();
+			String jsonString = convertStreamToString(is);
+			LOGGER.log(Level.INFO,"JSON String: " + jsonString);
+			//This will get the results so we can get the ID
+			newTask = gson.fromJson(jsonString, taskType);
+		}
+		EntityUtils.consume(entity);
+		task.setId(newTask.getId());
+		
+		//After we retrieve the id we will update the task
+		values = new ArrayList<BasicNameValuePair>();
+		
+		//This is equivalent to doing:
+		//http://path?action=post&summary=desc&content=content
+		values.add(new BasicNameValuePair("action","update"));
+		values.add(new BasicNameValuePair("id",newTask.getId()));
+		values.add(new BasicNameValuePair("content",gson.toJson(task)));
+		
+		httpPost.setEntity(new UrlEncodedFormEntity(values));
+		response = httpClient.execute(httpPost);
+		EntityUtils.consume(entity);
+		
+		int statusCode = response.getStatusLine().getStatusCode();
+		if(statusCode==HttpStatus.SC_OK)
+			return Code.SUCCESS;
+		
+		LOGGER.log(Level.INFO,"Retrieved Task: " + newTask.toString());
+		
+		
+	} catch (Exception e) {
+		LOGGER.log(Level.SEVERE,e.getMessage());
+		e.printStackTrace();
+	}
+
+	return Code.FAILURE;
+		
 	}
 
 	/**
@@ -111,9 +184,84 @@ public class JSONServer {
 	 * @return
 	 */
 	public List<Task> getAllTasks() {
+		ArrayList<Task> tasks = new ArrayList<Task>();
+		ArrayList<String> ids = new ArrayList<String>();
+		
+		try {
+			
+			//Do a list action to get the id's 
+			List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
+			
+			//This is equivalent to doing:
+			//http://path?action=post&summary=desc&content=content
+			values.add(new BasicNameValuePair("action","list"));
+	
+			httpPost.setEntity(new UrlEncodedFormEntity(values));
+			HttpResponse response = httpClient.execute(httpPost);
+			HttpEntity entity = response.getEntity();
+			
+			if(entity!=null) {
+				InputStream is = entity.getContent();
+				String jsonString = convertStreamToString(is);
+				jsonString = jsonString.replace("[","").replace("]", "");
+				jsonString = jsonString.replaceAll("\\{\"id\":|\\}", "");
+				jsonString = jsonString.replaceAll("\\\"","");
+				String temp[] = jsonString.split(",");
+				for(String i : temp) {
+					LOGGER.log(Level.INFO,"String i: " + i);
+					ids.add(i);
+				}
+				
+			}
+			
+			LOGGER.log(Level.INFO,ids.toString());
+			EntityUtils.consume(entity);
+			
+			
+			
+		} catch (Exception ex) {
+			LOGGER.log(Level.SEVERE,ex.getMessage());
+			ex.printStackTrace();
+		}
+		for(int i = 0; i < ids.size();i++) {
+			tasks.add(getTask(ids.get(i)));
+		}
+		LOGGER.log(Level.INFO,"Tasks Length: " + tasks.size());
+		for(Task t : tasks) {
+			LOGGER.log(Level.INFO,t.toString());
+		}
+		return tasks;
+		
+	}
+	
+	private Task getTask(String id) {
+		Task newTask = new Task();
+		try {
+			//We don't have a generic type so we don't need to do the TypeToken creation
+			List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
 
-		return fakeServer.getAllTasks();// TODO REMOVE
-
+			values.add(new BasicNameValuePair("action","get"));
+			values.add(new BasicNameValuePair("id",id));
+	
+			httpPost.setEntity(new UrlEncodedFormEntity(values));
+			HttpResponse response = httpClient.execute(httpPost);
+			HttpEntity entity = response.getEntity();
+			
+			if(entity!=null) {
+				InputStream is = entity.getContent();
+				String jsonString = convertStreamToString(is);
+				LOGGER.log(Level.INFO,"String: " + jsonString);
+				newTask = gson.fromJson(jsonString, taskType);
+			}
+			EntityUtils.consume(entity);
+			return newTask;
+			
+		} catch (Exception ex) {
+			LOGGER.log(Level.SEVERE,ex.getMessage());
+			ex.printStackTrace();
+		}
+		return null;
+		
 	}
 
 	/**
@@ -125,7 +273,7 @@ public class JSONServer {
 		return fakeServer.sync();
 	}
 
-	public Code addSubmission(int taskId, Submission submission) {
+	public Code addSubmission(String taskId, Submission submission) {
 		// get latest task via taskId
 		// add submission to task
 		// run updateTask on our task

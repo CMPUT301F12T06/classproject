@@ -24,7 +24,7 @@ public class Task implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -6419317506750925474L;
-	private int id;
+	private String id;
 	private ArrayList<Submission> submissions;
 	private String name;
 	private String creator;
@@ -32,6 +32,9 @@ public class Task implements Serializable {
 	private int requires; // logical OR based settings
 	private boolean publicAccess; // if false then this is a private task
 
+	public Task() {
+		
+	}
 	public Task(String name, String description, String creator, int requires,
 			boolean publicAccess) {
 		this.creator = creator;
@@ -51,11 +54,11 @@ public class Task implements Serializable {
 	}
 
 	// TODO this should be updated by JSON server class only
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
