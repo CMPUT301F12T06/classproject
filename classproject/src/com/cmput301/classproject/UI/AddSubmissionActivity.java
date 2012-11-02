@@ -203,9 +203,9 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	}
 	
 	/**
-	 * ImageAdapter Class to support putting thumbnails into grid views.
-	 * @author Crumbs
-	 *
+	 * ImageAdapter Class to support putting thumbnails into list views.
+	 * Will also have a modified implementation into ViewSubmission activity.
+	 * This is tailored to fit ListViews.
 	 */
 	public class ImageAdapter extends BaseAdapter
 	{
