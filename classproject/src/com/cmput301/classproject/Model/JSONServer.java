@@ -62,7 +62,6 @@ public class JSONServer {
 	private HttpPost httpPost = new HttpPost("http://crowdsourcer.softwareprocess.es/F12/CMPUT301F12T06/");
 	private Type taskType = Task.class;
 	
-
 	@SuppressWarnings("unused")
 	private Application appRef = null;
 	private static JSONServer instance = null;
@@ -123,8 +122,9 @@ public class JSONServer {
 	public Code addTask(Task task) {
 	try {
 		LOGGER.log(Level.INFO,"Retrieved Task: " + task.toString());
-		Task newTask = new Task();
-		//We don't have a generic type so we don't need to do the TypeToken creation
+		Task newTask = task;
+		ServerData responseData = new ServerData();
+		
 		List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
 		
 		//This is equivalent to doing:
@@ -136,37 +136,34 @@ public class JSONServer {
 		HttpResponse response = httpClient.execute(httpPost);
 		LOGGER.log(Level.INFO,"Task added. Status Code: " + response.getStatusLine().toString());
 		
-		
 		//Get the content of the response on the page
 		HttpEntity entity = response.getEntity();
+		
 		if(entity!=null) {
 			InputStream is = entity.getContent();
 			String jsonString = convertStreamToString(is);
-			Pattern p = Pattern.compile("\"id\":\".*\"");
-			Matcher m = p.matcher(jsonString);
-			String id = "";
-			if(m.find()) {
-				id = m.group(0).replaceAll("(\\r|\\n)", ""); //TODO - Add some error checking
-				newTask.setId(id);
-			}
+			LOGGER.log(Level.INFO,"jsonString: " + jsonString);
+			Type collectionType = ServerData.class;
+			responseData = gson.fromJson(jsonString, collectionType);
+			LOGGER.log(Level.INFO,"responseData ID: " + responseData.getId());
 			
-			LOGGER.log(Level.INFO,"JSON String: " + jsonString);
-			LOGGER.log(Level.INFO,"id obtained: " + id);
+			//Update the ID of the task
+			newTask.setId(responseData.getId());
 			
-
 		}
 		EntityUtils.consume(entity);
-		//After we retrieve the id we will update the task
+		
+		
+		//After we retrieve the id we will update the task with the new id
 		values = new ArrayList<BasicNameValuePair>();
 		
-		//This is equivalent to doing:
-		//http://path?action=post&summary=desc&content=content
 		values.add(new BasicNameValuePair("action","update"));
-		values.add(new BasicNameValuePair("id",newTask.getId()));
-		values.add(new BasicNameValuePair("content",gson.toJson(task)));
+		values.add(new BasicNameValuePair("id",responseData.getId()));
+		values.add(new BasicNameValuePair("content",gson.toJson(newTask)));
 		
 		httpPost.setEntity(new UrlEncodedFormEntity(values));
 		response = httpClient.execute(httpPost);
+		
 		EntityUtils.consume(entity);
 		
 		int statusCode = response.getStatusLine().getStatusCode();
@@ -194,7 +191,8 @@ public class JSONServer {
 	 */
 	public List<Task> getAllTasks() {
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		ArrayList<String> ids = new ArrayList<String>();
+		ArrayList<ServerData> ids = new ArrayList<ServerData>();
+		
 		
 		try {
 			
@@ -212,16 +210,13 @@ public class JSONServer {
 			if(entity!=null) {
 				InputStream is = entity.getContent();
 				String jsonString = convertStreamToString(is);
-				jsonString = jsonString.replace("[","").replace("]", "");
-				jsonString = jsonString.replaceAll("\\{\"id\":|\\}", "");
-				jsonString = jsonString.replaceAll("\\\"","");
-				jsonString = jsonString.replaceAll("(\\r|\\n)", ""); //regex to remove the end of line
-				String temp[] = jsonString.split(",");
-				for(String i : temp) {
-					LOGGER.log(Level.INFO,"String i: " + i);
-					ids.add(i);
+				Type collectionType = new TypeToken<Collection<ServerData>>() {}.getType();
+				ids = gson.fromJson(jsonString, collectionType);
+				//List the id's
+				for(ServerData i : ids) {
+					LOGGER.log(Level.INFO,"ID: " + i.getId());
+					tasks.add(getTask(i.getId()));
 				}
-				
 			}
 			
 			LOGGER.log(Level.INFO,ids.toString());
@@ -233,13 +228,11 @@ public class JSONServer {
 			LOGGER.log(Level.SEVERE,ex.getMessage());
 			ex.printStackTrace();
 		}
-		for(int i = 0; i < ids.size();i++) {
-			tasks.add(getTask(ids.get(i)));
-		}
-		LOGGER.log(Level.INFO,"Tasks Length: " + tasks.size());
+		
 		for(Task t : tasks) {
-			LOGGER.log(Level.INFO,t.toString());
+			LOGGER.log(Level.INFO,"Task: " + t.toString());
 		}
+		
 		return tasks;
 		
 	}
@@ -247,7 +240,6 @@ public class JSONServer {
 	private Task getTask(String id) {
 		Task newTask = new Task();
 		try {
-			//We don't have a generic type so we don't need to do the TypeToken creation
 			List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
 
 			values.add(new BasicNameValuePair("action","get"));
@@ -261,7 +253,9 @@ public class JSONServer {
 				InputStream is = entity.getContent();
 				String jsonString = convertStreamToString(is);
 				LOGGER.log(Level.INFO,"String: " + jsonString);
-				newTask = gson.fromJson(jsonString, taskType);
+				
+				ServerData data = gson.fromJson(jsonString, ServerData.class);
+				newTask = data.getContent();
 			}
 			EntityUtils.consume(entity);
 			return newTask;
