@@ -42,6 +42,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Application;
 
@@ -140,13 +142,20 @@ public class JSONServer {
 		if(entity!=null) {
 			InputStream is = entity.getContent();
 			String jsonString = convertStreamToString(is);
+			Pattern p = Pattern.compile("\"id\":\".*\"");
+			Matcher m = p.matcher(jsonString);
+			String id = "";
+			if(m.find()) {
+				id = m.group(0).replaceAll("(\\r|\\n)", ""); //TODO - Add some error checking
+				newTask.setId(id);
+			}
+			
 			LOGGER.log(Level.INFO,"JSON String: " + jsonString);
-			//This will get the results so we can get the ID
-			newTask = gson.fromJson(jsonString, taskType);
+			LOGGER.log(Level.INFO,"id obtained: " + id);
+			
+
 		}
 		EntityUtils.consume(entity);
-		task.setId(newTask.getId());
-		
 		//After we retrieve the id we will update the task
 		values = new ArrayList<BasicNameValuePair>();
 		
@@ -206,6 +215,7 @@ public class JSONServer {
 				jsonString = jsonString.replace("[","").replace("]", "");
 				jsonString = jsonString.replaceAll("\\{\"id\":|\\}", "");
 				jsonString = jsonString.replaceAll("\\\"","");
+				jsonString = jsonString.replaceAll("(\\r|\\n)", ""); //regex to remove the end of line
 				String temp[] = jsonString.split(",");
 				for(String i : temp) {
 					LOGGER.log(Level.INFO,"String i: " + i);
