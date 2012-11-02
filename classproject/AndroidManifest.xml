@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+android.test.InstrumentationTestRunner<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cmput301.classproject"
     android:versionCode="1"
     android:versionName="1.0" >
@@ -8,6 +8,8 @@
         android:targetSdkVersion="15" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.test.InstrumentationTestRunner"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:icon="@drawable/ic_launcher"
