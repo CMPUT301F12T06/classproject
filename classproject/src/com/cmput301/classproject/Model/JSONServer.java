@@ -82,9 +82,10 @@ public class JSONServer {
 	public boolean isConnected() {
 		try {
 		HttpResponse response = httpClient.execute(httpPost);
-		String status = response.getStatusLine().toString();
+		int status = response.getStatusLine().getStatusCode();
+		
 		LOGGER.log(Level.INFO,"Status: " + status);
-		return status.equals(HttpStatus.SC_OK);
+		return (status==HttpStatus.SC_OK);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
