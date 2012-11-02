@@ -28,6 +28,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -53,6 +55,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	ListView addedPhotos;
 	ListView addedAudio;
 	EditText submissionText;
+	EditText submissionSummary;
 	ArrayList<Bitmap> photosTaken = new ArrayList<Bitmap>();
 	
 	@Override 
@@ -84,7 +87,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		addedPhotos = (ListView) findViewById(R.id.photos_added);
 		addedAudio = (ListView) findViewById(R.id.audio_added);
 		submissionText = (EditText) findViewById(R.id.submissionText);
-		
+		submissionSummary = (EditText) findViewById(R.id.submissionSummary);
 		
 		// Attach the ImageAdapter to the ListView for photos.
 		addedPhotos.setAdapter(new ImageAdapter(this));
@@ -243,7 +246,8 @@ public class AddSubmissionActivity extends Activity implements Observer {
                 imageView.setLayoutParams(new ListView.LayoutParams(185, 185));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(5, 5, 5, 5);
-            } else {
+            }
+            else {
                 imageView = (ImageView) convertView;
             }
             imageView.setImageBitmap(photosTaken.get(position));

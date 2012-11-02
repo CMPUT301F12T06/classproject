@@ -19,7 +19,7 @@
             android:text="@string/author_label" />
 
         <TextView
-             android:id="@+id/submission_view_summary"
+             android:id="@+id/view_author_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/default_text" />
@@ -40,6 +40,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/view_submission_summary"
             android:hint="@string/default_text" />
     </LinearLayout>
 
@@ -58,6 +59,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/view_submission_text"
             android:hint="@string/default_text" />
     </LinearLayout>
 
@@ -75,6 +77,7 @@
 
         <TextView
             android:layout_width="match_parent"
+            android:id="@+id/view_submission_access"
             android:layout_height="wrap_content"
             android:hint="@string/default_text" />
     </LinearLayout>

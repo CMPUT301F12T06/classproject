@@ -37,7 +37,17 @@ public class FakeJSONServer {
 		Task task2 = new Task("Bacon Panckake Audio",
 				"Get me bacon pancake audio", "Joe", Submission.ACCESS_AUDIO,
 				true);
-		task2.addSubmission(new Submission("SUBMISSION YYYY"));
+		
+		// Creating Submission details
+		byte access = 0;
+		
+		Submission task2Sub = new Submission("SUBMISSION YYYY");
+		task2Sub.setAccess(access);
+		task2Sub.setAuthor("Pancake McPancakerson");
+		task2Sub.setSummary("SampleSubmission1");
+		task2Sub.setText("My Text is bacon");
+		task2Sub.setTimestamp(20);
+		task2.addSubmission(task2Sub);
 
 		addTask(task1);
 		addTask(task2);
