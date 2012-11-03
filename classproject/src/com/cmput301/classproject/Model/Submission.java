@@ -17,6 +17,9 @@ MA 02110-1301, USA.
 package com.cmput301.classproject.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import android.graphics.Bitmap;
 
 import android.provider.MediaStore;
 
@@ -28,8 +31,8 @@ public class Submission implements Serializable {
 	private static final long serialVersionUID = -3396630733841446186L;
 	private String author;
 	private String summary;
-	private MediaStore.Images images;
-	private MediaStore.Audio audio;
+	private ArrayList images = new ArrayList<Bitmap>();
+	//private MediaStore.Audio audio;
 	private String text;
 	private Byte access;
 	private double timestamp;
@@ -63,21 +66,21 @@ public class Submission implements Serializable {
 		this.summary = summary;
 	}
 
-	public MediaStore.Images getImages() {
+	public ArrayList<Bitmap> getImages() {
 		return images;
 	}
 
-	public void setImages(MediaStore.Images images) {
+	public void setImages(ArrayList<Bitmap> images) {
 		this.images = images;
 	}
 
-	public MediaStore.Audio getAudio() {
+	/*public MediaStore.Audio getAudio() {
 		return audio;
 	}
 
 	public void setAudio(MediaStore.Audio audio) {
 		this.audio = audio;
-	}
+	}*/
 
 	public String getText() {
 		return text;

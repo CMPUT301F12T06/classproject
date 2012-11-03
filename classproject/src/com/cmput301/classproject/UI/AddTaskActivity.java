@@ -39,7 +39,7 @@ public class AddTaskActivity extends Activity {
 
 	private int submissionRequires = 0;
 	private boolean isAccessPublic = true;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -153,9 +153,8 @@ public class AddTaskActivity extends Activity {
 		}
 
 		
-		Task task = new Task(title, description,(new DeviceUuidFactory(this)).getDeviceUuid(), submissionRequires,
+		final Task task = new Task(title, description,(new DeviceUuidFactory(this)).getDeviceUuid(), submissionRequires,
 				isAccessPublic);
-
 		
 		if (TaskManager.getInstance().addTask(task) != JSONServer.Code.SUCCESS) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
@@ -163,6 +162,7 @@ public class AddTaskActivity extends Activity {
 			return;
 		}
 
+		
 		ApplicationCore.displayToastMessage(getApplicationContext(),
 				"Added Task:\n" + task.toString());
 
