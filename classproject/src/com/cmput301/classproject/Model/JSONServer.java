@@ -52,8 +52,7 @@ public class JSONServer {
 
 	public static enum Code {
 		FAILURE, SUCCESS
-	}
-	
+	}	
 
 	private HttpClient httpClient = new DefaultHttpClient();
 	private Gson gson = new Gson();
@@ -208,7 +207,6 @@ public class JSONServer {
 			
 			//Update the ID of the task
 			newTask.setId(responseData.getId());
-			
 			
 		}
 		EntityUtils.consume(entity);
