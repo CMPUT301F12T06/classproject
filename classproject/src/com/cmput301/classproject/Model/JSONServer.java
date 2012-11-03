@@ -63,11 +63,9 @@ public class JSONServer {
 	private Application appRef = null;
 	private static JSONServer instance = null;
 
-	private FakeJSONServer fakeServer; // TODO REMOVE
 
 	private JSONServer() {
 
-		fakeServer = new FakeJSONServer(); // TODO REMOVE
 	}
 
 	public static JSONServer getInstance() {
@@ -338,7 +336,7 @@ public class JSONServer {
 	 * @return
 	 */
 	public Code sync() {
-		return fakeServer.sync();
+		return Code.SUCCESS; //TODO - Implement this
 	}
 
 	
