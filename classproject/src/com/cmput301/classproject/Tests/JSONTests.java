@@ -1,40 +1,56 @@
 package com.cmput301.classproject.Tests;
 
 import org.apache.http.client.methods.HttpPost;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.cmput301.classproject.Model.JSONServer;
+import com.cmput301.classproject.Model.JSONServer.Code;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 
 
 public class JSONTests {
+	
+	JSONServer server = JSONServer.getInstance();
 
 	@Test
 	public void testGoodConnection() throws Exception {
-		assertTrue(JSONServer.getInstance().isConnected());
+		assertTrue(server.isConnected());
 	}
 	
 	@Test
 	public void testBadConnection() {
 		HttpPost post = new HttpPost("http://fakeAddress");
-		assertFalse(JSONServer.getInstance().isConnected(post));
+		assertFalse(server.isConnected(post));
 	}
 	
 	@Test
 	public void testAddTask() {
-		Task task1 = new Task("Apple pictures", "Get me apple pics",
-				"DEADBEAF", Submission.ACCESS_PHOTO | Submission.ACCESS_TEXT,
+		Task task1 = new Task("JUNIT Test", "Testing",
+				"ABC", Submission.ACCESS_PHOTO | Submission.ACCESS_TEXT,
 				true);
-		JSONServer.getInstance().addTask(task1);
+		//Test creation
+		assertTrue(server.addTask(task1) == Code.SUCCESS);
+		
+		//Cleanup
+		Task newTask = server.getLatestTask();
+		//Test deletion
+		assertTrue(server.deleteTask(newTask.getId()) == Code.SUCCESS);
+		
 	}
 	
 	@Test
 	public void getTasks() {
-		JSONServer.getInstance().getAllTasks();
+		assertTrue(server.getAllTasks().size() > 0);
+	}
+	
+	@Ignore("Only ran if the server is empty. We do not want the nuke it") @Test
+	public void getEmptyTasks() {
+		assertTrue(server.getAllTasks().size() == 0);
 	}
 	
 	@Test
@@ -44,6 +60,19 @@ public class JSONTests {
 	
 	@Test
 	public void addSubmission() {
-	
+		Task task1 = new Task("JUNIT Test", "Testing",
+				"ABC", Submission.ACCESS_PHOTO | Submission.ACCESS_TEXT,
+				true);
+		
+		Submission submission = new Submission("test submission");
+		//add task
+		server.addTask(task1);
+		
+		//add submission to task
+		Task newTask = server.getLatestTask();
+		assertTrue(server.addSubmission(newTask.getId(), submission)==Code.SUCCESS);
+		
+		//cleanup
+		server.deleteTask(newTask.getId());
 	}
 }
