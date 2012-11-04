@@ -37,8 +37,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.cmput301.classproject.Model.ApplicationCore;
-import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.google.gson.Gson;
@@ -48,7 +46,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import android.app.Application;
-import android.content.Context;
 
 // Singleton
 public class JSONServer {

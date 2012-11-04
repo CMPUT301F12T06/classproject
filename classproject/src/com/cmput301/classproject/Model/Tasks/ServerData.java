@@ -26,8 +26,12 @@ package com.cmput301.classproject.Model.Tasks;
 import com.cmput301.classproject.Model.Task;
 
 public class ServerData {
+
+	private Task content;
+	private String id;
 	
 	public ServerData() {}
+	
 	
 	public Task getContent() {
 		return content;
@@ -45,7 +49,5 @@ public class ServerData {
 		this.id = id;
 	}
 
-	private Task content;
-	private String id;
 
 }
