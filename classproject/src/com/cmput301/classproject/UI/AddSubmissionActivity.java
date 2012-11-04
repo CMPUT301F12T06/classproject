@@ -22,7 +22,9 @@ import java.util.Observer;
 
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
+import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
+import com.cmput301.classproject.Model.TaskManager;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,6 +59,11 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	EditText submissionText;
 	EditText submissionSummary;
 	ArrayList<Bitmap> photosTaken = new ArrayList<Bitmap>();
+	SubmissionPermission submissionPermission = null;
+	
+	public static enum SubmissionPermission{
+		Private, Public, Creator
+	}
 	
 	@Override 
 	public void onCreate(Bundle savedInstanceState) {
@@ -126,19 +133,19 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		switch (v.getId()) {
 		case R.id.submission_private_sharing:
 			if (checked) {
-
+				submissionPermission = SubmissionPermission.Private;
 			}
 
 			break;
 		case R.id.submission_creator_sharing:
 			if (checked) {
-
+				submissionPermission = SubmissionPermission.Creator;
 			}
 
 			break;
 		case R.id.submission_public_sharing:
 			if (checked) {
-
+				submissionPermission = SubmissionPermission.Public;
 			}
 
 			break;
@@ -198,14 +205,31 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void submitSubmissionHandler(View v) {
-		// TODO implement the submission adding in TaskManager
-		// TaskManager should try to use the JSON server (look at the addTask
-		// method in TaskManager for an exmaple)
+		String summary = submissionSummary.getText().toString();
+		if(summary.length() <= 0){
+			ApplicationCore.displayToastMessage(getApplicationContext(), "Please specify a summary for this submission");
+			return;
+		}
 		
-		// The photos are stored in ArrayList<Bitmap> photosTaken.  Waiting on a storage implementation before we port it over.
+		Submission submission = new Submission(summary);
+		
+		String TextSubmission = submissionText.getText().toString();
+		
+		if(TextSubmission.length() > 0)
+			submission.setText(TextSubmission);
+		
+		if(submissionPermission == null){
+			ApplicationCore.displayToastMessage(getApplicationContext(), "Please select a permission type for this submission");
+			return;
+		}else
+			submission.setAccess(submissionPermission);
+		
+		if(photosTaken.size() > 0)
+			submission.setImages(photosTaken);
+		
+		TaskManager.getInstance().addSubmission(task.getId(), submission);
 		
 		finish();
-
 	}
 
 	public void update(Observable arg0, Object arg1) {

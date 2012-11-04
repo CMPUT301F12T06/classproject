@@ -37,6 +37,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.google.gson.Gson;
@@ -323,6 +324,7 @@ public class JSONServer {
 				LOGGER.log(Level.INFO,"String: " + jsonString);
 				
 				ServerData data = gson.fromJson(jsonString, ServerData.class);
+				LOGGER.log(Level.INFO,"Data: " + data.getContent());
 				newTask = data.getContent();
 			}
 			//EntityUtils.consume(entity);
@@ -358,6 +360,10 @@ public class JSONServer {
 		// get latest task via taskId
 		Task newTask = getTask(taskId);
 		
+		if(newTask==null) {
+			LOGGER.log(Level.SEVERE,"newTask is null in addsubmission\nTaskid: " + taskId);
+			return Code.FAILURE;
+		}
 		// add submission to task
 		ArrayList<Submission> submissions = newTask.getSubmissions();
 		submissions.add(submission);

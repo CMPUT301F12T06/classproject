@@ -78,6 +78,14 @@ public class TaskManager extends Observable {
 		}
 		return returnCode;
 	}
+	
+	public Code addSubmission(String taskId, Submission submission){
+		Code returnCode = JSONServer.getInstance().addSubmission(taskId, submission);
+		if (returnCode == Code.SUCCESS) {
+			this.notifyAllObservers(JSONServer.getInstance().getAllTasks());
+		}
+		return returnCode;
+	}
 
 	public Code sync(Context mContext) {
 		// TODO add connection logic and locale file storage stuff logic
