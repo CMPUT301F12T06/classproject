@@ -88,7 +88,6 @@
 
         <ListView
             android:id="@+id/photos_added"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
             android:layout_width="50%" />
