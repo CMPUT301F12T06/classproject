@@ -13,6 +13,11 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program; 
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
 MA 02110-1301, USA.
+
+Submission.java contains all the submission data for a certain task. It consists of the author,
+summary, an ArrayList<Picture>, text, access and a timestamp. Audio will be implemented in 
+the last phase and is currently disabled.
+
  **/
 package com.cmput301.classproject.Model;
 
@@ -82,14 +87,6 @@ public class Submission implements Serializable {
 			images.add(new Picture(bitmap));
 		}
 	}
-
-	/*public MediaStore.Audio getAudio() {
-		return audio;
-	}
-
-	public void setAudio(MediaStore.Audio audio) {
-		this.audio = audio;
-	}*/
 
 	public String getText() {
 		return text;

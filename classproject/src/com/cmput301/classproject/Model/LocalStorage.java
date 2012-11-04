@@ -46,7 +46,12 @@ public class LocalStorage {
 		this.appRef = appRef;
 	}
 
-	// Saves logEntries array to file
+	/**
+	 * This will retrieve the logEntries array to a file for
+	 * Local Storage
+	 * 
+	 * @return A list of Tasks
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public List<Task> load() {
 		List<Task> output = null;
@@ -64,7 +69,10 @@ public class LocalStorage {
 		return output;
 	}
 
-	// Loads logEntries array to file
+	/**
+	 * This will save the logEntries array to a file
+	 * @param tasks	The array of tasks
+	 */
 	public void save(List<Task> tasks) {
 		try {
 			ObjectOutput out = new ObjectOutputStream(appRef.openFileOutput(

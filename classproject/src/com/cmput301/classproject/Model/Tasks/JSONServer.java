@@ -14,7 +14,13 @@ You should have received a copy of the GNU General Public License along with thi
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
 MA 02110-1301, USA.
 
+This class handles all communication with the server. It is called by the AsycnTasks.
+It handles, syncing with the server (retrieval of all tasks), updating task, deletion of
+tasks, adding of tasks. 
+
 @author Benson Trinh
+
+
  **/
 package com.cmput301.classproject.Model.Tasks;
 
@@ -72,6 +78,9 @@ public class JSONServer {
 	private static JSONServer instance = null;
 
 
+	/**
+	 * Empty constructor
+	 */
 	private JSONServer() {
 
 	}

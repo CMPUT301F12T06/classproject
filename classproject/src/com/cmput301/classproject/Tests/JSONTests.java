@@ -1,3 +1,7 @@
+/**
+ * JSONTests.java consists of the JUnit tests to test the functionality of the
+ * JSONServer
+ */
 package com.cmput301.classproject.Tests;
 
 import org.apache.http.client.methods.HttpPost;
@@ -51,11 +55,6 @@ public class JSONTests {
 	@Ignore("Only ran if the server is empty. We do not want the nuke it") @Test
 	public void getEmptyTasks() {
 		assertTrue(server.getAllTasks().size() == 0);
-	}
-	
-	@Test
-	public void sync() {
-	
 	}
 	
 	@Test
