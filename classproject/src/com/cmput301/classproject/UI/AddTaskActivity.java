@@ -167,8 +167,7 @@ public class AddTaskActivity extends Activity {
 				"Added Task:\n" + task.toString());
 
 		// TODO update MainActivity after this returns
-
-		finish();
+		//finish();
 
 	}
 
