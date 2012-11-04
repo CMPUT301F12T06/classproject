@@ -12,9 +12,9 @@ import com.cmput301.classproject.Model.Tasks.JSONServer.TaskType;
 
 public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 	
-	TaskType type;
-	ProgressDialog dialog;
-	Context context;
+	private TaskType type;
+	private ProgressDialog dialog;
+	private Context context;
 	
 	public ModifyServerData(TaskType type,Context mContext) {
 		this.type=type;

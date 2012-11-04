@@ -14,9 +14,9 @@ import android.os.AsyncTask;
 
 public class ReceiveServerData extends AsyncTask<Task,Integer,ArrayList<Task>> {
 	
-	TaskType type;
-	Context context;
-	ProgressDialog dialog;
+	private TaskType type;
+	private Context context;
+	private ProgressDialog dialog;
 	
 	public ReceiveServerData(TaskType type, Context mContext) {
 		this.type = type;
