@@ -10,7 +10,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,11 +18,13 @@
             android:text="@string/submission_summary_label"
             android:textSize="14dp" />
 
-        <TextView
+        <EditText
+            android:singleLine="false"
+            android:id="@+id/submissionSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/default_text"
-            android:inputType="none" />
+            android:hint="@string/default_text" />
+        
     </LinearLayout>
 
     

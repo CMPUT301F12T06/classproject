@@ -21,7 +21,9 @@ use Gson.
 
 @author Benson Trinh
  **/
-package com.cmput301.classproject.Model;
+package com.cmput301.classproject.Model.Tasks;
+
+import com.cmput301.classproject.Model.Task;
 
 public class ServerData {
 	

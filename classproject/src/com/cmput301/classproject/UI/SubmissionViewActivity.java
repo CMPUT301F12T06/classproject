@@ -52,13 +52,18 @@ public class SubmissionViewActivity extends Activity implements Observer {
 		if (submission == null) {
 			finish();
 		} else {
-			TextView temp;
-
-			// TODO make this view look better
-			temp = ((TextView) findViewById(R.id.submission_view_summary));
-			temp.setText(submission.getSummary());
-
 			// Fill out activity view using the submission object
+			TextView authorText = (TextView) findViewById(R.id.view_author_name);
+			authorText.setText(submission.getAuthor());
+			
+			TextView submissionSummary = (TextView) findViewById(R.id.view_submission_summary);
+			submissionSummary.setText(submission.getSummary());
+			
+			TextView submissionText = (TextView) findViewById(R.id.view_submission_text);
+			submissionText.setText(submission.getText());
+			
+			TextView access = (TextView) findViewById(R.id.view_submission_access);			
+			access.setText(submission.getAccess().toString());
 		}
 
 	}

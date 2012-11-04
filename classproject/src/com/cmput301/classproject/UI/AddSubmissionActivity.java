@@ -19,15 +19,23 @@ package com.cmput301.classproject.UI;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.ExecutionException;
 
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
+import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
+import com.cmput301.classproject.Model.TaskManager;
+import com.cmput301.classproject.Model.Tasks.AddSubmission;
+import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
+import com.cmput301.classproject.Model.Tasks.SubmissionData;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -53,7 +61,13 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	ListView addedPhotos;
 	ListView addedAudio;
 	EditText submissionText;
+	EditText submissionSummary;
 	ArrayList<Bitmap> photosTaken = new ArrayList<Bitmap>();
+	SubmissionPermission submissionPermission = null;
+	
+	public static enum SubmissionPermission{
+		Private, Public, Creator
+	}
 	
 	@Override 
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +98,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		addedPhotos = (ListView) findViewById(R.id.photos_added);
 		addedAudio = (ListView) findViewById(R.id.audio_added);
 		submissionText = (EditText) findViewById(R.id.submissionText);
-		
+		submissionSummary = (EditText) findViewById(R.id.submissionSummary);
 		
 		// Attach the ImageAdapter to the ListView for photos.
 		addedPhotos.setAdapter(new ImageAdapter(this));
@@ -123,19 +137,19 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		switch (v.getId()) {
 		case R.id.submission_private_sharing:
 			if (checked) {
-
+				submissionPermission = SubmissionPermission.Private;
 			}
 
 			break;
 		case R.id.submission_creator_sharing:
 			if (checked) {
-
+				submissionPermission = SubmissionPermission.Creator;
 			}
 
 			break;
 		case R.id.submission_public_sharing:
 			if (checked) {
-
+				submissionPermission = SubmissionPermission.Public;
 			}
 
 			break;
@@ -195,14 +209,30 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void submitSubmissionHandler(View v) {
-		// TODO implement the submission adding in TaskManager
-		// TaskManager should try to use the JSON server (look at the addTask
-		// method in TaskManager for an exmaple)
+		String summary = submissionSummary.getText().toString();
+		if(summary.length() <= 0){
+			ApplicationCore.displayToastMessage(getApplicationContext(), "Please specify a summary for this submission");
+			return;
+		}
 		
-		// The photos are stored in ArrayList<Bitmap> photosTaken.  Waiting on a storage implementation before we port it over.
+		Submission submission = new Submission(summary);
 		
+		String TextSubmission = submissionText.getText().toString();
+		
+		if(TextSubmission.length() > 0)
+			submission.setText(TextSubmission);
+		
+		if(submissionPermission == null){
+			ApplicationCore.displayToastMessage(getApplicationContext(), "Please select a permission type for this submission");
+			return;
+		}else
+			submission.setAccess(submissionPermission);
+		
+		if(photosTaken.size() > 0)
+			submission.setImages(photosTaken);
+		
+		Code result = TaskManager.getInstance().addSubmission(task.getId(), submission,this);
 		finish();
-
 	}
 
 	public void update(Observable arg0, Object arg1) {
@@ -243,7 +273,8 @@ public class AddSubmissionActivity extends Activity implements Observer {
                 imageView.setLayoutParams(new ListView.LayoutParams(185, 185));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(5, 5, 5, 5);
-            } else {
+            }
+            else {
                 imageView = (ImageView) convertView;
             }
             imageView.setImageBitmap(photosTaken.get(position));

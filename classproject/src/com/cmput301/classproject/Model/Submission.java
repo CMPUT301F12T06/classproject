@@ -19,9 +19,9 @@ package com.cmput301.classproject.Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.graphics.Bitmap;
+import com.cmput301.classproject.UI.AddSubmissionActivity.SubmissionPermission;
 
-import android.provider.MediaStore;
+import android.graphics.Bitmap;
 
 public class Submission implements Serializable {
 
@@ -31,10 +31,10 @@ public class Submission implements Serializable {
 	private static final long serialVersionUID = -3396630733841446186L;
 	private String author;
 	private String summary;
-	private ArrayList images = new ArrayList<Bitmap>();
+	private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
 	//private MediaStore.Audio audio;
 	private String text;
-	private Byte access;
+	private SubmissionPermission access;
 	private double timestamp;
 
 	public static int ACCESS_PHOTO = (1 << 0); 
@@ -98,12 +98,13 @@ public class Submission implements Serializable {
 		this.timestamp = timestamp;
 	}
 
-	public Byte getAccess() {
+	public SubmissionPermission getAccess() {
 		return access;
 	}
 
-	public void setAccess(Byte access) {
+	public void setAccess(SubmissionPermission access) {
 		this.access = access;
 	}
+
 
 }

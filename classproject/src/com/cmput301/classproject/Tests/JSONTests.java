@@ -7,8 +7,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.cmput301.classproject.Model.JSONServer;
-import com.cmput301.classproject.Model.JSONServer.Code;
+import com.cmput301.classproject.Model.Tasks.JSONServer;
+import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 
@@ -39,7 +39,7 @@ public class JSONTests {
 		//Cleanup
 		Task newTask = server.getLatestTask();
 		//Test deletion
-		assertTrue(server.deleteTask(newTask.getId()) == Code.SUCCESS);
+		assertTrue(server.deleteTask(newTask) == Code.SUCCESS);
 		
 	}
 	
@@ -73,6 +73,6 @@ public class JSONTests {
 		assertTrue(server.addSubmission(newTask.getId(), submission)==Code.SUCCESS);
 		
 		//cleanup
-		server.deleteTask(newTask.getId());
+		server.deleteTask(newTask);
 	}
 }

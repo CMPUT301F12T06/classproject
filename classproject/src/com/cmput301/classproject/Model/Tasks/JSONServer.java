@@ -16,7 +16,7 @@ MA 02110-1301, USA.
 
 @author Benson Trinh
  **/
-package com.cmput301.classproject.Model;
+package com.cmput301.classproject.Model.Tasks;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,6 +37,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.cmput301.classproject.Model.ApplicationCore;
+import com.cmput301.classproject.Model.LocalStorage;
+import com.cmput301.classproject.Model.Submission;
+import com.cmput301.classproject.Model.Task;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -44,6 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import android.app.Application;
+import android.content.Context;
 
 // Singleton
 public class JSONServer {
@@ -53,6 +58,13 @@ public class JSONServer {
 	public static enum Code {
 		FAILURE, SUCCESS
 	}	
+	
+	public static enum TaskType {
+		AddTask,
+		RemoveTask,
+		GetTasks
+		
+	}
 
 	private HttpClient httpClient = new DefaultHttpClient();
 	private Gson gson = new Gson();
@@ -77,6 +89,7 @@ public class JSONServer {
 	public void setApplicatonReference(Application appRef) {
 		this.appRef = appRef;
 	}
+
 	
 	/**
 	 * This will check the connection to the json
@@ -152,7 +165,7 @@ public class JSONServer {
 					return getTask(id);
 				}
 				
-				EntityUtils.consume(entity);
+				//EntityUtils.consume(entity);
 				
 			}
 		} catch (Exception ex) {
@@ -163,6 +176,7 @@ public class JSONServer {
 		//Add a return code that says the list is empty
 		return null;
 	}
+	
 
 	/**
 	 * This will add the task in JSON format to the
@@ -209,13 +223,10 @@ public class JSONServer {
 			newTask.setId(responseData.getId());
 			
 		}
-		EntityUtils.consume(entity);
-		
+		//EntityUtils.consume(entity);
 		
 		//After we retrieve the id we will update the task with the new id
 		return updateTask(responseData.getId(),newTask);
-
-		
 		
 	} catch (Exception e) {
 		LOGGER.log(Level.SEVERE,e.getMessage());
@@ -239,7 +250,7 @@ public class JSONServer {
 	 * @return	An ArrayList<Task>. The list will be empty
 	 * 			if there are no tasks
 	 */
-	public List<Task> getAllTasks() {
+	public ArrayList<Task> getAllTasks() {
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		ArrayList<ServerData> ids = new ArrayList<ServerData>();
 		
@@ -270,7 +281,7 @@ public class JSONServer {
 			}
 			
 			LOGGER.log(Level.INFO,ids.toString());
-			EntityUtils.consume(entity);
+			//EntityUtils.consume(entity);
 			
 			
 			
@@ -315,9 +326,10 @@ public class JSONServer {
 				LOGGER.log(Level.INFO,"String: " + jsonString);
 				
 				ServerData data = gson.fromJson(jsonString, ServerData.class);
+				LOGGER.log(Level.INFO,"Data: " + data.getContent());
 				newTask = data.getContent();
 			}
-			EntityUtils.consume(entity);
+			//EntityUtils.consume(entity);
 			return newTask;
 			
 		} catch (Exception ex) {
@@ -350,6 +362,10 @@ public class JSONServer {
 		// get latest task via taskId
 		Task newTask = getTask(taskId);
 		
+		if(newTask==null) {
+			LOGGER.log(Level.SEVERE,"newTask is null in addsubmission\nTaskid: " + taskId);
+			return Code.FAILURE;
+		}
 		// add submission to task
 		ArrayList<Submission> submissions = newTask.getSubmissions();
 		submissions.add(submission);
@@ -368,7 +384,8 @@ public class JSONServer {
 	 * 
 	 * @return Code.SUCCESS or Code.FAILURE
 	 */
-	public Code deleteTask(String taskId) {
+	public Code deleteTask(Task task) {
+		String taskId = task.getId();
 		List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
 
 		values.add(new BasicNameValuePair("action","remove"));
@@ -377,7 +394,7 @@ public class JSONServer {
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(values));
 			HttpResponse response = httpClient.execute(httpPost);
-			EntityUtils.consume(response.getEntity());
+			//EntityUtils.consume(response.getEntity());
 			
 			if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
 				return Code.SUCCESS;
@@ -403,21 +420,22 @@ public class JSONServer {
 	 */
 	public Code updateTask(String id, Task task) {
 		try {
-		List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
-		values = new ArrayList<BasicNameValuePair>();
+			List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
+			values = new ArrayList<BasicNameValuePair>();
+			
+			values.add(new BasicNameValuePair("action","update"));
+			values.add(new BasicNameValuePair("id",id));
+			values.add(new BasicNameValuePair("content",gson.toJson(task)));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(values));
+			HttpResponse response = httpClient.execute(httpPost);
 		
-		values.add(new BasicNameValuePair("action","update"));
-		values.add(new BasicNameValuePair("id",id));
-		values.add(new BasicNameValuePair("content",gson.toJson(task)));
-		
-		httpPost.setEntity(new UrlEncodedFormEntity(values));
-		HttpResponse response = httpClient.execute(httpPost);
-	
-		
-		int statusCode = response.getStatusLine().getStatusCode();
-		EntityUtils.consume(response.getEntity());
-		if(statusCode==HttpStatus.SC_OK)
-			return Code.SUCCESS;
+			
+			int statusCode = response.getStatusLine().getStatusCode();
+			//EntityUtils.consume(response.getEntity());
+			if(statusCode==HttpStatus.SC_OK)
+				return Code.SUCCESS;
+			
 		} catch (Exception ex) {
 			//do nothing. It will return Code.FAILURE
 			LOGGER.log(Level.SEVERE,ex.getMessage());
