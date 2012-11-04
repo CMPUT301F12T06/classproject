@@ -19,12 +19,16 @@ package com.cmput301.classproject.UI;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.ExecutionException;
 
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
+import com.cmput301.classproject.Model.Tasks.AddSubmission;
+import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
+import com.cmput301.classproject.Model.Tasks.SubmissionData;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -227,7 +231,17 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		if(photosTaken.size() > 0)
 			submission.setImages(photosTaken);
 		
-		TaskManager.getInstance().addSubmission(task.getId(), submission);
+		Code result = Code.FAILURE;
+		try {
+			result = new AddSubmission().execute(new SubmissionData(task.getId(),submission)).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//TaskManager.getInstance().addSubmission(task.getId(), submission);
 		
 		finish();
 	}
