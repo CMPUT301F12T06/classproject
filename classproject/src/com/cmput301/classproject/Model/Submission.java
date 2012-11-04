@@ -33,7 +33,8 @@ public class Submission implements Serializable {
 	private static final long serialVersionUID = -3396630733841446186L;
 	private String author;
 	private String summary;
-	private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+	//private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+	private ArrayList<Picture> images = new ArrayList<Picture>();
 	//private MediaStore.Audio audio;
 	private String text;
 	private SubmissionPermission access;
@@ -69,11 +70,19 @@ public class Submission implements Serializable {
 	}
 
 	public ArrayList<Bitmap> getImages() {
-		return images;
+		ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+		//Converts it into the picture object
+		for(Picture picture : images){
+			bitmaps.add(picture.getBitmap());
+		}
+		return bitmaps;
 	}
 
-	public void setImages(ArrayList<Bitmap> images) {
-		this.images = images;
+	public void setImages(ArrayList<Bitmap> bitmaps) {
+		images.clear();
+		for(Bitmap bitmap : bitmaps){
+			images.add(new Picture(bitmap));
+		}
 	}
 
 	/*public MediaStore.Audio getAudio() {
