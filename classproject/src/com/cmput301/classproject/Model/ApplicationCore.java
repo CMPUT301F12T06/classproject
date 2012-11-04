@@ -17,6 +17,8 @@ MA 02110-1301, USA.
 
 package com.cmput301.classproject.Model;
 
+import com.cmput301.classproject.Model.Tasks.JSONServer;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;

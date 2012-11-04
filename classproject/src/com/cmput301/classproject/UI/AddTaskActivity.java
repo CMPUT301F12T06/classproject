@@ -19,7 +19,7 @@ package com.cmput301.classproject.UI;
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.DeviceUuidFactory;
-import com.cmput301.classproject.Model.JSONServer;
+import com.cmput301.classproject.Model.Tasks.JSONServer;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
@@ -156,7 +156,7 @@ public class AddTaskActivity extends Activity {
 		final Task task = new Task(title, description,(new DeviceUuidFactory(this)).getDeviceUuid(), submissionRequires,
 				isAccessPublic);
 		
-		if (TaskManager.getInstance().addTask(task) != JSONServer.Code.SUCCESS) {
+		if (TaskManager.getInstance().addTask(task,this) != JSONServer.Code.SUCCESS) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
 					"Error: Failed to send task to server");
 			return;

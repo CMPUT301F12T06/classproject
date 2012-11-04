@@ -19,8 +19,15 @@ package com.cmput301.classproject.Model;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.ExecutionException;
+
 import android.app.Application;
-import com.cmput301.classproject.Model.JSONServer.Code;
+import android.content.Context;
+
+import com.cmput301.classproject.Model.Tasks.JSONServer;
+import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
+import com.cmput301.classproject.Model.Tasks.ModifyServerData;
+import com.cmput301.classproject.Model.Tasks.ReceiveServerData;
 
 //Singleton object - We extend application so we can use the
 //ApplicationContext and treat this like a singleton.
@@ -52,25 +59,43 @@ public class TaskManager extends Observable {
 		}
 	}
 
-	public Code addTask(Task task) {
+	public Code addTask(Task task, Context mContext) {
 
 		// TODO add creator field to task created using the phone serial
 
 		// TODO add connection logic and locale file storage stuff logic
-		Code returnCode = JSONServer.getInstance().addTask(task);
+		//Code returnCode = JSONServer.getInstance().addTask(task);
+		Code returnCode = Code.FAILURE;
+		try {
+			returnCode = new ModifyServerData(JSONServer.TaskType.AddTask,mContext).execute(task).get();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		if (returnCode == Code.SUCCESS) {
-			this.notifyAllObservers(JSONServer.getInstance().getAllTasks()); // updated
-																				// our
-																				// views
+			return sync(mContext); // updated
+																				// our														// views
 		}
 		return returnCode;
 	}
 
-	public Code sync() {
+	public Code sync(Context mContext) {
 		// TODO add connection logic and locale file storage stuff logic
 		Code returnCode = JSONServer.getInstance().sync();
 		if (returnCode == Code.SUCCESS) {
-			this.notifyAllObservers(JSONServer.getInstance().getAllTasks()); // updated
+			
+			ArrayList<Task> tasks = new ArrayList<Task>();
+			try {
+				tasks = new ReceiveServerData(JSONServer.TaskType.GetTasks,mContext).execute().get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			this.notifyAllObservers(tasks); // updated
 																				// our
 																				// views
 		}
