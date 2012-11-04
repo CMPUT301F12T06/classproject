@@ -129,14 +129,15 @@
     <ListView
         android:id="@+id/task_view_submission_list"
         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-      />
+        android:layout_height="0dp"
+        android:layout_weight="0.9" 
+    />
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="50dp"
         android:gravity="bottom"
         android:orientation="horizontal" >
 
