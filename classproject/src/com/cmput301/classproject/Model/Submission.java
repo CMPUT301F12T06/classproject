@@ -23,8 +23,6 @@ import com.cmput301.classproject.UI.AddSubmissionActivity.SubmissionPermission;
 
 import android.graphics.Bitmap;
 
-import android.provider.MediaStore;
-
 public class Submission implements Serializable {
 
 	/**
@@ -107,5 +105,6 @@ public class Submission implements Serializable {
 	public void setAccess(SubmissionPermission access) {
 		this.access = access;
 	}
+
 
 }

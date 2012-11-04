@@ -20,27 +20,36 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import android.app.Application;
 import android.content.Context;
 
+import com.cmput301.classproject.Model.Tasks.AddSubmission;
 import com.cmput301.classproject.Model.Tasks.JSONServer;
 import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 import com.cmput301.classproject.Model.Tasks.ModifyServerData;
 import com.cmput301.classproject.Model.Tasks.ReceiveServerData;
+import com.cmput301.classproject.Model.Tasks.SubmissionData;
 
 //Singleton object - We extend application so we can use the
 //ApplicationContext and treat this like a singleton.
 // Each additional singleton used in this project has a reference
 // to this application object so we can do operations like local file
-// storage amoung other singletons.
+// storage among other singletons.
 public class TaskManager extends Observable {
+	
+	private final static Logger LOGGER = Logger.getLogger(TaskManager.class.getName());
 
 	@SuppressWarnings("unused")
 	private Application appRef = null;
 	private static TaskManager instance = null;
 	private ArrayList<Observer> observers = null;
-
+	
+	public static ArrayList<Task> cachedTasks = new ArrayList<Task>();
+	public static String currentTask = null;
+	
 	private TaskManager() {
 		observers = new ArrayList<Observer>();
 	}
@@ -79,10 +88,21 @@ public class TaskManager extends Observable {
 		return returnCode;
 	}
 	
-	public Code addSubmission(String taskId, Submission submission){
-		Code returnCode = JSONServer.getInstance().addSubmission(taskId, submission);
+	public Code addSubmission(String taskId, Submission submission, Context mContext){
+		
+		Code returnCode = Code.FAILURE;
+		try {
+			returnCode = new AddSubmission(mContext).execute(new SubmissionData(taskId,submission)).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		LOGGER.log(Level.INFO,"returnCode: " + returnCode.name());
 		if (returnCode == Code.SUCCESS) {
-			this.notifyAllObservers(JSONServer.getInstance().getAllTasks());
+			sync(mContext);
 		}
 		return returnCode;
 	}
@@ -95,6 +115,7 @@ public class TaskManager extends Observable {
 			ArrayList<Task> tasks = new ArrayList<Task>();
 			try {
 				tasks = new ReceiveServerData(JSONServer.TaskType.GetTasks,mContext).execute().get();
+				TaskManager.cachedTasks = tasks;
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -102,6 +123,8 @@ public class TaskManager extends Observable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			LOGGER.log(Level.INFO,"tasks null? " + (tasks==null));
 			
 			this.notifyAllObservers(tasks); // updated
 																				// our

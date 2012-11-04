@@ -21,6 +21,7 @@ public class SubmissionData {
 	public String getTaskId() {
 		return taskid;
 	}
+	
 	public void setTaskid(String taskid) {
 		this.taskid = taskid;
 	}

@@ -3,6 +3,7 @@ package com.cmput301.classproject.Model.Tasks;
 import java.util.ArrayList;
 
 import com.cmput301.classproject.Model.Task;
+import com.cmput301.classproject.Model.TaskManager;
 import com.cmput301.classproject.Model.Tasks.JSONServer.TaskType;
 
 
@@ -36,6 +37,7 @@ public class ReceiveServerData extends AsyncTask<Task,Integer,ArrayList<Task>> {
 	
 	@Override
 	protected void onPostExecute(ArrayList<Task> result) {
+		TaskManager.getInstance().notifyObservers(result);
 		dialog.cancel();
 	}
 

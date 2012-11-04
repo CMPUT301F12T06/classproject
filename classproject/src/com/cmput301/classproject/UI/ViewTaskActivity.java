@@ -42,6 +42,7 @@ import android.support.v4.app.NavUtils;
 public class ViewTaskActivity extends Activity implements Observer {
 
 	private Task task = null;
+	private String taskId = null;
 
 	ListView submissionListView;
 	ArrayAdapter<Submission> submissionViewAdapter;
@@ -60,6 +61,8 @@ public class ViewTaskActivity extends Activity implements Observer {
 		if (task == null) {
 			finish();
 		} else {
+			taskId = task.getId();
+			TaskManager.currentTask = task.getId();
 			TextView temp;
 
 			// TODO make this view look better
@@ -175,12 +178,12 @@ public class ViewTaskActivity extends Activity implements Observer {
 	}
 
 	public void update(Observable observable, Object data) {
-		if (data != null && task != null) {
+		if (data != null && taskId != null) {
 			@SuppressWarnings("unchecked")
 			ArrayList<Task> tasks = (ArrayList<Task>) data;
 			for (Task t : tasks) {
 				// only update the task we have a reference to.
-				if (t.getId() == this.task.getId()) {
+				if (t.getId().equals(taskId)) {
 					submissionViewAdapter.clear();
 					submissionViewAdapter.addAll(t.getSubmissions());
 					return;
