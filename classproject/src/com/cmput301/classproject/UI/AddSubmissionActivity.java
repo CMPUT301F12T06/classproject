@@ -231,8 +231,8 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		if(photosTaken.size() > 0)
 			submission.setImages(photosTaken);
 		
-		TaskManager.getInstance().addSubmission(task.getId(), submission,this);
-		//finish();
+		Code result = TaskManager.getInstance().addSubmission(task.getId(), submission,this);
+		finish();
 	}
 
 	public void update(Observable arg0, Object arg1) {

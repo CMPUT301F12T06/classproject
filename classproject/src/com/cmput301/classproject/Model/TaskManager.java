@@ -40,6 +40,8 @@ import com.cmput301.classproject.Model.Tasks.SubmissionData;
 // storage among other singletons.
 public class TaskManager extends Observable {
 	
+	private final static Logger LOGGER = Logger.getLogger(TaskManager.class.getName());
+
 	@SuppressWarnings("unused")
 	private Application appRef = null;
 	private static TaskManager instance = null;
@@ -59,7 +61,7 @@ public class TaskManager extends Observable {
 	}
 
 	// Notify any views attached that our data model was updated.
-	public void notifyAllObservers(Object data) {
+	private void notifyAllObservers(Object data) {
 
 		for (Observer observer : observers) {
 			observer.update(this, data);
@@ -68,23 +70,39 @@ public class TaskManager extends Observable {
 
 	public Code addTask(Task task, Context mContext) {
 
-		Code returnCode = Code.SUCCESS;
+		// TODO add creator field to task created using the phone serial
+
+		// TODO add connection logic and locale file storage stuff logic
+		//Code returnCode = JSONServer.getInstance().addTask(task);
+		Code returnCode = Code.FAILURE;
 		try {
-			new ModifyServerData(JSONServer.TaskType.AddTask,mContext).execute(task);
+			returnCode = new ModifyServerData(JSONServer.TaskType.AddTask,mContext).execute(task).get();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
+		
+		if (returnCode == Code.SUCCESS) {
+			return sync(mContext); // updated
+																				// our														// views
+		}
 		return returnCode;
 	}
 	
 	public Code addSubmission(String taskId, Submission submission, Context mContext){
 		
-		Code returnCode = Code.SUCCESS;
+		Code returnCode = Code.FAILURE;
 		try {
-			new AddSubmission(mContext).execute(new SubmissionData(taskId,submission));
-		} catch (Exception ex) {
-			ex.printStackTrace();
+			returnCode = new AddSubmission(mContext).execute(new SubmissionData(taskId,submission)).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		LOGGER.log(Level.INFO,"returnCode: " + returnCode.name());
+		if (returnCode == Code.SUCCESS) {
+			sync(mContext);
 		}
 		return returnCode;
 	}
@@ -93,9 +111,25 @@ public class TaskManager extends Observable {
 		// TODO add connection logic and locale file storage stuff logic
 		Code returnCode = JSONServer.getInstance().sync();
 		if (returnCode == Code.SUCCESS) {
-			new ReceiveServerData(JSONServer.TaskType.GetTasks,mContext).execute();
+			
+			ArrayList<Task> tasks = new ArrayList<Task>();
+			try {
+				tasks = new ReceiveServerData(JSONServer.TaskType.GetTasks,mContext).execute().get();
+				TaskManager.cachedTasks = tasks;
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			LOGGER.log(Level.INFO,"tasks null? " + (tasks==null));
+			
+			this.notifyAllObservers(tasks); // updated
+																				// our
+																				// views
 		}
-
 		return returnCode;
 	}
 
