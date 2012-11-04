@@ -2,7 +2,9 @@ package com.cmput301.classproject.Model.Tasks;
 
 import java.util.ArrayList;
 
+import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.Task;
+import com.cmput301.classproject.Model.TaskManager;
 import com.cmput301.classproject.Model.Tasks.JSONServer.TaskType;
 
 
@@ -24,7 +26,11 @@ public class ReceiveServerData extends AsyncTask<Task,Integer,ArrayList<Task>> {
 	
 	@Override
 	protected void onPreExecute() {
-		dialog.setTitle("Loading...");
+		super.onPreExecute();
+		dialog.setTitle("Retrieving Tasks");
+		dialog.setMessage("Please wait...");
+		dialog.setCancelable(false);
+		dialog.setIndeterminate(true);
 		dialog.show();
 	}
 
@@ -36,7 +42,15 @@ public class ReceiveServerData extends AsyncTask<Task,Integer,ArrayList<Task>> {
 	
 	@Override
 	protected void onPostExecute(ArrayList<Task> result) {
-		dialog.cancel();
+		try {
+			dialog.dismiss();
+			dialog = null;
+		} catch (Exception ex) {
+			//do nothing
+		}
+		TaskManager.getInstance().notifyAllObservers(result);
+		ApplicationCore.displayToastMessage(context, "Synced with Server");
+
 	}
 
 }

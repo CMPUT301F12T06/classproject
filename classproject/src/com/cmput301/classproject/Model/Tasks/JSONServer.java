@@ -38,6 +38,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.cmput301.classproject.Model.ApplicationCore;
+import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.google.gson.Gson;
@@ -47,6 +48,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import android.app.Application;
+import android.content.Context;
 
 // Singleton
 public class JSONServer {
@@ -418,21 +420,22 @@ public class JSONServer {
 	 */
 	public Code updateTask(String id, Task task) {
 		try {
-		List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
-		values = new ArrayList<BasicNameValuePair>();
+			List <BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
+			values = new ArrayList<BasicNameValuePair>();
+			
+			values.add(new BasicNameValuePair("action","update"));
+			values.add(new BasicNameValuePair("id",id));
+			values.add(new BasicNameValuePair("content",gson.toJson(task)));
+			
+			httpPost.setEntity(new UrlEncodedFormEntity(values));
+			HttpResponse response = httpClient.execute(httpPost);
 		
-		values.add(new BasicNameValuePair("action","update"));
-		values.add(new BasicNameValuePair("id",id));
-		values.add(new BasicNameValuePair("content",gson.toJson(task)));
-		
-		httpPost.setEntity(new UrlEncodedFormEntity(values));
-		HttpResponse response = httpClient.execute(httpPost);
-	
-		
-		int statusCode = response.getStatusLine().getStatusCode();
-		//EntityUtils.consume(response.getEntity());
-		if(statusCode==HttpStatus.SC_OK)
-			return Code.SUCCESS;
+			
+			int statusCode = response.getStatusLine().getStatusCode();
+			//EntityUtils.consume(response.getEntity());
+			if(statusCode==HttpStatus.SC_OK)
+				return Code.SUCCESS;
+			
 		} catch (Exception ex) {
 			//do nothing. It will return Code.FAILURE
 			LOGGER.log(Level.SEVERE,ex.getMessage());

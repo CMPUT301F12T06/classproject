@@ -1,10 +1,12 @@
 package com.cmput301.classproject.Model.Tasks;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.cmput301.classproject.Model.Task;
+import com.cmput301.classproject.Model.TaskManager;
 import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 import com.cmput301.classproject.Model.Tasks.JSONServer.TaskType;
 
@@ -22,7 +24,11 @@ public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 	
 	@Override
 	protected void onPreExecute() {
-		dialog.setTitle("Please wait");
+		super.onPreExecute();
+		dialog.setTitle("Modifying Tasks");
+		dialog.setMessage("Please wait...");
+		dialog.setCancelable(false);
+		dialog.setIndeterminate(true);
 		dialog.show();
 	}
 	
@@ -42,7 +48,15 @@ public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 	
 	@Override
 	protected void onPostExecute(Code result) {
-		dialog.dismiss();
+		try {
+			dialog.dismiss();
+			dialog = null;
+		} catch (Exception ex) {
+			//do nothing - insurance for if the activity finishes faster
+		}
+		TaskManager.getInstance().sync(context);
+		((Activity) context).finish();
+
 	}
 }
 

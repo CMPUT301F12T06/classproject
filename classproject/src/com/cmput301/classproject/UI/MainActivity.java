@@ -139,7 +139,6 @@ public class MainActivity extends Activity implements Observer {
 	 */
 	public void onSyncHandler(View v) {
 		TaskManager.getInstance().sync(this);
-		ApplicationCore.displayToastMessage(this, "Synced with Server"); //TODO use return value from sync
 	}
 
 	/**

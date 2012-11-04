@@ -1,184 +1,190 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <!-- Name -->
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/task_name_label" />
-
-        <EditText
-            android:id="@+id/task_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/default_text" />
-    </LinearLayout>
-
-    <!-- Seperator -->
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="10dp"
-        android:background="#606060"
-        android:padding="100dp" />
-
-    <!-- Description -->
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:paddingTop="8dp"
-            android:text="@string/task_description_label"
-            android:textSize="14dp" />
-
-        <EditText
-            android:id="@+id/task_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:hint="@string/default_text"
-            android:minLines="4" />
-    </LinearLayout>
-
-    <!-- Seperator -->
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="10dp"
-        android:background="#606060"
-        android:padding="100dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:paddingTop="8dp"
-        android:text="@string/task_requires_label"
-        android:textSize="14dp" />
-
-    <!-- Requires Checkboxes -->
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <CheckBox
-            android:id="@+id/requires_photo_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onCheckboxClicked"
-            android:text="@string/task_requires_photo_label" />
-
-        <CheckBox
-            android:id="@+id/requires_audio_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onCheckboxClicked"
-            android:text="@string/task_requires_audio_label" />
-
-        <CheckBox
-            android:id="@+id/requires_text_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onCheckboxClicked"
-            android:text="@string/task_requires_text_label" />
-    </LinearLayout>
-
-    <!-- Seperator -->
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="10dp"
-        android:background="#606060"
-        android:padding="100dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:paddingTop="8dp"
-        android:text="@string/task_access_label"
-        android:textSize="14dp" />
-
-    <!-- Task Sharing Radio Buttons -->
-
-    <RadioGroup
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <RadioButton
-            android:id="@+id/public_sharing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onSharingChange"
-            android:text="@string/task_sharing_public_label"
-            android:checked="true"/>
-
-        <RadioButton
-            android:id="@+id/private_sharing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onSharingChange"
-            android:text="@string/task_sharing_private_label" 
-            android:enabled="false"/>
-    </RadioGroup>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="horizontal" >
-
-        <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:background="#262626"
-            android:onClick="onCancelHandler"
-            android:padding="10dp"
-            android:text="@string/cancel_button"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:background="#262626"
-            android:onClick="onSubmitHandler"
-            android:padding="10dp"
-            android:text="@string/submit_button"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
-
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    >
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+	
+	    <!-- Name -->
+	
+	    <LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        xmlns:tools="http://schemas.android.com/tools"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/task_name_label" />
+	
+	        <EditText
+	            android:id="@+id/task_title"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:hint="@string/default_text" />
+	    </LinearLayout>
+	
+	    <!-- Seperator -->
+	
+	    <View
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_margin="10dp"
+	        android:background="#606060"
+	        android:padding="100dp" />
+	
+	    <!-- Description -->
+	
+	    <LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        xmlns:tools="http://schemas.android.com/tools"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:gravity="top"
+	            android:paddingTop="8dp"
+	            android:text="@string/task_description_label"
+	            android:textSize="14dp" />
+	
+	        <EditText
+	            android:id="@+id/task_description"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="top"
+	            android:hint="@string/default_text"
+	            android:minLines="4" />
+	    </LinearLayout>
+	
+	    <!-- Seperator -->
+	
+	    <View
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_margin="10dp"
+	        android:background="#606060"
+	        android:padding="100dp" />
+	
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="top"
+	        android:paddingTop="8dp"
+	        android:text="@string/task_requires_label"
+	        android:textSize="14dp" />
+	
+	    <!-- Requires Checkboxes -->
+	
+	    <LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        xmlns:tools="http://schemas.android.com/tools"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	
+	        <CheckBox
+	            android:id="@+id/requires_photo_checkbox"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onCheckboxClicked"
+	            android:text="@string/task_requires_photo_label" />
+	
+	        <CheckBox
+	            android:id="@+id/requires_audio_checkbox"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onCheckboxClicked"
+	            android:text="@string/task_requires_audio_label" />
+	
+	        <CheckBox
+	            android:id="@+id/requires_text_checkbox"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onCheckboxClicked"
+	            android:text="@string/task_requires_text_label" />
+	    </LinearLayout>
+	
+	    <!-- Seperator -->
+	
+	    <View
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_margin="10dp"
+	        android:background="#606060"
+	        android:padding="100dp" />
+	
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="top"
+	        android:paddingTop="8dp"
+	        android:text="@string/task_access_label"
+	        android:textSize="14dp" />
+	
+	    <!-- Task Sharing Radio Buttons -->
+	
+	    <RadioGroup
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	
+	        <RadioButton
+	            android:id="@+id/public_sharing"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onSharingChange"
+	            android:text="@string/task_sharing_public_label"
+	            android:checked="true"/>
+	
+	        <RadioButton
+	            android:id="@+id/private_sharing"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:onClick="onSharingChange"
+	            android:text="@string/task_sharing_private_label" 
+	            android:enabled="false"/>
+	    </RadioGroup>
+	
+	    <LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        xmlns:tools="http://schemas.android.com/tools"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:gravity="bottom"
+	        android:orientation="horizontal" >
+	
+	        <Button
+	            style="?android:attr/borderlessButtonStyle"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.5"
+	            android:background="#262626"
+	            android:onClick="onCancelHandler"
+	            android:padding="10dp"
+	            android:text="@string/cancel_button"
+	            android:textColor="#FFFFFF" />
+	
+	        <Button
+	            style="?android:attr/borderlessButtonStyle"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.5"
+	            android:background="#262626"
+	            android:onClick="onSubmitHandler"
+	            android:padding="10dp"
+	            android:text="@string/submit_button"
+	            android:textColor="#FFFFFF" />
+	    </LinearLayout>
+	
+	</LinearLayout>
+</ScrollView>
