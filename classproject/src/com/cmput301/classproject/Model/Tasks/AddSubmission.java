@@ -10,8 +10,8 @@ import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 
 public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code>{
 	
-	Context context;
-	ProgressDialog dialog;
+	private Context context;
+	private ProgressDialog dialog;
 	
 	public AddSubmission(Context mContext) {
 		this.context = mContext;
