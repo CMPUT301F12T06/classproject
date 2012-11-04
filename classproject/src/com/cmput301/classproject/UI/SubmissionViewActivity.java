@@ -19,6 +19,7 @@ package com.cmput301.classproject.UI;
 import java.util.*;
 
 import com.cmput301.classproject.R;
+import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.Submission;
 
 import android.os.Bundle;
