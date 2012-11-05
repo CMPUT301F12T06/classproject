@@ -131,7 +131,7 @@ public class ViewTaskActivity extends Activity implements Observer {
 		submissionViewAdapter.addAll(task.getSubmissions());
 		
 		if(task.getSubmissions().size() == 0){
-			ApplicationCore.displayToastMessageLong(this, "This task has no submissions.\nPress 'Add Submission' to add a new one.");
+			ApplicationCore.displayToastMessageLong(this, getString(R.string.view_task_no_submission_msg));
 		}
 	}
 

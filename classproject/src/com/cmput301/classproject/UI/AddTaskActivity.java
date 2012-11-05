@@ -147,12 +147,12 @@ public class AddTaskActivity extends Activity {
 
 		if (title == null || title.length() <= 0) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
-					"Invalid Task Name Specified");
+					getString(R.string.add_task_invalid_task_name));
 			return;
 		}
 		if (description == null || description.length() <= 0) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
-					"Invalid Task Description Specified");
+					getString(R.string.add_task_invalid_task_description));
 			return;
 		}
 
@@ -161,7 +161,7 @@ public class AddTaskActivity extends Activity {
 
 		if (TaskManager.getInstance().addTask(task, this) != JSONServer.Code.SUCCESS) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
-					"Error: Failed to send task to server");
+					getString(R.string.add_task_server_fail));
 			return;
 		}
 

@@ -97,8 +97,9 @@ public class MainActivity extends Activity implements Observer {
 	 */
 	public void handlePublicTasks(View v) {
 		ApplicationCore.displayToastMessage(this,
-				"Public tasks filter button pressed"); // TODO default for phase
-														// 1
+				getString(R.string.main_public_button_pressed)); // TODO default
+																	// for phase
+		// 1
 	}
 
 	/**
@@ -112,9 +113,9 @@ public class MainActivity extends Activity implements Observer {
 	 */
 	public void handleYourTasks(View v) {
 		ApplicationCore.displayToastMessage(this,
-				"Personal task filter will be implemented in phase 2"); // TODO
-																		// phase
-																		// 2
+				getString(R.string.main_personal_button_pressed)); // TODO
+																	// phase
+																	// 2
 	}
 
 	/**
@@ -133,7 +134,7 @@ public class MainActivity extends Activity implements Observer {
 	 */
 	public void handleSpecificTasks(View v) {
 		ApplicationCore.displayToastMessage(this,
-				"Specific task filter will be implemented in phase 2"); // TODO
+				getString(R.string.main_specific_button_pressed)); // TODO
 																		// phase
 																		// 2
 	}

@@ -36,6 +36,19 @@
     <string name="task_submissions_label">Submissions: </string>
     <string name="add_submission_button">Add Submission</string>
 
+    <!-- View Task Activity elements -->
+    <string name="view_task_no_submission_msg">This task has no submissions.\nPress Add Submission to add a new one.</string>
+
+    <!-- Add Task Activity elements -->
+    <string name="add_task_invalid_task_name">Invalid Task Name Specified</string>
+    <string name="add_task_invalid_task_description">Invalid Task Description Specified</string>
+    <string name="add_task_server_fail">Error: Failed to send task to serve</string>
+    
+    <!-- Main Activity elements -->
+    <string name="main_public_button_pressed">Public tasks filter button pressed</string>
+    <string name="main_personal_button_pressed">Personal task filter will be implemented in phase 2</string>
+    <string name="main_specific_button_pressed">Specific task filter will be implemented in phase 2</string>
+
     <!-- Submission View elements -->
     <string name="author_label">Author: </string>
     <string name="summary_label">Summary: </string>
@@ -45,9 +58,8 @@
     <string name="access_label">Access: </string>
     <string name="title_activity_submission_view">SubmissionViewActivity</string>
     <string name="title_activity_add_submission">AddSubmissionActivity</string>
-    
-    
-    <!--  Add Submission elements -->
+
+    <!-- Add Submission elements -->
     <string name="submission_summary_label">Submission Summary: </string>
     <string name="submission_text_label">Submission Text: </string>
     <string name="add_photo_label">Add Photo</string>
@@ -56,6 +68,5 @@
     <string name="submission_sharing_private">Private</string>
     <string name="submission_sharing_creator">Creator</string>
     <string name="submission_sharing_public">Public</string>
-    
 
 </resources>
