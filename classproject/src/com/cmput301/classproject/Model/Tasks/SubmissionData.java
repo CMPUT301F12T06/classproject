@@ -46,6 +46,4 @@ public class SubmissionData {
 		this.taskid = taskid;
 	}
 	
-	
-	
 }

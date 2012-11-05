@@ -26,7 +26,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 /**
- * Used to seriailize/deserialize bitmap images found in Task Submissions
+ * Used to seriailize/deserialize bitmap images found in Task Submissions. This
+ * class is a bitmap wrapper. It compresses the bitmap data internally for
+ * smaller file transmission.
  */
 public class Picture implements Serializable {
 
@@ -50,6 +52,7 @@ public class Picture implements Serializable {
 
 		scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 20,
 				byteArrayBitmapStream);
+
 		data = byteArrayBitmapStream.toByteArray();
 	}
 

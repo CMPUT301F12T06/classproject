@@ -37,18 +37,41 @@ public class Submission implements Serializable {
 	private static final long serialVersionUID = -3396630733841446186L;
 	private String author;
 	private String summary;
-	private ArrayList<Picture> images = new ArrayList<Picture>();
-	// TODO add audio support
 	private String textSubmission;
 	private SubmissionPermission access;
 	private long timestamp;
+	
+	/**
+	 * Our picture class is a bitmap wrapper, we use this internally for
+	 * storing and loading images for any given submission.
+	 */
+	private ArrayList<Picture> images = new ArrayList<Picture>();
+	// TODO add audio support
 
 	public static int ACCESS_PHOTO = (1 << 0);
 	public static int ACCESS_AUDIO = (1 << 1);
 	public static int ACCESS_TEXT = (1 << 2);
 
+	/**
+	 * Creates a submission object for a task. This constructor should be used
+	 * in the Submission Add Activity and in Test Cases.
+	 * 
+	 * @param summary
+	 *            The summary text
+	 * @param author
+	 *            Author of the submission
+	 * @param textSubmission
+	 *            Submitted text for the submission
+	 * @param bitmaps
+	 *            Submitted photos for the submission
+	 * @param access
+	 *            Public, Private, or Creator submission sharing
+	 * @param timestamp
+	 *            Timestamp for when the submission is created
+	 */
 	public Submission(String summary, String author, String textSubmission,
-			ArrayList<Bitmap> bitmaps, SubmissionPermission access, long timestamp) {
+			ArrayList<Bitmap> bitmaps, SubmissionPermission access,
+			long timestamp) {
 		this.summary = summary;
 		this.author = author;
 		this.access = access;

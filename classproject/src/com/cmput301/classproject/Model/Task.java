@@ -36,12 +36,26 @@ public class Task implements Serializable {
 	private int requires; // logical OR based settings
 	private boolean publicAccess; // if false then this is a private task
 
-	public Task() {
-		
-	}
+	/**
+	 * Creates a task object. This constructor should be used in the Add Task
+	 * Activity and in Test Cases.
+	 * 
+	 * @param name
+	 *            The name of the task
+	 * @param description
+	 *            Contains detailed information about the task
+	 * @param creator
+	 *            Author of the task
+	 * @param requires
+	 *            Contains our list of task requirements (photo,audio,text) in
+	 *            ORed format
+	 * @param publicAccess
+	 *            Public means the task is shared, Private means the task is
+	 *            only for the creator
+	 */
 	public Task(String name, String description, String creator, int requires,
 			boolean publicAccess) {
-		this.taskId="-1";
+		this.taskId = "-1";
 		this.creator = creator;
 		this.name = name;
 		this.description = description;
@@ -51,10 +65,17 @@ public class Task implements Serializable {
 		this.submissions = new ArrayList<Submission>();
 	}
 
+	/**
+	 * Used for creating a blank Task for the JSON server The JSON server must
+	 * send a task object to get the Task Id.
+	 */
+	public Task() {
+	}
+
 	public String toString() {
 		return "name/" + this.name + "\ndescription/" + description
-				+ "\ncreator/" + creator + "\nid/" + this.taskId + "\nrequires/"
-				+ Integer.toString(requires) + "\naccess/"
+				+ "\ncreator/" + creator + "\nid/" + this.taskId
+				+ "\nrequires/" + Integer.toString(requires) + "\naccess/"
 				+ Boolean.toString(publicAccess) + "\n";
 	}
 
