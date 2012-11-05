@@ -41,17 +41,18 @@ public class Submission implements Serializable {
 	// TODO add audio support
 	private String textSubmission;
 	private SubmissionPermission access;
-	private double timestamp;
+	private long timestamp;
 
 	public static int ACCESS_PHOTO = (1 << 0);
 	public static int ACCESS_AUDIO = (1 << 1);
 	public static int ACCESS_TEXT = (1 << 2);
 
 	public Submission(String summary, String author, String textSubmission,
-			ArrayList<Bitmap> bitmaps, SubmissionPermission access) {
+			ArrayList<Bitmap> bitmaps, SubmissionPermission access, long timestamp) {
 		this.summary = summary;
 		this.author = author;
 		this.access = access;
+		this.timestamp = timestamp;
 
 		if (textSubmission != null)
 			this.textSubmission = textSubmission;

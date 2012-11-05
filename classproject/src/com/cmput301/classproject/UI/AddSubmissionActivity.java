@@ -19,6 +19,7 @@ This is the GUI which shows the options the user has to add a submission to an e
 package com.cmput301.classproject.UI;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 import com.cmput301.classproject.R;
@@ -229,8 +230,10 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		// TODO do audio requirement
 		String author = (new DeviceUuidFactory(this)).getDeviceUuid();
 
+		long timestamp = (new Date()).getTime();
+
 		Submission submission = new Submission(summary, author, textSubmission,
-				photosTaken, submissionPermission);
+				photosTaken, submissionPermission, timestamp);
 		TaskManager.getInstance().addSubmission(task.getId(), submission, this);
 		// finish();
 	}

@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
+
 public class SubmissionViewActivity extends Activity implements Observer {
 
 	private Submission submission = null; // this is passed to from
@@ -74,6 +75,8 @@ public class SubmissionViewActivity extends Activity implements Observer {
 
 			TextView access = (TextView) findViewById(R.id.view_submission_access);
 			access.setText(submission.getAccess().toString());
+			
+			//TODO display timestamp, at the moment we only save it.
 		}
 
 	}
