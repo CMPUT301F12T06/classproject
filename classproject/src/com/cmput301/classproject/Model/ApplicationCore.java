@@ -25,24 +25,59 @@ import android.content.Context;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Represents the primary singleton for this application. Global accessible code
+ * is added here and other singletons are initialized here as well.
+ */
 public class ApplicationCore extends Application {
 
-	public static void displayToastMessageLong(Context context, CharSequence text) {
+	/**
+	 * Creates a toast message on the UI with the specified text
+	 * 
+	 * @param context
+	 *            the ApplicationContext
+	 * @param text
+	 *            the text to output
+	 */
+	public static void displayToastMessageLong(Context context,
+			CharSequence text) {
 		int duration = Toast.LENGTH_LONG;
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
 	}
-	
+
+	/**
+	 * Displays a short toast message on the UI with the specified text
+	 * 
+	 * @param context
+	 *            the ApplicationContext
+	 * @param text
+	 *            the text to output
+	 */
 	public static void displayToastMessage(Context context, CharSequence text) {
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
 	}
 
+	/**
+	 * This method will return the string of a View from an Activity
+	 * 
+	 * @param act
+	 *            The Activity to find the view
+	 * @param id
+	 *            The id
+	 * 
+	 * @return The string value from the Activity View
+	 */
 	public static String getStringFromId(Activity act, int id) {
 		return (((TextView) act.findViewById(id)).getText().toString());
 	}
 
+	/**
+	 * Gives each singleton instance a reference to our Application object, this
+	 * is used to retrieve context for certain Android specific operations
+	 */
 	@Override
 	public void onCreate() {
 		super.onCreate();
