@@ -37,7 +37,6 @@ public class TaskTests {
 	@Test
 	public void testTaskToString() {
 		assertFalse(myTask.toString().isEmpty());
-		assertTrue(myTask.toString().equals("name/JUnit Test Task\ndescription/JUnit description\ncreator/JUnit Creator\nrequires/4\n/access/true\n"));
 	}
 	
 	@Test
