@@ -65,7 +65,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	EditText submissionText;
 	EditText submissionSummary;
 	ArrayList<Bitmap> photosTaken = new ArrayList<Bitmap>();
-	SubmissionPermission submissionPermission = null;
+	SubmissionPermission submissionPermission = SubmissionPermission.Public;
 	
 	public static enum SubmissionPermission{
 		Private, Public, Creator
@@ -219,7 +219,21 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		
 		Submission submission = new Submission(summary);
 		
+		// Task requires photo in a submission
+		if((task.getRequires() & Submission.ACCESS_PHOTO) != 0  && photosTaken.size() <= 0){
+			ApplicationCore.displayToastMessage(getApplicationContext(), "This submission requires at least 1 photo");
+			return;
+		}
+		
 		String TextSubmission = submissionText.getText().toString();
+		
+		// Task requires a text in a submission
+		if((task.getRequires() & Submission.ACCESS_TEXT) != 0  && TextSubmission.length() <= 0){
+			ApplicationCore.displayToastMessage(getApplicationContext(), "This submission requires a text entry");
+			return;
+		}
+		
+		//TODO do audio requirement
 		
 		if(TextSubmission.length() > 0)
 			submission.setText(TextSubmission);
