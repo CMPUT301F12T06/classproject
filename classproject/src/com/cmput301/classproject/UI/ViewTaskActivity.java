@@ -51,7 +51,7 @@ public class ViewTaskActivity extends Activity implements Observer {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_task);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(false);
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {

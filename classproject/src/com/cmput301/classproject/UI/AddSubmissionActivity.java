@@ -66,7 +66,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_submission);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(false);
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
