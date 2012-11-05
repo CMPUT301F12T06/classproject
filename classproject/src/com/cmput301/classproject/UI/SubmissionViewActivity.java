@@ -19,8 +19,6 @@ package com.cmput301.classproject.UI;
 import java.util.*;
 
 import com.cmput301.classproject.R;
-import com.cmput301.classproject.Model.ApplicationCore;
-import com.cmput301.classproject.Model.Picture;
 import com.cmput301.classproject.Model.Submission;
 
 import android.os.Bundle;
@@ -34,7 +32,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
@@ -115,8 +112,8 @@ public class SubmissionViewActivity extends Activity implements Observer {
 	 * @param arg
 	 */
 	public void update(Observable s, Object arg) {
-		// TODO Auto-generated method stub
-
+		// FIXME this is currently not needed, because we do not do interval
+		// based syncing
 	}
 
 	/**

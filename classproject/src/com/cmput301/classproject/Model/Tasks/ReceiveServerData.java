@@ -28,23 +28,24 @@ import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
 import com.cmput301.classproject.Model.Tasks.JSONServer.TaskType;
 
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-public class ReceiveServerData extends AsyncTask<Task,Integer,ArrayList<Task>> {
-	
+public class ReceiveServerData extends
+		AsyncTask<Task, Integer, ArrayList<Task>> {
+
+	@SuppressWarnings("unused")
 	private TaskType type;
 	private Context context;
 	private ProgressDialog dialog;
-	
+
 	public ReceiveServerData(TaskType type, Context mContext) {
 		this.type = type;
 		context = mContext;
 		dialog = new ProgressDialog(context);
 	}
-	
+
 	/**
 	 * Displaying a ProgressDialog before executing the task
 	 */
@@ -62,14 +63,16 @@ public class ReceiveServerData extends AsyncTask<Task,Integer,ArrayList<Task>> {
 	 * Calls the JSONServer to retrieve all the tasks
 	 */
 	@Override
-	protected ArrayList<Task> doInBackground(Task...tasks) {
+	protected ArrayList<Task> doInBackground(Task... tasks) {
 		return JSONServer.getInstance().getAllTasks();
 	}
-	
+
 	/**
-	 * After retreiving all the tasks it will notify
-	 * all observers to update with the new information
-	 * @param result	The ArrayList<task> with the updated information
+	 * After retreiving all the tasks it will notify all observers to update
+	 * with the new information
+	 * 
+	 * @param result
+	 *            The ArrayList<task> with the updated information
 	 */
 	@Override
 	protected void onPostExecute(ArrayList<Task> result) {
@@ -77,7 +80,7 @@ public class ReceiveServerData extends AsyncTask<Task,Integer,ArrayList<Task>> {
 			dialog.dismiss();
 			dialog = null;
 		} catch (Exception ex) {
-			//do nothing
+			// do nothing
 		}
 		TaskManager.getInstance().notifyAllObservers(result);
 		ApplicationCore.displayToastMessage(context, "Synced with Server");

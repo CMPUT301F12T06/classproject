@@ -4,16 +4,12 @@
  */
 package com.cmput301.classproject.Tests;
 
-import java.util.ArrayList;
-
 import org.apache.http.client.methods.HttpPost;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import android.graphics.Bitmap;
 
 import com.cmput301.classproject.Model.Tasks.JSONServer;
 import com.cmput301.classproject.Model.Tasks.JSONServer.Code;

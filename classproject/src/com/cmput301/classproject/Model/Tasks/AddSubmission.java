@@ -31,21 +31,22 @@ import android.os.AsyncTask;
 import com.cmput301.classproject.Model.TaskManager;
 import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 
-public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code>{
-	
+public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
+
 	private Context context;
 	private ProgressDialog dialog;
-	
+
 	/**
 	 * The constructor used to initialize AddSubmission
 	 * 
-	 * @param mContext	The applicationContext in which it was called
+	 * @param mContext
+	 *            The applicationContext in which it was called
 	 */
 	public AddSubmission(Context mContext) {
 		this.context = mContext;
 		this.dialog = new ProgressDialog(context);
 	}
-	
+
 	/**
 	 * Displaying a ProgressDialog before executing the task
 	 */
@@ -58,19 +59,19 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code>{
 		dialog.setIndeterminate(true);
 		dialog.show();
 	}
-	
+
 	/**
 	 * Calls the JSONServer to handle the addition of a submission
 	 */
 	@Override
-	protected Code doInBackground(SubmissionData...data) {
-		return JSONServer.getInstance().addSubmission(data[0].getTaskId(),data[0].getSubmission());
+	protected Code doInBackground(SubmissionData... data) {
+		return JSONServer.getInstance().addSubmission(data[0].getTaskId(),
+				data[0].getSubmission());
 	}
-	
+
 	/**
-	 * After completing addition of the submission it will
-	 * sync the server and remove the dialog message. 
-	 * It will then notify the Activity to finish
+	 * After completing addition of the submission it will sync the server and
+	 * remove the dialog message. It will then notify the Activity to finish
 	 */
 	@Override
 	protected void onPostExecute(Code result) {
@@ -78,11 +79,11 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code>{
 			dialog.dismiss();
 			dialog = null;
 		} catch (Exception ex) {
-			//do nothing - insurance for if the activity finishes faster
+			// do nothing - insurance for if the activity finishes faster
 		}
-		if(result==Code.SUCCESS)
+		if (result == Code.SUCCESS)
 			TaskManager.getInstance().sync(context);
-		
+
 		((Activity) context).finish();
 
 	}

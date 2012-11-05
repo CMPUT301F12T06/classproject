@@ -21,24 +21,14 @@ package com.cmput301.classproject.UI;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.ExecutionException;
-
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.DeviceUuidFactory;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
-import com.cmput301.classproject.Model.Tasks.AddSubmission;
-import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
-import com.cmput301.classproject.Model.Tasks.SubmissionData;
-
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -48,7 +38,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -85,11 +74,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 
 		if (task == null) {
 			finish();
-		} else {
-			ApplicationCore.displayToastMessage(this, "Obtained Task Id: "
-					+ task.getId());
 		}
-
 	}
 
 	@Override
@@ -233,13 +218,14 @@ public class AddSubmissionActivity extends Activity implements Observer {
 					"This submission requires a text entry");
 			return;
 		}
-		
+
 		if (submissionPermission == null) {
-			ApplicationCore.displayToastMessage(getApplicationContext(),
-					"Please select a sharing permission type for this submission");
+			ApplicationCore
+					.displayToastMessage(getApplicationContext(),
+							"Please select a sharing permission type for this submission");
 			return;
 		}
-		
+
 		// TODO do audio requirement
 		String author = (new DeviceUuidFactory(this)).getDeviceUuid();
 
