@@ -147,7 +147,7 @@ public class SubmissionViewActivity extends Activity implements Observer {
 			ImageView imageView;
 			if (convertView == null) {
 				imageView = new ImageView(context);
-				imageView.setLayoutParams(new GridView.LayoutParams(185, 185));
+				imageView.setLayoutParams(new GridView.LayoutParams(400, 400));
 				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				imageView.setPadding(5, 5, 5, 5);
 			} else {
