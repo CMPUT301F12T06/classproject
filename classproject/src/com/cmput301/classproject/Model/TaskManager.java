@@ -33,9 +33,6 @@ package com.cmput301.classproject.Model;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import android.app.Application;
 import android.content.Context;
@@ -64,7 +61,7 @@ public class TaskManager extends Observable {
 
 	/**
 	 * Adds an observer to our list of Observers so we can
-	 * Notify them of any changes that are made
+	 * Notify them of any changes that are made 
 	 */
 	public void addObserver(Observer observer) {
 		if (!observers.contains(observer))

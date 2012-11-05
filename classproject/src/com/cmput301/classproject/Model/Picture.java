@@ -25,30 +25,42 @@ import java.io.Serializable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-public class Picture implements Serializable{
+/**
+ * Used to seriailize/deserialize bitmap images found in Task Submissions
+ */
+public class Picture implements Serializable {
 
-	private byte[] data;
-	
 	/**
-	 * Create a picture by taking a Bitmap and Serializing the data into
-	 * a ByteArray
-	 * @param bitmap The Bitmap
+	 * 
 	 */
-	public Picture(Bitmap bitmap){
-		double aspectRatio = bitmap.getHeight()/bitmap.getWidth();
-		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 400, (int)(400*aspectRatio), true);
-		
+	private static final long serialVersionUID = 1776458544071063784L;
+	private byte[] data;
+
+	/**
+	 * Create a picture by taking a Bitmap and Serializing the data into a
+	 * ByteArray
+	 * 
+	 * @param bitmap
+	 *            The Bitmap
+	 */
+	public Picture(Bitmap bitmap) {
+		double aspectRatio = bitmap.getHeight() / bitmap.getWidth();
+		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 400,
+				(int) (400 * aspectRatio), true);
+
 		ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
-		
-		scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayBitmapStream);
+
+		scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 20,
+				byteArrayBitmapStream);
 		data = byteArrayBitmapStream.toByteArray();
 	}
-	
+
 	/**
 	 * Retrieves the Bitmap from a byte array.
+	 * 
 	 * @return the Bitmap object
 	 */
-	public Bitmap getBitmap(){
+	public Bitmap getBitmap() {
 		return BitmapFactory.decodeByteArray(data, 0, data.length);
 	}
 }
