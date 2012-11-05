@@ -73,10 +73,7 @@ public class Task implements Serializable {
 	}
 
 	public String toString() {
-		return "name/" + this.name + "\ndescription/" + description
-				+ "\ncreator/" + creator + "\nid/" + this.taskId
-				+ "\nrequires/" + Integer.toString(requires) + "\naccess/"
-				+ Boolean.toString(publicAccess) + "\n";
+		return "Task: " + this.name;
 	}
 
 	// TODO this should be updated by JSON server class only
