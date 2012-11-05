@@ -13,6 +13,9 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program; 
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
 MA 02110-1301, USA.
+
+This is the GUI for adding a task. 
+use Gson. 
  **/
 package com.cmput301.classproject.UI;
 
@@ -39,7 +42,7 @@ public class AddTaskActivity extends Activity {
 
 	private int submissionRequires = 0;
 	private boolean isAccessPublic = true;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -122,6 +125,7 @@ public class AddTaskActivity extends Activity {
 		}
 
 	}
+
 	public String getPhoneID() {
 		TelephonyManager tManager = (TelephonyManager) this
 				.getSystemService(Context.TELEPHONY_SERVICE);
@@ -145,29 +149,27 @@ public class AddTaskActivity extends Activity {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
 					"Invalid Task Name Specified");
 			return;
-		} 
+		}
 		if (description == null || description.length() <= 0) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
 					"Invalid Task Description Specified");
 			return;
 		}
 
-		
-		final Task task = new Task(title, description,(new DeviceUuidFactory(this)).getDeviceUuid(), submissionRequires,
-				isAccessPublic);
-		
-		if (TaskManager.getInstance().addTask(task,this) != JSONServer.Code.SUCCESS) {
+		final Task task = new Task(title, description, (new DeviceUuidFactory(
+				this)).getDeviceUuid(), submissionRequires, isAccessPublic);
+
+		if (TaskManager.getInstance().addTask(task, this) != JSONServer.Code.SUCCESS) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
 					"Error: Failed to send task to server");
 			return;
 		}
 
-		
 		ApplicationCore.displayToastMessage(getApplicationContext(),
 				"Added Task:\n" + task.toString());
 
 		// TODO update MainActivity after this returns
-		//finish();
+		// finish();
 
 	}
 

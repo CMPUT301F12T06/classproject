@@ -128,21 +128,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSharingChange"
-            android:text="@string/submission_sharing_private" />
+            android:text="@string/submission_sharing_private"
+            android:enabled="false" />
 
         <RadioButton
             android:id="@+id/submission_creator_sharing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSharingChange"
-            android:text="@string/submission_sharing_creator" />
+            android:text="@string/submission_sharing_creator"
+            android:enabled="false" />
 
         <RadioButton
             android:id="@+id/submission_public_sharing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSharingChange"
-            android:text="@string/submission_sharing_public" />
+            android:text="@string/submission_sharing_public"
+            android:checked="true" />
     </RadioGroup>
 
     <!-- Submit/Cancel -->

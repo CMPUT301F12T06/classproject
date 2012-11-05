@@ -24,7 +24,9 @@ import java.util.List;
 import android.app.Application;
 import android.content.Context;
 
-//Singleton
+/**
+ * Singleton - Used to save and load Tasks on locale disk for offline access
+ */
 public class LocalStorage {
 
 	private static final String LOG_FILE = "LocalTaskStorage";
@@ -35,6 +37,11 @@ public class LocalStorage {
 	private LocalStorage() {
 	}
 
+	/**
+	 * This object is singleton
+	 * 
+	 * @return The LocalStorage singleton instance
+	 */
 	public static LocalStorage getInstance() {
 		if (instance == null) {
 			instance = new LocalStorage();
@@ -46,7 +53,11 @@ public class LocalStorage {
 		this.appRef = appRef;
 	}
 
-	// Saves logEntries array to file
+	/**
+	 * This will retrieve the logEntries array to a file for Local Storage
+	 * 
+	 * @return A list of Tasks
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public List<Task> load() {
 		List<Task> output = null;
@@ -64,7 +75,12 @@ public class LocalStorage {
 		return output;
 	}
 
-	// Loads logEntries array to file
+	/**
+	 * This will save the logEntries array to a file
+	 * 
+	 * @param tasks
+	 *            The array of tasks
+	 */
 	public void save(List<Task> tasks) {
 		try {
 			ObjectOutput out = new ObjectOutputStream(appRef.openFileOutput(
