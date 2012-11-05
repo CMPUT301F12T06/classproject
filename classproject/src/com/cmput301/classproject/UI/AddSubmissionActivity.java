@@ -13,22 +13,29 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program; 
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
 MA 02110-1301, USA.
-
-This is the GUI which shows the options the user has to add a submission to an exisiting task
  **/
 package com.cmput301.classproject.UI;
 
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.ExecutionException;
+
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
-import com.cmput301.classproject.Model.DeviceUuidFactory;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
+import com.cmput301.classproject.Model.Tasks.AddSubmission;
+import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
+import com.cmput301.classproject.Model.Tasks.SubmissionData;
+
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,6 +45,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -55,13 +63,13 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	EditText submissionText;
 	EditText submissionSummary;
 	ArrayList<Bitmap> photosTaken = new ArrayList<Bitmap>();
-	SubmissionPermission submissionPermission = SubmissionPermission.Public;
-
-	public static enum SubmissionPermission {
+	SubmissionPermission submissionPermission = null;
+	
+	public static enum SubmissionPermission{
 		Private, Public, Creator
 	}
-
-	@Override
+	
+	@Override 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_submission);
@@ -74,22 +82,30 @@ public class AddSubmissionActivity extends Activity implements Observer {
 
 		if (task == null) {
 			finish();
+		} else {
+			ApplicationCore.displayToastMessage(this, "Obtained Task Id: "
+					+ task.getId());
 		}
+		
+		
 	}
 
 	@Override
-	public void onStart() {
+	public void onStart()
+	{
 		super.onStart();
 		// Recognize the Views
 		addedPhotos = (ListView) findViewById(R.id.photos_added);
 		addedAudio = (ListView) findViewById(R.id.audio_added);
 		submissionText = (EditText) findViewById(R.id.submissionText);
 		submissionSummary = (EditText) findViewById(R.id.submissionSummary);
-
+		
 		// Attach the ImageAdapter to the ListView for photos.
 		addedPhotos.setAdapter(new ImageAdapter(this));
 	}
-
+	
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_add_submission, menu);
@@ -148,15 +164,15 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void addPhotoHandler(View v) {
-		Intent cameraIntent = new Intent(
-				android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-		startActivityForResult(cameraIntent,
-				CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+		 Intent cameraIntent = new
+		 Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+		 startActivityForResult(cameraIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 	}
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE
-				&& resultCode == RESULT_OK) {
+		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode ==
+				RESULT_OK)
+		{
 			// Photo has been generated
 			Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 			photosTaken.add(thumbnail);
@@ -171,10 +187,8 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void addAudioHandler(View v) {
-		// We're going to send a Toast that the button functionality is disabled
-		// right now.
-		ApplicationCore.displayToastMessage(getApplicationContext(),
-				"Adding of Audio is not implemented right now.");
+		// We're going to send a Toast that the button functionality is disabled right now.
+		ApplicationCore.displayToastMessage(getApplicationContext(), "Adding of Audio is not implemented right now.");
 	}
 
 	/**
@@ -196,62 +210,50 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	 */
 	public void submitSubmissionHandler(View v) {
 		String summary = submissionSummary.getText().toString();
-		if (summary == null || summary.length() <= 0) {
-			ApplicationCore.displayToastMessage(getApplicationContext(),
-					"Please specify a summary for this submission");
+		if(summary.length() <= 0){
+			ApplicationCore.displayToastMessage(getApplicationContext(), "Please specify a summary for this submission");
 			return;
 		}
-
-		// Task requires photo in a submission
-		if ((task.getRequires() & Submission.ACCESS_PHOTO) != 0
-				&& photosTaken.size() <= 0) {
-			ApplicationCore.displayToastMessage(getApplicationContext(),
-					"This submission requires at least 1 photo");
+		
+		Submission submission = new Submission(summary);
+		
+		String TextSubmission = submissionText.getText().toString();
+		
+		if(TextSubmission.length() > 0)
+			submission.setText(TextSubmission);
+		
+		if(submissionPermission == null){
+			ApplicationCore.displayToastMessage(getApplicationContext(), "Please select a permission type for this submission");
 			return;
-		}
-
-		String textSubmission = submissionText.getText().toString();
-		// Task requires a text in a submission
-		if ((task.getRequires() & Submission.ACCESS_TEXT) != 0
-				&& textSubmission.length() <= 0) {
-			ApplicationCore.displayToastMessage(getApplicationContext(),
-					"This submission requires a text entry");
-			return;
-		}
-
-		if (submissionPermission == null) {
-			ApplicationCore
-					.displayToastMessage(getApplicationContext(),
-							"Please select a sharing permission type for this submission");
-			return;
-		}
-
-		// TODO do audio requirement
-		String author = (new DeviceUuidFactory(this)).getDeviceUuid();
-
-		Submission submission = new Submission(summary, author, textSubmission,
-				photosTaken, submissionPermission);
-		TaskManager.getInstance().addSubmission(task.getId(), submission, this);
-		// finish();
+		}else
+			submission.setAccess(submissionPermission);
+		
+		if(photosTaken.size() > 0)
+			submission.setImages(photosTaken);
+		
+		TaskManager.getInstance().addSubmission(task.getId(), submission,this);
+		//finish();
 	}
 
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 	/**
-	 * ImageAdapter Class to support putting thumbnails into list views. Will
-	 * also have a modified implementation into ViewSubmission activity. This is
-	 * tailored to fit ListViews.
+	 * ImageAdapter Class to support putting thumbnails into list views.
+	 * Will also have a modified implementation into ViewSubmission activity.
+	 * This is tailored to fit ListViews.
 	 */
-	public class ImageAdapter extends BaseAdapter {
+	public class ImageAdapter extends BaseAdapter
+	{
 		private Context context;
-
-		public ImageAdapter(Context C) {
+		
+		public ImageAdapter(Context C)
+		{
 			context = C;
 		}
-
+		
 		public int getCount() {
 			return photosTaken.size();
 		}
@@ -266,18 +268,19 @@ public class AddSubmissionActivity extends Activity implements Observer {
 
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ImageView imageView;
-			if (convertView == null) {
-				imageView = new ImageView(context);
-				imageView.setLayoutParams(new ListView.LayoutParams(185, 185));
-				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-				imageView.setPadding(5, 5, 5, 5);
-			} else {
-				imageView = (ImageView) convertView;
-			}
-			imageView.setImageBitmap(photosTaken.get(position));
-			return imageView;
+            if (convertView == null) {
+                imageView = new ImageView(context);
+                imageView.setLayoutParams(new ListView.LayoutParams(185, 185));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setPadding(5, 5, 5, 5);
+            }
+            else {
+                imageView = (ImageView) convertView;
+            }
+            imageView.setImageBitmap(photosTaken.get(position));
+            return imageView;
 		}
-
+		
 	}
 
 }

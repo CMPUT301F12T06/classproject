@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -96,9 +97,7 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handlePublicTasks(View v) {
-		ApplicationCore.displayToastMessage(this,
-				"Public tasks filter button pressed"); // TODO default for phase
-														// 1
+		ApplicationCore.displayToastMessage(this, "Public tasks filter button pressed"); //TODO default for phase 1
 	}
 
 	/**
@@ -111,10 +110,7 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handleYourTasks(View v) {
-		ApplicationCore.displayToastMessage(this,
-				"Personal task filter will be implemented in phase 2"); // TODO
-																		// phase
-																		// 2
+		ApplicationCore.displayToastMessage(this, "Personal task filter will be implemented in phase 2"); //TODO phase 2
 	}
 
 	/**
@@ -132,10 +128,7 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handleSpecificTasks(View v) {
-		ApplicationCore.displayToastMessage(this,
-				"Specific task filter will be implemented in phase 2"); // TODO
-																		// phase
-																		// 2
+		ApplicationCore.displayToastMessage(this, "Specific task filter will be implemented in phase 2"); //TODO phase 2
 	}
 
 	/**

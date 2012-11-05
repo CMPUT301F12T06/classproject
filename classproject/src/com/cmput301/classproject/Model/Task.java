@@ -13,10 +13,6 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program; 
 if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
 MA 02110-1301, USA.
-
-Task.java contains all the information about a task. This includes the taskId, an 
-ArrayList<Submission>, name, creator, description, requirements to fullfilment, and
-whether it is public or local
  **/
 package com.cmput301.classproject.Model;
 
