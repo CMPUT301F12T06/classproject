@@ -19,36 +19,31 @@ package com.cmput301.classproject.UI;
 import java.util.*;
 
 import com.cmput301.classproject.R;
+import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.Submission;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 public class SubmissionViewActivity extends Activity implements Observer {
 
 	private Submission submission = null; // this is passed to from
-											// TaskView Activity
-	private ArrayList<Bitmap> submissionPhotos;
-	
+											// TaskViewActivity
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_submission_view);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		// Start recognizing the Layout elements.
+		GridView gridView = (GridView) findViewById(R.id.submissionPhotoList);
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -58,25 +53,6 @@ public class SubmissionViewActivity extends Activity implements Observer {
 		if (submission == null) {
 			finish();
 		} else {
-			
-			final Context context = this;
-			submissionPhotos = submission.getImages();
-			
-			// Start recognizing the Layout elements.
-			GridView gridView = (GridView) findViewById(R.id.submissionPhotoList);
-			gridView.setAdapter(new ImageAdapter(this));
-//			gridView.setOnItemClickListener(new OnItemClickListener()
-//			{
-//
-//				public void onItemClick(AdapterView<?> arg0, View v, int position, long mylong) {
-//					System.out.println("ITEM " + position + "CLICKED");
-//					Intent intent = new Intent(context, ImageViewActivity.class);
-//					intent.putExtra("BitmapImage", submissionPhotos.get(position));
-//					startActivity(intent);
-//				}
-//				
-//			});
-			
 			// Fill out activity view using the submission object
 			TextView authorText = (TextView) findViewById(R.id.view_author_name);
 			authorText.setText(submission.getAuthor());
@@ -129,48 +105,5 @@ public class SubmissionViewActivity extends Activity implements Observer {
 	public void update(Observable s, Object arg) {
 		// TODO Auto-generated method stub
 
-	}
-	
-	/**
-	 * ImageAdapter Class to support putting thumbnails into list views.
-	 * Will also have a modified implementation into ViewSubmission activity.
-	 * This is tailored to fit ListViews.
-	 */
-	public class ImageAdapter extends BaseAdapter
-	{
-		private Context context;
-		
-		public ImageAdapter(Context C)
-		{
-			context = C;
-		}
-		
-		public int getCount() {
-			return submissionPhotos.size();
-		}
-
-		public Object getItem(int arg0) {
-			return submissionPhotos.get(arg0); 
-		}
-
-		public long getItemId(int arg0) {
-			return arg0;
-		}
-
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ImageView imageView;
-            if (convertView == null) {
-                imageView = new ImageView(context);
-                imageView.setLayoutParams(new GridView.LayoutParams(185, 185));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(5, 5, 5, 5);
-            }
-            else {
-                imageView = (ImageView) convertView;
-            }
-            Bitmap currentImage = submissionPhotos.get(position);
-            imageView.setImageBitmap(currentImage);
-            return imageView;
-		}
 	}
 }

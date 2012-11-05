@@ -1,27 +1,3 @@
-/**
-License: GPL 2.0
-
-Copyright (C) 2012 Benson Trinh, Thomas Polasek, Remco Uittenbogerd, Clinton Wong
-
-This program is free software; you can redistribute it and/or modify it under the 
-terms of the GNU General Public License as published by the Free Software Foundation;
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with this program; 
-if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
-MA 02110-1301, USA.
- 
- ModifyServer is a class which extends AsyncTask. This is used when adding and 
- removing a task. This was used to allow this operation to operate in another thread 
- and avoid the onMainThreadException. This also displays to the user a ProgressDialog 
- to show that it is working and will finish and return the Activity on completion.
- 
- @author Benson Trinh
- **/
-
 package com.cmput301.classproject.Model.Tasks;
 
 import android.app.Activity;
@@ -46,9 +22,6 @@ public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 		dialog = new ProgressDialog(context);
 	}
 	
-	/**
-	 * Displaying a ProgressDialog before executing the task
-	 */
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
@@ -59,9 +32,6 @@ public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 		dialog.show();
 	}
 	
-	/**
-	 * Calls the JSONServer to handle the addition or deletion of a task
-	 */
 	@Override
 	protected Code doInBackground(Task...tasks) {
 		switch(type) {
@@ -76,11 +46,6 @@ public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 		}
 	}
 	
-	/**
-	 * After completing adding or deletion of a task it will
-	 * remove the dialog message, sync and 
-	 * then notify the Activity to finish
-	 */
 	@Override
 	protected void onPostExecute(Code result) {
 		try {

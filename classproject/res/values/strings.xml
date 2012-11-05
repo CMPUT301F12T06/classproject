@@ -45,8 +45,9 @@
     <string name="access_label">Access: </string>
     <string name="title_activity_submission_view">SubmissionViewActivity</string>
     <string name="title_activity_add_submission">AddSubmissionActivity</string>
-
-    <!-- Add Submission elements -->
+    
+    
+    <!--  Add Submission elements -->
     <string name="submission_summary_label">Submission Summary: </string>
     <string name="submission_text_label">Submission Text: </string>
     <string name="add_photo_label">Add Photo</string>
@@ -55,6 +56,6 @@
     <string name="submission_sharing_private">Private</string>
     <string name="submission_sharing_creator">Creator</string>
     <string name="submission_sharing_public">Public</string>
-    <string name="title_activity_image_view">ImageViewActivity</string>
+    
 
 </resources>
