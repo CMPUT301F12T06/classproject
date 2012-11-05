@@ -35,8 +35,12 @@ public class Picture implements Serializable{
 	 * @param bitmap The Bitmap
 	 */
 	public Picture(Bitmap bitmap){
+		double aspectRatio = bitmap.getHeight()/bitmap.getWidth();
+		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 400, (int)(400*aspectRatio), true);
+		
 		ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayBitmapStream);
+		
+		scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayBitmapStream);
 		data = byteArrayBitmapStream.toByteArray();
 	}
 	
