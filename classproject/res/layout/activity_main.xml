@@ -23,7 +23,7 @@
             android:onClick="handlePublicTasks"
             android:padding="10dp"
             android:text="@string/public_tasks_button_text"
-            android:textColor="#FFFFFF" 
+            android:textColor="#00FFFF" 
             /> 
 
         <Button
@@ -80,7 +80,8 @@
             android:onClick="addTaskHandler"
             android:padding="10dp"
             android:text="@string/add_task_button_text"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            />
 
         <Button
             android:id="@+id/sync_task_button_id"

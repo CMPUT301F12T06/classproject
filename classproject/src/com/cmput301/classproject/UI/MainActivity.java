@@ -29,10 +29,12 @@ import com.cmput301.classproject.Model.TaskManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -99,7 +101,9 @@ public class MainActivity extends Activity implements Observer {
 		ApplicationCore.displayToastMessage(this,
 				getString(R.string.main_public_button_pressed)); // TODO default
 																	// for phase
-		// 1
+		((Button) findViewById(R.id.view_public_tasks_id)).setTextColor(Color.CYAN);
+		((Button) findViewById(R.id.view_specific_creator_tasks_id)).setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_your_tasks_id)).setTextColor(Color.WHITE);
 	}
 
 	/**
@@ -116,6 +120,9 @@ public class MainActivity extends Activity implements Observer {
 				getString(R.string.main_personal_button_pressed)); // TODO
 																	// phase
 																	// 2
+		((Button) findViewById(R.id.view_public_tasks_id)).setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_specific_creator_tasks_id)).setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_your_tasks_id)).setTextColor(Color.CYAN);
 	}
 
 	/**
@@ -137,6 +144,9 @@ public class MainActivity extends Activity implements Observer {
 				getString(R.string.main_specific_button_pressed)); // TODO
 																		// phase
 																		// 2
+		((Button) findViewById(R.id.view_public_tasks_id)).setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_specific_creator_tasks_id)).setTextColor(Color.CYAN);
+		((Button) findViewById(R.id.view_your_tasks_id)).setTextColor(Color.WHITE);
 	}
 
 	/**
