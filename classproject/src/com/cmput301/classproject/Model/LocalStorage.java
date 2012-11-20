@@ -32,6 +32,8 @@ public class LocalStorage {
 	private static final String USERNAME_STORAGE_FILE = "UsernameStorage";
 	private static final String TASK_STORAGE_FILE = "TaskStorage";
 
+	private String usernameBuffer = null;
+
 	private Application appRef = null;
 	private static LocalStorage instance = null;
 
@@ -60,7 +62,11 @@ public class LocalStorage {
 	 * @return A list of Tasks
 	 */
 	public String loadUsernameFromStorage() {
-		return (String) load(USERNAME_STORAGE_FILE);
+		if (usernameBuffer != null)
+			return usernameBuffer;
+		else
+			return (String) load(USERNAME_STORAGE_FILE);
+
 	}
 
 	/**
@@ -82,7 +88,7 @@ public class LocalStorage {
 	 * @return List<Task> - the serialized file that was loaded
 	 */
 	@SuppressWarnings({ "unchecked" })
-	private Object load(String filename) {
+	private synchronized Object load(String filename) {
 		Object output = null;
 		try {
 			ObjectInputStream in = new ObjectInputStream(
@@ -104,7 +110,10 @@ public class LocalStorage {
 	 * @return A list of Tasks
 	 */
 	public void saveTasksFromStorage(String username) {
-		save(USERNAME_STORAGE_FILE, username);
+		if (usernameBuffer == null) {
+			usernameBuffer = username;
+			save(USERNAME_STORAGE_FILE, username);
+		}
 	}
 
 	/**
@@ -125,7 +134,7 @@ public class LocalStorage {
 	 * @param obj
 	 *            - the serialized file to be save
 	 */
-	private void save(String filename, Object obj) {
+	private synchronized void save(String filename, Object obj) {
 		try {
 			ObjectOutput out = new ObjectOutputStream(appRef.openFileOutput(
 					filename, Context.MODE_PRIVATE));

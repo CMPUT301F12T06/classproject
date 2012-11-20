@@ -17,12 +17,13 @@ MA 02110-1301, USA.
 package com.cmput301.classproject.UI;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
 import com.cmput301.classproject.R;
-import com.cmput301.classproject.Model.ApplicationCore;
 import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
@@ -30,10 +31,10 @@ import com.cmput301.classproject.Model.TaskManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,8 +46,34 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends Activity implements Observer {
 
+	public class FilteredTaskAdapter extends ArrayAdapter<Task> {
+
+		Collection<? extends Task> buffer = null;
+
+		public FilteredTaskAdapter(Context context, int resource,
+				int textViewResourceId, List<Task> objects) {
+			super(context, resource, textViewResourceId, objects);
+			buffer = objects;
+		}
+
+		public void addAllTask(Collection<? extends Task> collection) {
+			buffer = collection;
+		}
+
+		public void filterAndLoad(String name) {
+			this.clear();
+			for (Task t : buffer) {
+				if (name == null || t.getCreator().equals(name))
+					this.add(t);
+			}
+		}
+
+	}
+
 	ListView mainTaskListView;
-	ArrayAdapter<Task> taskViewAdapter;
+	FilteredTaskAdapter taskViewAdapter;
+	String filterConstraint = null;
+	String username = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,16 +81,13 @@ public class MainActivity extends Activity implements Observer {
 		setContentView(R.layout.activity_main);
 		final MainActivity selfRef = this;
 
-		String username = LocalStorage.getInstance().loadUsernameFromStorage();
+		username = LocalStorage.getInstance().loadUsernameFromStorage();
 		if (username == null) {
 			getUsernameDialog(selfRef);
 			username = LocalStorage.getInstance().loadUsernameFromStorage();
 		}
 		if (username != null) {
 			selfRef.setTitle("Logged in as: " + username);
-		} else {
-			Log.v("Error", "Username was not set correclty");
-			finish();
 		}
 
 		mainTaskListView = (ListView) findViewById(R.id.main_task_list_view);
@@ -85,7 +109,7 @@ public class MainActivity extends Activity implements Observer {
 			}
 		});
 
-		taskViewAdapter = new ArrayAdapter<Task>(this,
+		taskViewAdapter = new FilteredTaskAdapter(this,
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, new ArrayList<Task>());
 		taskViewAdapter.setNotifyOnChange(true);
@@ -113,7 +137,30 @@ public class MainActivity extends Activity implements Observer {
 				if (value == null || value.length() < 1) {
 					value = "rand" + String.valueOf(r.nextInt() % 1000);
 				}
+				username = value;
 				LocalStorage.getInstance().saveTasksFromStorage(value);
+			}
+		});
+		alert.show();
+	}
+
+	public void getCreatorFilter(final MainActivity selfRef) {
+
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setCancelable(false);
+		alert.setTitle("Filter by creator");
+		alert.setMessage("Enter the task creater you wish to filter tasks by:");
+
+		final EditText input = new EditText(this);
+		alert.setView(input);
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				String value = input.getText().toString();
+				if (value == null || value.length() < 1) {
+					value = "";
+				}
+				filterConstraint = value;
+				taskViewAdapter.filterAndLoad(filterConstraint);
 			}
 		});
 		alert.show();
@@ -136,9 +183,9 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handlePublicTasks(View v) {
-		ApplicationCore.displayToastMessage(this,
-				getString(R.string.main_public_button_pressed)); // TODO default
-																	// for phase
+		filterConstraint = null;
+		taskViewAdapter.filterAndLoad(filterConstraint);
+
 		((Button) findViewById(R.id.view_public_tasks_id))
 				.setTextColor(Color.CYAN);
 		((Button) findViewById(R.id.view_specific_creator_tasks_id))
@@ -157,10 +204,9 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handleYourTasks(View v) {
-		ApplicationCore.displayToastMessage(this,
-				getString(R.string.main_personal_button_pressed)); // TODO
-																	// phase
-																	// 2
+		filterConstraint = LocalStorage.getInstance().loadUsernameFromStorage();
+		taskViewAdapter.filterAndLoad(filterConstraint);
+
 		((Button) findViewById(R.id.view_public_tasks_id))
 				.setTextColor(Color.WHITE);
 		((Button) findViewById(R.id.view_specific_creator_tasks_id))
@@ -184,10 +230,9 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handleSpecificTasks(View v) {
-		ApplicationCore.displayToastMessage(this,
-				getString(R.string.main_specific_button_pressed)); // TODO
-																	// phase
-																	// 2
+		getCreatorFilter(this);
+		taskViewAdapter.filterAndLoad(filterConstraint);
+
 		((Button) findViewById(R.id.view_public_tasks_id))
 				.setTextColor(Color.WHITE);
 		((Button) findViewById(R.id.view_specific_creator_tasks_id))
@@ -221,8 +266,9 @@ public class MainActivity extends Activity implements Observer {
 	@SuppressWarnings("unchecked")
 	public void update(Observable observable, Object data) {
 		taskViewAdapter.clear();
-		if (data != null)
-			taskViewAdapter.addAll((ArrayList<Task>) data);
+		if (data != null) {
+			taskViewAdapter.addAllTask((ArrayList<Task>) data);
+			taskViewAdapter.filterAndLoad(filterConstraint);
+		}
 	}
-
 }
