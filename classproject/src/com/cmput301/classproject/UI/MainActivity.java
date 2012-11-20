@@ -149,7 +149,7 @@ public class MainActivity extends Activity implements Observer {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setCancelable(false);
 		alert.setTitle("Filter by creator");
-		alert.setMessage("Enter the task creater you wish to filter tasks by:");
+		alert.setMessage("Enter the task creator you wish to filter tasks by:");
 
 		final EditText input = new EditText(this);
 		alert.setView(input);
