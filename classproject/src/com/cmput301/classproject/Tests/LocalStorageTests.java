@@ -34,27 +34,27 @@ import com.cmput301.classproject.Model.Task;
 public class LocalStorageTests {
 
 	LocalStorage localStorage = LocalStorage.getInstance();
-	
+
 	@Test
 	public void testCreateLocalStorage() {
 		assertTrue(localStorage != null);
 	}
-	
+
 	@Test
-	public void testNoEntries(){
-		assertTrue(localStorage.load().isEmpty());
+	public void testNoEntries() {
+		assertTrue(localStorage.loadTasksFromStorage().isEmpty());
 	}
 
 	@Test
-	public void testAddEntry(){
-		Task myTask = new Task("JUnit Local Task", "Description for Test Task", "Test Task Creator", Submission.ACCESS_PHOTO, true);
+	public void testAddEntry() {
+		Task myTask = new Task("JUnit Local Task", "Description for Test Task",
+				"Test Task Creator", Submission.ACCESS_PHOTO, true);
 		myTask.setId("JUnit Local Task Test");
-		List<Task> tasksList = localStorage.load();
+		List<Task> tasksList = localStorage.loadTasksFromStorage();
 		int beforeCount = tasksList.size();
 		tasksList.add(myTask);
-		localStorage.save(tasksList);
-		int afterCount = localStorage.load().size();
+		localStorage.saveTasksFromStorage(tasksList);
+		int afterCount = localStorage.loadTasksFromStorage().size();
 		assertTrue(afterCount > beforeCount);
 	}
-	
 }

@@ -21,8 +21,8 @@ package com.cmput301.classproject.UI;
 
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
-import com.cmput301.classproject.Model.DeviceUuidFactory;
 import com.cmput301.classproject.Model.Tasks.JSONServer;
+import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
@@ -156,8 +156,9 @@ public class AddTaskActivity extends Activity {
 			return;
 		}
 
-		final Task task = new Task(title, description, (new DeviceUuidFactory(
-				this)).getDeviceUuid(), submissionRequires, isAccessPublic);
+		String creator = LocalStorage.getInstance().loadUsernameFromStorage();
+		final Task task = new Task(title, description, creator,
+				submissionRequires, isAccessPublic);
 
 		if (TaskManager.getInstance().addTask(task, this) != JSONServer.Code.SUCCESS) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),

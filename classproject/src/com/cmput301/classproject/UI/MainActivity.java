@@ -19,22 +19,27 @@ package com.cmput301.classproject.UI;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
-import com.cmput301.classproject.Model.DeviceUuidFactory;
+import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -47,9 +52,19 @@ public class MainActivity extends Activity implements Observer {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		new DeviceUuidFactory(this);
-
 		final MainActivity selfRef = this;
+
+		String username = LocalStorage.getInstance().loadUsernameFromStorage();
+		if (username == null) {
+			getUsernameDialog(selfRef);
+			username = LocalStorage.getInstance().loadUsernameFromStorage();
+		}
+		if (username != null) {
+			selfRef.setTitle("Logged in as: " + username);
+		} else {
+			Log.v("Error", "Username was not set correclty");
+			finish();
+		}
 
 		mainTaskListView = (ListView) findViewById(R.id.main_task_list_view);
 		mainTaskListView
@@ -82,9 +97,32 @@ public class MainActivity extends Activity implements Observer {
 		TaskManager.getInstance().sync(this);
 	}
 
+	public void getUsernameDialog(final MainActivity selfRef) {
+
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setCancelable(false);
+		alert.setTitle("Username");
+		alert.setMessage("Enter your username: (this is only set once)");
+
+		final EditText input = new EditText(this);
+		alert.setView(input);
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				String value = input.getText().toString();
+				Random r = new Random();
+				if (value == null || value.length() < 1) {
+					value = "rand" + String.valueOf(r.nextInt() % 1000);
+				}
+				LocalStorage.getInstance().saveTasksFromStorage(value);
+			}
+		});
+		alert.show();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
+
 		return true;
 	}
 
@@ -101,9 +139,12 @@ public class MainActivity extends Activity implements Observer {
 		ApplicationCore.displayToastMessage(this,
 				getString(R.string.main_public_button_pressed)); // TODO default
 																	// for phase
-		((Button) findViewById(R.id.view_public_tasks_id)).setTextColor(Color.CYAN);
-		((Button) findViewById(R.id.view_specific_creator_tasks_id)).setTextColor(Color.WHITE);
-		((Button) findViewById(R.id.view_your_tasks_id)).setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_public_tasks_id))
+				.setTextColor(Color.CYAN);
+		((Button) findViewById(R.id.view_specific_creator_tasks_id))
+				.setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_your_tasks_id))
+				.setTextColor(Color.WHITE);
 	}
 
 	/**
@@ -120,9 +161,12 @@ public class MainActivity extends Activity implements Observer {
 				getString(R.string.main_personal_button_pressed)); // TODO
 																	// phase
 																	// 2
-		((Button) findViewById(R.id.view_public_tasks_id)).setTextColor(Color.WHITE);
-		((Button) findViewById(R.id.view_specific_creator_tasks_id)).setTextColor(Color.WHITE);
-		((Button) findViewById(R.id.view_your_tasks_id)).setTextColor(Color.CYAN);
+		((Button) findViewById(R.id.view_public_tasks_id))
+				.setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_specific_creator_tasks_id))
+				.setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_your_tasks_id))
+				.setTextColor(Color.CYAN);
 	}
 
 	/**
@@ -142,11 +186,14 @@ public class MainActivity extends Activity implements Observer {
 	public void handleSpecificTasks(View v) {
 		ApplicationCore.displayToastMessage(this,
 				getString(R.string.main_specific_button_pressed)); // TODO
-																		// phase
-																		// 2
-		((Button) findViewById(R.id.view_public_tasks_id)).setTextColor(Color.WHITE);
-		((Button) findViewById(R.id.view_specific_creator_tasks_id)).setTextColor(Color.CYAN);
-		((Button) findViewById(R.id.view_your_tasks_id)).setTextColor(Color.WHITE);
+																	// phase
+																	// 2
+		((Button) findViewById(R.id.view_public_tasks_id))
+				.setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_specific_creator_tasks_id))
+				.setTextColor(Color.CYAN);
+		((Button) findViewById(R.id.view_your_tasks_id))
+				.setTextColor(Color.WHITE);
 	}
 
 	/**

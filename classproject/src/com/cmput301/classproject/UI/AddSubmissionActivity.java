@@ -24,7 +24,7 @@ import java.util.Observable;
 import java.util.Observer;
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
-import com.cmput301.classproject.Model.DeviceUuidFactory;
+import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
@@ -228,7 +228,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		}
 
 		// TODO do audio requirement
-		String author = (new DeviceUuidFactory(this)).getDeviceUuid();
+		String author = LocalStorage.getInstance().loadUsernameFromStorage();
 
 		long timestamp = (new Date()).getTime();
 

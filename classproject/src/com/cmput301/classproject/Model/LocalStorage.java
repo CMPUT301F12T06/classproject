@@ -29,7 +29,8 @@ import android.content.Context;
  */
 public class LocalStorage {
 
-	private static final String LOG_FILE = "LocalTaskStorage";
+	private static final String USERNAME_STORAGE_FILE = "UsernameStorage";
+	private static final String TASK_STORAGE_FILE = "TaskStorage";
 
 	private Application appRef = null;
 	private static LocalStorage instance = null;
@@ -54,18 +55,40 @@ public class LocalStorage {
 	}
 
 	/**
+	 * This will retrieve the username from Local Storage
+	 * 
+	 * @return A list of Tasks
+	 */
+	public String loadUsernameFromStorage() {
+		return (String) load(USERNAME_STORAGE_FILE);
+	}
+
+	/**
 	 * This will retrieve the logEntries array to a file for Local Storage
 	 * 
 	 * @return A list of Tasks
 	 */
+	@SuppressWarnings("unchecked")
+	public List<Task> loadTasksFromStorage() {
+		Object data = load(TASK_STORAGE_FILE);
+		return (List<Task>) data;
+	}
+
+	/**
+	 * This method is used to load an object to a file
+	 * 
+	 * @param filename
+	 *            - the filename to load the object from
+	 * @return List<Task> - the serialized file that was loaded
+	 */
 	@SuppressWarnings({ "unchecked" })
-	public List<Task> load() {
-		List<Task> output = null;
+	private Object load(String filename) {
+		Object output = null;
 		try {
 			ObjectInputStream in = new ObjectInputStream(
-					appRef.openFileInput(LOG_FILE));
+					appRef.openFileInput(filename));
 			if (in != null)
-				output = (List<Task>) in.readObject();
+				output = in.readObject();
 			in.close();
 
 		} catch (Exception e) {
@@ -76,16 +99,37 @@ public class LocalStorage {
 	}
 
 	/**
+	 * This will save a username to Local Storage
+	 * 
+	 * @return A list of Tasks
+	 */
+	public void saveTasksFromStorage(String username) {
+		save(USERNAME_STORAGE_FILE, username);
+	}
+
+	/**
 	 * This will save the logEntries array to a file
 	 * 
 	 * @param tasks
 	 *            The array of tasks
 	 */
-	public void save(List<Task> tasks) {
+	public void saveTasksFromStorage(List<Task> tasks) {
+		save(TASK_STORAGE_FILE, tasks);
+	}
+
+	/**
+	 * This method is used to save an object to a file
+	 * 
+	 * @param filename
+	 *            - the filename to save the object to
+	 * @param obj
+	 *            - the serialized file to be save
+	 */
+	private void save(String filename, Object obj) {
 		try {
 			ObjectOutput out = new ObjectOutputStream(appRef.openFileOutput(
-					LOG_FILE, Context.MODE_PRIVATE));
-			out.writeObject(tasks);
+					filename, Context.MODE_PRIVATE));
+			out.writeObject(obj);
 			out.close();
 
 		} catch (Exception e) {
