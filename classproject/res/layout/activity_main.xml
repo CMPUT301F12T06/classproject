@@ -23,6 +23,7 @@
             android:onClick="handlePublicTasks"
             android:padding="10dp"
             android:text="@string/public_tasks_button_text"
+            android:textSize="15dp"
             android:textColor="#00FFFF" 
             /> 
 
@@ -35,6 +36,7 @@
             android:background="#262626"
             android:onClick="handleYourTasks"
             android:padding="10dp"
+            android:textSize="15dp"
             android:text="@string/your_tasks_button_text"
             android:textColor="#FFFFFF" />
 
@@ -47,7 +49,21 @@
             android:background="#262626"
             android:onClick="handleSpecificTasks"
             android:padding="10dp"
+            android:textSize="15dp"
             android:text="@string/specific_creator_tasks_button_text"
+            android:textColor="#FFFFFF" />
+        
+        <Button
+             android:id="@+id/view_random_creator_tasks_id"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="75dp"
+            android:layout_weight="0.1"
+            android:background="#262626"
+            android:onClick="handleRandomTasks"
+            android:padding="10dp"
+            android:textSize="15dp"
+            android:text="@string/random_creator_tasks_button_text"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 

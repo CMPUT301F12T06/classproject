@@ -192,6 +192,9 @@ public class MainActivity extends Activity implements Observer {
 				.setTextColor(Color.WHITE);
 		((Button) findViewById(R.id.view_your_tasks_id))
 				.setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_random_creator_tasks_id))
+				.setTextColor(Color.WHITE);
+
 	}
 
 	/**
@@ -212,6 +215,30 @@ public class MainActivity extends Activity implements Observer {
 		((Button) findViewById(R.id.view_specific_creator_tasks_id))
 				.setTextColor(Color.WHITE);
 		((Button) findViewById(R.id.view_your_tasks_id))
+				.setTextColor(Color.CYAN);
+		((Button) findViewById(R.id.view_random_creator_tasks_id))
+				.setTextColor(Color.WHITE);
+	}
+
+	/**
+	 * Name: handleRandomTasks Description: This will called when the Random
+	 * button is clicked on the Main UI window
+	 * 
+	 * Selects a set of 3 random tasks
+	 * 
+	 * @param v
+	 */
+	public void handleRandomTasks(View v) {
+		getCreatorFilter(this);
+		taskViewAdapter.filterAndLoad(filterConstraint);
+
+		((Button) findViewById(R.id.view_public_tasks_id))
+				.setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_specific_creator_tasks_id))
+				.setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_your_tasks_id))
+				.setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_random_creator_tasks_id))
 				.setTextColor(Color.CYAN);
 	}
 
@@ -238,6 +265,8 @@ public class MainActivity extends Activity implements Observer {
 		((Button) findViewById(R.id.view_specific_creator_tasks_id))
 				.setTextColor(Color.CYAN);
 		((Button) findViewById(R.id.view_your_tasks_id))
+				.setTextColor(Color.WHITE);
+		((Button) findViewById(R.id.view_random_creator_tasks_id))
 				.setTextColor(Color.WHITE);
 	}
 
