@@ -60,38 +60,53 @@ public class MainActivity extends Activity implements Observer {
 			buffer = collection;
 		}
 
-		public void filterAndLoad(String name) {
+		public void filterAndLoadByName(String name) {
 			this.clear();
 
-			// Selects a random task
-			if (filterConstraint != null && filterConstraint.equals("RANDOM")) {
-				if (buffer.size() == 0)
-					return;
-
-				Random r = new Random();
-				while (true) {
-					for (Task t : buffer) {
-						if (r.nextInt() % 25 == 23) {
-							this.add(t);
-							return;
-						}
-					}
-				}
-			}
+			if (name == null)
+				return;
 
 			for (Task t : buffer) {
-				if (name == null
-						|| t.getCreator().toLowerCase()
-								.equals(name.toLowerCase())) {
+				if (t.getCreator().toLowerCase().equals(name.toLowerCase())) {
 					this.add(t);
 				}
 			}
 		}
+
+		public void loadAll() {
+			this.clear();
+			for (Task t : buffer) {
+				this.add(t);
+			}
+		}
+
+		public void filterAndLoadRandom() {
+			this.clear();
+
+			if (buffer.size() == 0)
+				return;
+
+			Random r = new Random();
+			while (true) {
+				for (Task t : buffer) {
+					if (r.nextInt() % 25 == 23) {
+						this.add(t);
+						return;
+					}
+				}
+			}
+
+		}
 	}
+
+	private static enum FilterType {
+		PUBLIC, RANDOM, NAME
+	};
 
 	ListView mainTaskListView;
 	FilteredTaskAdapter taskViewAdapter;
-	String filterConstraint = null;
+	FilterType filterConstraint = FilterType.PUBLIC;
+	String filterName = null;
 	String username = null;
 
 	@Override
@@ -178,8 +193,9 @@ public class MainActivity extends Activity implements Observer {
 				if (value == null || value.length() < 1) {
 					value = "";
 				}
-				filterConstraint = value;
-				taskViewAdapter.filterAndLoad(filterConstraint);
+				filterName = value;
+				filterConstraint = FilterType.NAME;
+				taskViewAdapter.filterAndLoadByName(filterName);
 			}
 		});
 		alert.show();
@@ -202,8 +218,8 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handlePublicTasks(View v) {
-		filterConstraint = null;
-		taskViewAdapter.filterAndLoad(filterConstraint);
+		filterConstraint = FilterType.PUBLIC;
+		taskViewAdapter.loadAll();
 
 		((Button) findViewById(R.id.view_public_tasks_id))
 				.setTextColor(Color.CYAN);
@@ -226,8 +242,9 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handleYourTasks(View v) {
-		filterConstraint = LocalStorage.getInstance().loadUsernameFromStorage();
-		taskViewAdapter.filterAndLoad(filterConstraint);
+		filterConstraint = FilterType.NAME;
+		filterName = LocalStorage.getInstance().loadUsernameFromStorage();
+		taskViewAdapter.filterAndLoadByName(filterName);
 
 		((Button) findViewById(R.id.view_public_tasks_id))
 				.setTextColor(Color.WHITE);
@@ -248,8 +265,8 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handleRandomTasks(View v) {
-		filterConstraint = "RANDOM";
-		taskViewAdapter.filterAndLoad(filterConstraint);
+		filterConstraint = FilterType.RANDOM;
+		taskViewAdapter.filterAndLoadRandom();
 
 		((Button) findViewById(R.id.view_public_tasks_id))
 				.setTextColor(Color.WHITE);
@@ -277,7 +294,8 @@ public class MainActivity extends Activity implements Observer {
 	 */
 	public void handleSpecificTasks(View v) {
 		getCreatorFilter(this);
-		taskViewAdapter.filterAndLoad(filterConstraint);
+		filterConstraint = FilterType.NAME;
+		taskViewAdapter.filterAndLoadByName(filterName);
 
 		((Button) findViewById(R.id.view_public_tasks_id))
 				.setTextColor(Color.WHITE);
@@ -316,7 +334,18 @@ public class MainActivity extends Activity implements Observer {
 		taskViewAdapter.clear();
 		if (data != null) {
 			taskViewAdapter.addAllTask((ArrayList<Task>) data);
-			taskViewAdapter.filterAndLoad(filterConstraint);
+			switch (filterConstraint) {
+			case NAME:
+				taskViewAdapter.filterAndLoadByName(filterName);
+				break;
+			case RANDOM:
+				taskViewAdapter.filterAndLoadRandom();
+				break;
+			case PUBLIC:
+				taskViewAdapter.loadAll();
+				break;
+			}
+
 		}
 	}
 }
