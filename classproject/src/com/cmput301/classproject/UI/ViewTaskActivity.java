@@ -17,18 +17,25 @@ MA 02110-1301, USA.
 package com.cmput301.classproject.UI;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.cmput301.classproject.R;
 import com.cmput301.classproject.Model.ApplicationCore;
+import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
+import com.cmput301.classproject.Model.Tasks.JSONServer;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,11 +48,50 @@ import android.support.v4.app.NavUtils;
 
 public class ViewTaskActivity extends Activity implements Observer {
 
+	private final static Logger LOGGER = Logger
+			.getLogger(ViewTaskActivity.class.getName());
+
+	private ArrayList<Submission> submissionArray = new ArrayList<Submission>();
 	private Task task = null;
 	private String taskId = null;
 
+	public class FilteredSubmissionArray extends ArrayAdapter<Submission> {
+		public FilteredSubmissionArray(Context context, int resource,
+				int textViewResourceId, List<Submission> objects) {
+			super(context, resource, textViewResourceId, objects);
+		}
+	}
+
+	public void addSubmission(Task t, Submission s) {
+
+		String username = LocalStorage.getInstance().loadUsernameFromStorage();
+
+		switch (s.getAccess()) {
+
+		case Public:
+			submissionArray.add(s);
+			break;
+		case Private:
+			if (s.getAuthor().equals(username)) {
+				submissionArray.add(s);
+			} else {
+				submissionArray.remove(s);
+			}
+			break;
+
+		case Creator:
+			if (s.getAuthor().equals(username)
+					|| t.getCreator().equals(username)) {
+				submissionArray.add(s);
+			} else {
+				submissionArray.remove(s);
+			}
+			break;
+		}
+	}
+
 	ListView submissionListView;
-	ArrayAdapter<Submission> submissionViewAdapter;
+	FilteredSubmissionArray submissionViewAdapter2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +123,7 @@ public class ViewTaskActivity extends Activity implements Observer {
 
 			temp = ((TextView) findViewById(R.id.task_view_requires));
 			String requires = "";
-			if(task.getRequires() == 0)
+			if (task.getRequires() == 0)
 				requires = "Nothing";
 			if ((task.getRequires() & Submission.ACCESS_PHOTO) > 0)
 				requires += "Photo ";
@@ -118,20 +164,23 @@ public class ViewTaskActivity extends Activity implements Observer {
 			}
 		});
 
-		submissionViewAdapter = new ArrayAdapter<Submission>(this,
+		submissionViewAdapter2 = new FilteredSubmissionArray(this,
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, new ArrayList<Submission>());
-		submissionViewAdapter.setNotifyOnChange(true);
-		submissionListView.setAdapter(submissionViewAdapter);
+				android.R.id.text1, submissionArray);
+		submissionViewAdapter2.setNotifyOnChange(true);
+		submissionListView.setAdapter(submissionViewAdapter2);
 
 		// MVC model attach this view to our data model
 		TaskManager.getInstance().addObserver(this);
 
-		submissionViewAdapter.clear();
-		submissionViewAdapter.addAll(task.getSubmissions());
-		
-		if(task.getSubmissions().size() == 0){
-			ApplicationCore.displayToastMessageLong(this, getString(R.string.view_task_no_submission_msg));
+		for (Submission s : task.getSubmissions()) {
+			addSubmission(task, s);
+		}
+		submissionViewAdapter2.notifyDataSetChanged();
+
+		if (task.getSubmissions().size() == 0) {
+			ApplicationCore.displayToastMessageLong(this,
+					getString(R.string.view_task_no_submission_msg));
 		}
 	}
 
@@ -179,18 +228,22 @@ public class ViewTaskActivity extends Activity implements Observer {
 
 	public void update(Observable observable, Object data) {
 		if (data != null && taskId != null) {
+
 			@SuppressWarnings("unchecked")
 			ArrayList<Task> tasks = (ArrayList<Task>) data;
 			for (Task t : tasks) {
+				submissionArray.clear();
 				// only update the task we have a reference to.
 				if (t.getId().equals(taskId)) {
-					submissionViewAdapter.clear();
-					submissionViewAdapter.addAll(t.getSubmissions());
+
+					for (Submission s : t.getSubmissions()) {
+						addSubmission(t, s);
+					}
+					submissionViewAdapter2.notifyDataSetChanged();
 					return;
 				}
 			}
 
 		}
 	}
-
 }

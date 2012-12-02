@@ -19,7 +19,7 @@ JSONServer
 
 @author Benson Trinh
 
-**/
+ **/
 
 package com.cmput301.classproject.Tests;
 
@@ -36,7 +36,6 @@ import com.cmput301.classproject.Model.Tasks.JSONServer;
 import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
-import com.cmput301.classproject.UI.AddSubmissionActivity.SubmissionPermission;
 
 public class JSONTests {
 
@@ -84,7 +83,7 @@ public class JSONTests {
 				Submission.ACCESS_PHOTO | Submission.ACCESS_TEXT, true);
 
 		Submission submission = new Submission("test submission",
-				"fake author", "my text", null, SubmissionPermission.Public,
+				"fake author", "my text", null, Submission.Permission.Public,
 				(new Date()).getTime());
 		// add task
 		server.addTask(task1);

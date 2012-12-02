@@ -56,11 +56,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	EditText submissionText;
 	EditText submissionSummary;
 	ArrayList<Bitmap> photosTaken = new ArrayList<Bitmap>();
-	SubmissionPermission submissionPermission = SubmissionPermission.Public;
-
-	public static enum SubmissionPermission {
-		Private, Public, Creator
-	}
+	Submission.Permission submissionPermission = Submission.Permission.Public;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -122,19 +118,19 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		switch (v.getId()) {
 		case R.id.submission_private_sharing:
 			if (checked) {
-				submissionPermission = SubmissionPermission.Private;
+				submissionPermission = Submission.Permission.Private;
 			}
 
 			break;
 		case R.id.submission_creator_sharing:
 			if (checked) {
-				submissionPermission = SubmissionPermission.Creator;
+				submissionPermission = Submission.Permission.Creator;
 			}
 
 			break;
 		case R.id.submission_public_sharing:
 			if (checked) {
-				submissionPermission = SubmissionPermission.Public;
+				submissionPermission = Submission.Permission.Public;
 			}
 
 			break;

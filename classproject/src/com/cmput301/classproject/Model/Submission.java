@@ -24,8 +24,6 @@ package com.cmput301.classproject.Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.cmput301.classproject.UI.AddSubmissionActivity.SubmissionPermission;
-
 import android.graphics.Bitmap;
 
 /**
@@ -34,16 +32,20 @@ import android.graphics.Bitmap;
  */
 public class Submission implements Serializable {
 
+	public static enum Permission {
+		Private, Public, Creator
+	}
+
 	private static final long serialVersionUID = -3396630733841446186L;
 	private String author;
 	private String summary;
 	private String textSubmission;
-	private SubmissionPermission access;
+	private Permission access;
 	private long timestamp;
-	
+
 	/**
-	 * Our picture class is a bitmap wrapper, we use this internally for
-	 * storing and loading images for any given submission.
+	 * Our picture class is a bitmap wrapper, we use this internally for storing
+	 * and loading images for any given submission.
 	 */
 	private ArrayList<Picture> images = new ArrayList<Picture>();
 	// TODO add audio support
@@ -70,8 +72,7 @@ public class Submission implements Serializable {
 	 *            Timestamp for when the submission is created
 	 */
 	public Submission(String summary, String author, String textSubmission,
-			ArrayList<Bitmap> bitmaps, SubmissionPermission access,
-			long timestamp) {
+			ArrayList<Bitmap> bitmaps, Permission access, long timestamp) {
 		this.summary = summary;
 		this.author = author;
 		this.access = access;
@@ -123,7 +124,7 @@ public class Submission implements Serializable {
 		return timestamp;
 	}
 
-	public SubmissionPermission getAccess() {
+	public Permission getAccess() {
 		return access;
 	}
 }

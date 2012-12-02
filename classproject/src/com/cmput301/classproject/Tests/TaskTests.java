@@ -29,62 +29,62 @@ import org.junit.Test;
 
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
-import com.cmput301.classproject.UI.AddSubmissionActivity.SubmissionPermission;
 
 public class TaskTests {
-	private Task myTask = new Task("JUnit Test Task", "JUnit description", "JUnit Creator", Submission.ACCESS_TEXT, true);
-	
+	private Task myTask = new Task("JUnit Test Task", "JUnit description",
+			"JUnit Creator", Submission.ACCESS_TEXT, true);
+
 	@Test
 	public void testTaskToString() {
 		assertFalse(myTask.toString().isEmpty());
 	}
-	
+
 	@Test
 	public void testSetId() {
 		myTask.setId("Test ID");
 		assertTrue(myTask.getId().equals("Test ID"));
 	}
-	
+
 	@Test
 	public void testGetCreator() {
 		assertTrue(myTask.getCreator().equals("JUnit Creator"));
 	}
-	
+
 	@Test
 	public void testGetSubmissions() {
 		assertTrue(myTask.getSubmissions().isEmpty());
 	}
-	
+
 	@Test
 	public void testGetName() {
 		assertTrue(myTask.getName().equals("JUnit Test Task"));
 	}
-	
+
 	@Test
 	public void testGetDescription() {
 		assertTrue(myTask.getDescription().equals("JUnit description"));
 	}
-	
+
 	@Test
 	public void testGetRequires() {
 		assertTrue(myTask.getRequires() == Submission.ACCESS_TEXT);
 	}
-	
+
 	@Test
 	public void testIsPublicAccess() {
 		assertTrue(myTask.isPublicAccess());
 	}
-	
+
 	@Test
 	public void testAddSubmission() {
 		int beforeCount = myTask.getSubmissions().size();
-		
+
 		Submission newSubmission = new Submission("test submission",
-				"fake author", "my text", null, SubmissionPermission.Public,
+				"fake author", "my text", null, Submission.Permission.Public,
 				(new Date()).getTime());
-		
+
 		myTask.addSubmission(newSubmission);
-		
+
 		int afterCount = myTask.getSubmissions().size();
 		assertTrue(afterCount > beforeCount);
 	}

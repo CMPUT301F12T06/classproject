@@ -28,14 +28,13 @@ import java.util.Date;
 import org.junit.Test;
 
 import com.cmput301.classproject.Model.Submission;
-import com.cmput301.classproject.UI.AddSubmissionActivity.SubmissionPermission;
 
 public class SubmissionTests {
 
 	private Submission mySubmission = new Submission("test submission",
-			"fake author", "my text", null, SubmissionPermission.Public,
+			"fake author", "my text", null, Submission.Permission.Public,
 			(new Date()).getTime());
-	
+
 	@Test
 	public void testToString() {
 		assertFalse(mySubmission.toString().isEmpty());
@@ -45,25 +44,26 @@ public class SubmissionTests {
 	public void testGetAuthor() {
 		assertTrue(mySubmission.getAuthor().equals("fake author"));
 	}
-	
+
 	@Test
 	public void testGetSummary() {
 		assertTrue(mySubmission.getSummary().equals("test submission"));
 	}
-	
+
 	@Test
 	public void testGetTextSubmission() {
 		assertTrue(mySubmission.getTextSubmission().equals("my text"));
 	}
-	
+
 	@Test
 	public void testGetTimeStamp() {
 		assertTrue(mySubmission.getTimestamp() > 0);
 	}
-	
+
 	@Test
 	public void testGetAccess() {
-		assertTrue(mySubmission.getAccess().equals(SubmissionPermission.Public));
+		assertTrue(mySubmission.getAccess()
+				.equals(Submission.Permission.Public));
 	}
-	
+
 }
