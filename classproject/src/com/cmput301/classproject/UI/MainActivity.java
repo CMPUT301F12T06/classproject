@@ -53,11 +53,38 @@ public class MainActivity extends Activity implements Observer {
 		public FilteredTaskAdapter(Context context, int resource,
 				int textViewResourceId, List<Task> objects) {
 			super(context, resource, textViewResourceId, objects);
-			buffer = objects;
+			buffer = objects; // TODO use data proxy
 		}
 
 		public void addAllTask(Collection<? extends Task> collection) {
 			buffer = collection;
+		}
+
+		// add our task object based on public/private access
+		private boolean addTask(Task object) {
+
+			if (object.isPublicAccess()) {
+				this.add(object);
+				return true;
+			} else if (username != null && object.getCreator().equals(username)) {
+				this.add(object);
+				return true;
+			}
+			return false;
+		}
+
+		public void filterByConstraint() {
+			switch (filterConstraint) {
+			case NAME:
+				taskViewAdapter.filterAndLoadByName(filterName);
+				break;
+			case RANDOM:
+				taskViewAdapter.filterAndLoadRandom();
+				break;
+			case PUBLIC:
+				taskViewAdapter.loadAll();
+				break;
+			}
 		}
 
 		public void filterAndLoadByName(String name) {
@@ -68,7 +95,7 @@ public class MainActivity extends Activity implements Observer {
 
 			for (Task t : buffer) {
 				if (t.getCreator().toLowerCase().equals(name.toLowerCase())) {
-					this.add(t);
+					this.addTask(t);
 				}
 			}
 		}
@@ -76,7 +103,7 @@ public class MainActivity extends Activity implements Observer {
 		public void loadAll() {
 			this.clear();
 			for (Task t : buffer) {
-				this.add(t);
+				this.addTask(t);
 			}
 		}
 
@@ -87,11 +114,11 @@ public class MainActivity extends Activity implements Observer {
 				return;
 
 			Random r = new Random();
-			while (true) {
+			for (int i = 0; i < 200; i++) {
 				for (Task t : buffer) {
-					if (r.nextInt() % 25 == 23) {
-						this.add(t);
-						return;
+					if (r.nextInt() % 13 == 3) {
+						if (this.addTask(t))
+							return;
 					}
 				}
 			}
@@ -138,7 +165,6 @@ public class MainActivity extends Activity implements Observer {
 					Intent intent = new Intent(selfRef, ViewTaskActivity.class);
 					intent.putExtra("Task", t);
 					startActivity(intent);
-					// TODO
 				}
 			}
 		});
@@ -172,7 +198,9 @@ public class MainActivity extends Activity implements Observer {
 					value = "rand" + String.valueOf(r.nextInt() % 1000);
 				}
 				username = value;
+				selfRef.setTitle("Logged in as: " + value);
 				LocalStorage.getInstance().saveTasksFromStorage(value);
+				taskViewAdapter.filterByConstraint();
 			}
 		});
 		alert.show();
@@ -334,18 +362,8 @@ public class MainActivity extends Activity implements Observer {
 		taskViewAdapter.clear();
 		if (data != null) {
 			taskViewAdapter.addAllTask((ArrayList<Task>) data);
-			switch (filterConstraint) {
-			case NAME:
-				taskViewAdapter.filterAndLoadByName(filterName);
-				break;
-			case RANDOM:
-				taskViewAdapter.filterAndLoadRandom();
-				break;
-			case PUBLIC:
-				taskViewAdapter.loadAll();
-				break;
-			}
-
+			taskViewAdapter.filterByConstraint();
 		}
+
 	}
 }

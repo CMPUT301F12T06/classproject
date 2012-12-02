@@ -152,7 +152,7 @@
 	            android:layout_height="wrap_content"
 	            android:onClick="onSharingChange"
 	            android:text="@string/task_sharing_private_label" 
-	            android:enabled="false"/>
+	            android:enabled="true"/>
 	    </RadioGroup>
 	
 	    <LinearLayout

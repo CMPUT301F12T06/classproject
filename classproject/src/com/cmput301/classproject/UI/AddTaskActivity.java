@@ -168,10 +168,6 @@ public class AddTaskActivity extends Activity {
 
 		ApplicationCore.displayToastMessage(getApplicationContext(),
 				"Added Task:\n" + task.toString());
-
-		// TODO update MainActivity after this returns
-		// finish();
-
 	}
 
 	/**
