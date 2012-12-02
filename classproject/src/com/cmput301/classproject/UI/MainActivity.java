@@ -62,12 +62,31 @@ public class MainActivity extends Activity implements Observer {
 
 		public void filterAndLoad(String name) {
 			this.clear();
+
+			// Selects a random task
+			if (filterConstraint != null && filterConstraint.equals("RANDOM")) {
+				if (buffer.size() == 0)
+					return;
+
+				Random r = new Random();
+				while (true) {
+					for (Task t : buffer) {
+						if (r.nextInt() % 25 == 23) {
+							this.add(t);
+							return;
+						}
+					}
+				}
+			}
+
 			for (Task t : buffer) {
-				if (name == null || t.getCreator().equals(name))
+				if (name == null
+						|| t.getCreator().toLowerCase()
+								.equals(name.toLowerCase())) {
 					this.add(t);
+				}
 			}
 		}
-
 	}
 
 	ListView mainTaskListView;
@@ -229,7 +248,7 @@ public class MainActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void handleRandomTasks(View v) {
-		getCreatorFilter(this);
+		filterConstraint = "RANDOM";
 		taskViewAdapter.filterAndLoad(filterConstraint);
 
 		((Button) findViewById(R.id.view_public_tasks_id))
