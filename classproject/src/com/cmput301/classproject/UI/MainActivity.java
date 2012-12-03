@@ -177,7 +177,6 @@ public class MainActivity extends Activity implements Observer {
 
 		// MVC model attach this view to our data model
 		TaskManager.getInstance().addObserver(this);
-
 		TaskManager.getInstance().sync(this);
 	}
 

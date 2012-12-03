@@ -239,7 +239,7 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		Submission submission = new Submission(summary, author, textSubmission,
 				photosTaken, submissionPermission, timestamp);
 		TaskManager.getInstance().addSubmission(task.getId(), submission, this);
-		// finish();
+		finish();
 	}
 
 	public void update(Observable arg0, Object arg1) {

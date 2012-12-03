@@ -28,10 +28,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.TaskManager;
 import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 
-public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
+public class CheckConnection extends AsyncTask<Integer, Integer, Boolean> {
 
 	private Context context;
 	private ProgressDialog dialog;
@@ -42,7 +43,7 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
 	 * @param mContext
 	 *            The applicationContext in which it was called
 	 */
-	public AddSubmission(Context mContext) {
+	public CheckConnection(Context mContext) {
 		this.context = mContext;
 		this.dialog = new ProgressDialog(context);
 	}
@@ -53,7 +54,7 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		dialog.setTitle("Adding a Submission");
+		dialog.setTitle("Checking connection to server");
 		dialog.setMessage("Please wait...");
 		dialog.setCancelable(false);
 		dialog.setIndeterminate(true);
@@ -64,9 +65,8 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
 	 * Calls the JSONServer to handle the addition of a submission
 	 */
 	@Override
-	protected Code doInBackground(SubmissionData... data) {
-		return JSONServer.getInstance().addSubmission(data[0].getTaskId(),
-				data[0].getSubmission());
+	protected Boolean doInBackground(Integer... data) {
+		return JSONServer.getInstance().isConnected();
 	}
 
 	/**
@@ -74,17 +74,19 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
 	 * remove the dialog message. It will then notify the Activity to finish
 	 */
 	@Override
-	protected void onPostExecute(Code result) {
+	protected void onPostExecute(Boolean result) {
 		try {
 			dialog.dismiss();
 			dialog = null;
 		} catch (Exception ex) {
 			// do nothing - insurance for if the activity finishes faster
 		}
-		if (result == Code.SUCCESS)
-			TaskManager.getInstance().sync(context);
-
-		((Activity) context).finish();
+		
+		if(result) {
+			JSONServer.getInstance().sync();
+			new ReceiveServerData(JSONServer.TaskType.GetTasks,context).execute();
+			LocalStorage.getInstance().saveTasksFromStorage(TaskManager.getInstance().cachedTasks);
+		}
 
 	}
 }

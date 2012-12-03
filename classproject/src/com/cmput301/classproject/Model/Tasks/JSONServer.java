@@ -63,7 +63,7 @@ public class JSONServer {
 	}
 
 	public static enum TaskType {
-		AddTask, RemoveTask, GetTasks
+		AddTask, RemoveTask, GetTasks, AddSubmission
 
 	}
 
@@ -158,7 +158,7 @@ public class JSONServer {
 				Type collectionType = new TypeToken<Collection<ServerData>>() {
 				}.getType();
 				ids = gson.fromJson(jsonString, collectionType);
-
+ 
 				if (!ids.isEmpty()) {
 					// There should only be 1 entry
 					String id = ids.get(0).getId();

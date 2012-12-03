@@ -33,11 +33,13 @@ package com.cmput301.classproject.Model;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.ExecutionException;
 
 import android.app.Application;
 import android.content.Context;
 
 import com.cmput301.classproject.Model.Tasks.AddSubmission;
+import com.cmput301.classproject.Model.Tasks.CheckConnection;
 import com.cmput301.classproject.Model.Tasks.JSONServer;
 import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 import com.cmput301.classproject.Model.Tasks.ModifyServerData;
@@ -52,11 +54,13 @@ public class TaskManager extends Observable {
 	private static TaskManager instance = null;
 	private ArrayList<Observer> observers = null;
 	
-	public static ArrayList<Task> cachedTasks = new ArrayList<Task>();
+	public static ArrayList<Task> cachedTasks = null;
 	public static String currentTask = null;
 	
 	private TaskManager() {
 		observers = new ArrayList<Observer>();
+		if(cachedTasks == null) 
+			cachedTasks = new ArrayList<Task>();
 	}
 
 	/**
@@ -93,8 +97,20 @@ public class TaskManager extends Observable {
 	public Code addTask(Task task, Context mContext) {
 
 		Code returnCode = Code.SUCCESS;
+		//Have it add to the cached task and then sync it in the background if
+		//it is connected
+		cachedTasks.add(task);
+		LocalStorage.getInstance().saveTasksFromStorage(cachedTasks);
+		notifyAllObservers(cachedTasks);
+		
+		//Save it to the database in the background
 		try {
-			new ModifyServerData(JSONServer.TaskType.AddTask,mContext).execute(task);
+			//Will be done in the background with no progress dialog
+			boolean connected = false;
+			connected = new CheckConnection(mContext).execute().get();
+			if(connected) {
+				new ModifyServerData(JSONServer.TaskType.AddTask,mContext).execute(task);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -114,9 +130,26 @@ public class TaskManager extends Observable {
 	 */
 	public Code addSubmission(String taskId, Submission submission, Context mContext){
 		
+		//Add the submission to the local cached copy
+		for(int i = 0; i < cachedTasks.size(); i++) {
+			if(cachedTasks.get(i).getId().equals(taskId)) {
+				cachedTasks.get(i).getSubmissions().add(submission);
+			}
+		}
+		LocalStorage.getInstance().saveTasksFromStorage(cachedTasks);
+		
 		Code returnCode = Code.SUCCESS;
-		try {
-			new AddSubmission(mContext).execute(new SubmissionData(taskId,submission));
+		notifyAllObservers(cachedTasks);
+		
+		//Save it in the background to the server
+		try {	
+			boolean connected = false;
+			connected = new CheckConnection(mContext).execute().get();
+			if(connected) {
+			//Will be done in background with no dialog. It will always load cached
+			//For speed
+				new AddSubmission(mContext).execute(new SubmissionData(taskId,submission));
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -133,10 +166,19 @@ public class TaskManager extends Observable {
 	 */
 	public Code sync(Context mContext) {
 		// TODO add connection logic and locale file storage stuff logic
-		Code returnCode = JSONServer.getInstance().sync();
-		if (returnCode == Code.SUCCESS) {
-			new ReceiveServerData(JSONServer.TaskType.GetTasks,mContext).execute();
+		//Will attempt to load from local storage first
+		Code returnCode = Code.FAILURE;
+		cachedTasks = (ArrayList<Task>) LocalStorage.getInstance().loadTasksFromStorage();
+		if((cachedTasks != null))
+			notifyAllObservers(cachedTasks);
+		
+		//Sync in the background 
+		try {
+			new CheckConnection(mContext).execute().get();
+		} catch (Exception ex) {
+			
 		}
+		
 
 		return returnCode;
 	}

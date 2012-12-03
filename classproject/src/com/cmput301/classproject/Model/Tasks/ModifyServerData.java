@@ -56,7 +56,7 @@ public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 		dialog.setMessage("Please wait...");
 		dialog.setCancelable(false);
 		dialog.setIndeterminate(true);
-		dialog.show();
+		//dialog.show();
 	}
 	
 	/**
@@ -83,6 +83,8 @@ public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 	 */
 	@Override
 	protected void onPostExecute(Code result) {
+		//If we are loading local first then this is not needd. It will be done in the background if 
+		//it is online
 		try {
 			dialog.dismiss();
 			dialog = null;

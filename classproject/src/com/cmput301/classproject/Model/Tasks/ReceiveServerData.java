@@ -24,6 +24,7 @@ package com.cmput301.classproject.Model.Tasks;
 import java.util.ArrayList;
 
 import com.cmput301.classproject.Model.ApplicationCore;
+import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
 import com.cmput301.classproject.Model.Tasks.JSONServer.TaskType;
@@ -56,7 +57,7 @@ public class ReceiveServerData extends
 		dialog.setMessage("Please wait...");
 		dialog.setCancelable(false);
 		dialog.setIndeterminate(true);
-		dialog.show();
+		//dialog.show();
 	}
 
 	/**
@@ -82,6 +83,8 @@ public class ReceiveServerData extends
 		} catch (Exception ex) {
 			// do nothing
 		}
+		TaskManager.getInstance().cachedTasks = result;
+		LocalStorage.getInstance().saveTasksFromStorage(result);
 		TaskManager.getInstance().notifyAllObservers(result);
 		ApplicationCore.displayToastMessage(context, "Synced with Server");
 

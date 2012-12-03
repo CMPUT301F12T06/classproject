@@ -168,6 +168,8 @@ public class AddTaskActivity extends Activity {
 
 		ApplicationCore.displayToastMessage(getApplicationContext(),
 				"Added Task:\n" + task.toString());
+		
+		finish();
 	}
 
 	/**
