@@ -35,6 +35,8 @@ import android.os.AsyncTask;
 public class ReceiveServerData extends
 		AsyncTask<Task, Integer, ArrayList<Task>> {
 
+	private Object syncLock = new Object();
+	
 	@SuppressWarnings("unused")
 	private TaskType type;
 	private Context context;
@@ -58,7 +60,13 @@ public class ReceiveServerData extends
 	 */
 	@Override
 	protected ArrayList<Task> doInBackground(Task... tasks) {
-		return JSONServer.getInstance().getAllTasks();
+		
+		synchronized(syncLock) {
+			
+			return JSONServer.getInstance().getAllTasks();
+		}
+		
+
 	}
 
 	/**

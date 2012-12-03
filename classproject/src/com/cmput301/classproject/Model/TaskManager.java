@@ -174,7 +174,7 @@ public class TaskManager extends Observable {
 		
 		//Sync in the background 
 		try {
-			new CheckConnection(mContext).execute().get();
+			new CheckConnection(mContext).execute();
 		} catch (Exception ex) {
 			
 		}
