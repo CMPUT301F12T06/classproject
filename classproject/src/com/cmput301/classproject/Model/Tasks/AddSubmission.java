@@ -44,7 +44,6 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
 	 */
 	public AddSubmission(Context mContext) {
 		this.context = mContext;
-		this.dialog = new ProgressDialog(context);
 	}
 
 	/**
@@ -53,11 +52,6 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		dialog.setTitle("Adding a Submission");
-		dialog.setMessage("Please wait...");
-		dialog.setCancelable(false);
-		dialog.setIndeterminate(true);
-		//dialog.show();
 	}
 
 	/**
@@ -70,21 +64,11 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
 	}
 
 	/**
-	 * After completing addition of the submission it will sync the server and
-	 * remove the dialog message. It will then notify the Activity to finish
+	 * After completing addition of the submission it will sync the server
 	 */
 	@Override
 	protected void onPostExecute(Code result) {
-		try {
-			dialog.dismiss();
-			dialog = null;
-		} catch (Exception ex) {
-			// do nothing - insurance for if the activity finishes faster
-		}
 		if (result == Code.SUCCESS)
 			TaskManager.getInstance().sync(context);
-
-		((Activity) context).finish();
-
 	}
 }

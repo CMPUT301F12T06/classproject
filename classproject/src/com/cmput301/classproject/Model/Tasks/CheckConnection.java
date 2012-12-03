@@ -23,19 +23,15 @@ MA 02110-1301, USA.
  **/
 package com.cmput301.classproject.Model.Tasks;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.TaskManager;
-import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 
 public class CheckConnection extends AsyncTask<Integer, Integer, Boolean> {
 
 	private Context context;
-	private ProgressDialog dialog;
 
 	/**
 	 * The constructor used to initialize AddSubmission
@@ -45,20 +41,11 @@ public class CheckConnection extends AsyncTask<Integer, Integer, Boolean> {
 	 */
 	public CheckConnection(Context mContext) {
 		this.context = mContext;
-		this.dialog = new ProgressDialog(context);
 	}
 
-	/**
-	 * Displaying a ProgressDialog before executing the task
-	 */
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		dialog.setTitle("Checking connection to server");
-		dialog.setMessage("Please wait...");
-		dialog.setCancelable(false);
-		dialog.setIndeterminate(true);
-		//dialog.show();
 	}
 
 	/**
@@ -70,22 +57,14 @@ public class CheckConnection extends AsyncTask<Integer, Integer, Boolean> {
 	}
 
 	/**
-	 * After completing addition of the submission it will sync the server and
-	 * remove the dialog message. It will then notify the Activity to finish
+	 * Get the tasks from the server and save it locally
 	 */
 	@Override
 	protected void onPostExecute(Boolean result) {
-		try {
-			dialog.dismiss();
-			dialog = null;
-		} catch (Exception ex) {
-			// do nothing - insurance for if the activity finishes faster
-		}
-		
 		if(result) {
 			JSONServer.getInstance().sync();
 			new ReceiveServerData(JSONServer.TaskType.GetTasks,context).execute();
-			LocalStorage.getInstance().saveTasksFromStorage(TaskManager.getInstance().cachedTasks);
+			LocalStorage.getInstance().saveTasksFromStorage(TaskManager.cachedTasks);
 		}
 
 	}

@@ -29,7 +29,6 @@ import com.cmput301.classproject.Model.Task;
 import com.cmput301.classproject.Model.TaskManager;
 import com.cmput301.classproject.Model.Tasks.JSONServer.TaskType;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -39,12 +38,10 @@ public class ReceiveServerData extends
 	@SuppressWarnings("unused")
 	private TaskType type;
 	private Context context;
-	private ProgressDialog dialog;
 
 	public ReceiveServerData(TaskType type, Context mContext) {
 		this.type = type;
 		context = mContext;
-		dialog = new ProgressDialog(context);
 	}
 
 	/**
@@ -53,11 +50,7 @@ public class ReceiveServerData extends
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		dialog.setTitle("Retrieving Tasks");
-		dialog.setMessage("Please wait...");
-		dialog.setCancelable(false);
-		dialog.setIndeterminate(true);
-		//dialog.show();
+		ApplicationCore.displayToastMessage(context, "Syncing with Server");
 	}
 
 	/**
@@ -77,13 +70,8 @@ public class ReceiveServerData extends
 	 */
 	@Override
 	protected void onPostExecute(ArrayList<Task> result) {
-		try {
-			dialog.dismiss();
-			dialog = null;
-		} catch (Exception ex) {
-			// do nothing
-		}
-		TaskManager.getInstance().cachedTasks = result;
+		TaskManager.cachedTasks = result;
+		//Check if cachedTasks has conflicts with current? Something not yet synced?
 		LocalStorage.getInstance().saveTasksFromStorage(result);
 		TaskManager.getInstance().notifyAllObservers(result);
 		ApplicationCore.displayToastMessage(context, "Synced with Server");
