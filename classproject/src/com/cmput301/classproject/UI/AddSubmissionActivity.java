@@ -67,6 +67,14 @@ public class AddSubmissionActivity extends Activity implements Observer {
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			task = (Task) extras.get("Task");
+			if ((task.getRequires() & Submission.ACCESS_PHOTO) == 0)
+			{
+				findViewById(R.id.add_photo_id).setEnabled(false);
+			}
+			if((task.getRequires() & Submission.ACCESS_AUDIO) == 0)
+			{
+				findViewById(R.id.add_audio_id).setEnabled(false);
+			}
 		}
 
 		if (task == null) {
