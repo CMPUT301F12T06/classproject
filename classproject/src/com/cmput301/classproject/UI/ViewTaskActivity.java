@@ -55,6 +55,11 @@ public class ViewTaskActivity extends Activity implements Observer {
 	private Task task = null;
 	private String taskId = null;
 
+	/**
+	 * Wrapper for submission array.
+	 * @author lemon97
+	 *
+	 */
 	public class FilteredSubmissionArray extends ArrayAdapter<Submission> {
 		public FilteredSubmissionArray(Context context, int resource,
 				int textViewResourceId, List<Submission> objects) {
@@ -62,6 +67,14 @@ public class ViewTaskActivity extends Activity implements Observer {
 		}
 	}
 
+	/**
+	 * Name: addSubmission  
+	 * Description: Wrapper for adding a submission, all filtering
+	 * based on submission permission is done here.
+	 * @
+	 * @param t
+	 * @param s
+	 */
 	public void addSubmission(Task t, Submission s) {
 
 		String username = LocalStorage.getInstance().loadUsernameFromStorage();
@@ -184,12 +197,20 @@ public class ViewTaskActivity extends Activity implements Observer {
 		}
 	}
 
+	/**
+	 * onCreateOptionsMenu Description: Sets up menu at top of activity.
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_view_task, menu);
 		return true;
 	}
 
+	/**
+	 * Name: onOptionsItemSelected Description: Fix moving back using back
+	 * button issue.
+	 * 
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -226,6 +247,10 @@ public class ViewTaskActivity extends Activity implements Observer {
 		}
 	}
 
+	/**
+	 * Name: update Description: This is our view update. Model updates are sent
+	 * to the view via this method.
+	 */
 	public void update(Observable observable, Object data) {
 		if (data != null && taskId != null) {
 
