@@ -32,19 +32,34 @@ public class ServerData {
 	
 	public ServerData() {}
 	
-	
+	/**
+	 * 
+	 * @return The task contained in this Server Data object
+	 */
 	public Task getContent() {
 		return content;
 	}
 
+	/**
+	 * 
+	 * @param content The content to set for this Server Data object
+	 */
 	public void setContent(Task content) {
 		this.content = content;
 	}
 
+	/**
+	 * 
+	 * @return The id for this Server Data object
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * 
+	 * @param id The ID to set for this Server Data object
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}

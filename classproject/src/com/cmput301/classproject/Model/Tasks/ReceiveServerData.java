@@ -39,6 +39,11 @@ public class ReceiveServerData extends
 	private TaskType type;
 	private Context context;
 
+	/** 
+	 * Creates a Receive Server Data asynchronous task
+	 * @param type The type of task
+	 * @param mContext The context of the task
+	 */
 	public ReceiveServerData(TaskType type, Context mContext) {
 		this.type = type;
 		context = mContext;

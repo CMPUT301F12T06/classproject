@@ -78,6 +78,10 @@ public class JSONServer {
 	private Application appRef = null;
 	private static JSONServer instance = null;
 
+	/**
+	 * 
+	 * @return The object we use to synchronize syncing with the server
+	 */
 	public synchronized Object getSyncLock() {
 		return syncLock;
 	}
@@ -89,7 +93,11 @@ public class JSONServer {
 	private JSONServer() {
 
 	}
-
+	
+	/**
+	 * Singleton method, returns the instance if it exists, otherwise it creates it 
+	 * @return The JSONServer instance
+	 */
 	public static JSONServer getInstance() {
 		if (instance == null) {
 			instance = new JSONServer();
@@ -97,6 +105,10 @@ public class JSONServer {
 		return instance;
 	}
 
+	/**
+	 * 
+	 * @param appRef The application reference for the JSONServer
+	 */
 	public void setApplicatonReference(Application appRef) {
 		this.appRef = appRef;
 	}

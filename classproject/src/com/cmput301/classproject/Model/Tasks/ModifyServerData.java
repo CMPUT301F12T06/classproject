@@ -40,6 +40,11 @@ public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 	private ProgressDialog dialog;
 	private Context context;
 
+	/**
+	 * Creates a Modify Server Data asynchronous task
+	 * @param type Type of task
+	 * @param mContext Context of task
+	 */
 	public ModifyServerData(TaskType type, Context mContext) {
 		this.type = type;
 		this.context = mContext;

@@ -43,6 +43,9 @@ public class CheckConnection extends AsyncTask<Integer, Integer, Boolean> {
 		this.context = mContext;
 	}
 
+	/**
+	 * What happens before we execute this action
+	 */
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();

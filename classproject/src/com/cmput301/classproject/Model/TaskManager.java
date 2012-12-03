@@ -37,6 +37,8 @@ import java.util.concurrent.ExecutionException;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.cmput301.classproject.Model.Tasks.AddSubmission;
 import com.cmput301.classproject.Model.Tasks.CheckConnection;
@@ -191,13 +193,38 @@ public class TaskManager extends Observable {
 		return returnCode;
 	}
 
+	/**
+	 * Singleton method, returns the task manager if it exists, otherwise it creates it
+	 * @return The TaskManager instance
+	 */
 	public static TaskManager getInstance() {
 		if (instance == null) {
 			instance = new TaskManager();
 		}
 		return instance;
 	}
+	
+	/**
+	 * @return whether the device is connected to the Internet
+	 */
+	public boolean isConnected(Context context){
+		ConnectivityManager conManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		
+		if(conManager == null)
+			return false;
+		
+		NetworkInfo network = conManager.getActiveNetworkInfo();
+		
+		if(network == null)
+			return false;
+		
+		return network.isConnected();
+	}
 
+	/**
+	 * 
+	 * @param appRef The application Reference to set on the task manager
+	 */
 	public void setApplicatonReference(Application appRef) {
 		this.appRef = appRef;
 	}

@@ -72,48 +72,89 @@ public class Task implements Serializable {
 	public Task() {
 	}
 
+	/**
+	 * Returns a string representation of this task
+	 */
 	public String toString() {
 		return "Task: " + this.name;
 	}
 
+	/** 
+	 * @param taskId The taskid to set for this task
+	 */
 	// TODO this should be updated by JSON server class only
 	public void setId(String taskId) {
 		this.taskId = taskId;
 	}
-
+	/**
+	* 
+	* @return The id for the task
+	*/
 	public String getId() {
 		return taskId;
 	}
 
+	/**
+	 * 
+	 * @return The creator for this task
+	 */
 	public String getCreator() {
 		return creator;
 	}
 
+	/**
+	 * 
+	 * @return arraylist of submission objects for this task
+	 */
 	public ArrayList<Submission> getSubmissions() {
 		return submissions;
 	}
 
+	/**
+	 * This will overwrite all the submission currently in this task
+	 * @param submissions The list of submissions for this task
+	 */
 	public void setSubmissions(ArrayList<Submission> submissions) {
 		this.submissions = submissions;
 	}
 
+	/**
+	 * Adds a single submission for this task
+	 * @param submission The submission to add
+	 */
 	public void addSubmission(Submission submission) {
 		if (this.submissions != null)
 			this.submissions.add(submission);
 	}
 
+	/**
+	 * 
+	 * @return The name for this task
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * 
+	 * @return The description for this task
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * 
+	 * @return What this kind of submission this task requires
+	 */
 	public int getRequires() {
 		return requires;
 	}
 
+	/**
+	 * 
+	 * @return whether or not this task is publicly accessible
+	 */
 	public boolean isPublicAccess() {
 		return publicAccess;
 	}

@@ -140,6 +140,14 @@ public class AddTaskActivity extends Activity {
 	 * @param v
 	 */
 	public void onSubmitHandler(View v) {
+		
+		boolean connected = TaskManager.getInstance().isConnected(getApplicationContext());
+		
+		if(!connected){
+			ApplicationCore.displayToastMessageLong(getApplicationContext(), 
+					"Please connect to the internet before trying to add a task.");
+			return;
+		}
 
 		String title = ApplicationCore.getStringFromId(this, R.id.task_title);
 		String description = ApplicationCore.getStringFromId(this,

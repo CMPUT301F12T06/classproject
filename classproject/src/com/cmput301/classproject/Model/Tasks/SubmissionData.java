@@ -26,22 +26,44 @@ public class SubmissionData {
 	private Submission submission;
 	private String taskid;
 	
+	/**
+	 * Creates a data submission object
+	 * @param taskId The ID of the task for this submission
+	 * @param submission to set for this data submission object
+	 */
 	public SubmissionData(String taskId, Submission submission) {
 		this.submission = submission;
 		this.taskid = taskId;
 	}
 	
+	/**
+	 * 
+	 * @return The submission object
+	 */
 	public Submission getSubmission() {
 		return submission;
 	}
+	
+	/**
+	 * 
+	 * @param submission The submission object to set
+	 */
 	public void setSubmission(Submission submission) {
 		this.submission = submission;
 	}
 	
+	/**
+	 * 
+	 * @return The task ID
+	 */
 	public String getTaskId() {
 		return taskid;
 	}
 	
+	/**
+	 * 
+	 * @param taskid Sets the task ID
+	 */
 	public void setTaskid(String taskid) {
 		this.taskid = taskid;
 	}

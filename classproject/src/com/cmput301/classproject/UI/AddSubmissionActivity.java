@@ -200,6 +200,17 @@ public class AddSubmissionActivity extends Activity implements Observer {
 	 * @param v
 	 */
 	public void submitSubmissionHandler(View v) {
+		
+		boolean connected = TaskManager.getInstance().isConnected(getApplicationContext());
+		
+		if(!connected){
+			ApplicationCore.displayToastMessageLong(getApplicationContext(), 
+					"Please connect to the internet before trying to add a submission.");
+			return;
+		}
+		
+		
+		
 		String summary = submissionSummary.getText().toString();
 		if (summary == null || summary.length() <= 0) {
 			ApplicationCore.displayToastMessage(getApplicationContext(),
