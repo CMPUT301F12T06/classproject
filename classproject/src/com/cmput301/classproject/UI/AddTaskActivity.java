@@ -38,6 +38,11 @@ import android.widget.RadioButton;
 import android.support.v4.app.NavUtils;
 import android.telephony.TelephonyManager;
 
+/**
+ * AddTaskActivity - used to add a task to our program.
+ * @author Thomas Polasek
+ *
+ */
 public class AddTaskActivity extends Activity {
 
 	private int submissionRequires = 0;

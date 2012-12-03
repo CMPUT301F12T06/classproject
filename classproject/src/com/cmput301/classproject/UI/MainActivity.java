@@ -44,8 +44,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
+/**
+ * MainActivity - Displays a list of tasks and allows the user to filter task
+ * lists by criteria.
+ * 
+ * @author Thomas Polasek
+ * 
+ */
 public class MainActivity extends Activity implements Observer {
 
+	/**
+	 * This class is a an ArrayWrapper. It is used by the MainActivity to filter
+	 * all tasks based on a specific criteria. All 4 buttons on the MainActivity
+	 * interact with the class.
+	 * 
+	 * @author Thomas Polasek
+	 * 
+	 */
 	public class FilteredTaskAdapter extends ArrayAdapter<Task> {
 
 		Collection<? extends Task> buffer = null;
@@ -60,7 +75,13 @@ public class MainActivity extends Activity implements Observer {
 			buffer = collection;
 		}
 
-		// add our task object based on public/private access
+		/**
+		 * ArrayAdapter .add method wrapper. Used to add our task based on a
+		 * specific criteria.
+		 * 
+		 * @param object
+		 * @return
+		 */
 		private boolean addTask(Task object) {
 
 			if (object.isPublicAccess()) {
@@ -73,6 +94,10 @@ public class MainActivity extends Activity implements Observer {
 			return false;
 		}
 
+		/**
+		 * Filter constraint provided by a FilterType
+		 * 
+		 */
 		public void filterByConstraint() {
 			switch (filterConstraint) {
 			case NAME:
@@ -87,6 +112,11 @@ public class MainActivity extends Activity implements Observer {
 			}
 		}
 
+		/**
+		 * Filter by a specific name
+		 * 
+		 * @param name
+		 */
 		public void filterAndLoadByName(String name) {
 			this.clear();
 
@@ -100,6 +130,10 @@ public class MainActivity extends Activity implements Observer {
 			}
 		}
 
+		/**
+		 * Filter by public criteria
+		 * 
+		 */
 		public void loadAll() {
 			this.clear();
 			for (Task t : buffer) {
@@ -107,6 +141,10 @@ public class MainActivity extends Activity implements Observer {
 			}
 		}
 
+		/**
+		 * Filter by random criteria
+		 * 
+		 */
 		public void filterAndLoadRandom() {
 			this.clear();
 
@@ -126,6 +164,12 @@ public class MainActivity extends Activity implements Observer {
 		}
 	}
 
+	/**
+	 * Enum used to filter by a criteria
+	 * 
+	 * @author Thomas Polasek
+	 * 
+	 */
 	private static enum FilterType {
 		PUBLIC, RANDOM, NAME
 	};
@@ -180,6 +224,12 @@ public class MainActivity extends Activity implements Observer {
 		TaskManager.getInstance().sync(this);
 	}
 
+	/**
+	 * Dialog that appears once for the installed lifetime of the program.
+	 * Requests the user for a username that is used in add tasks and
+	 * submissions.
+	 * 
+	 */
 	public void getUsernameDialog(final MainActivity selfRef) {
 
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -205,6 +255,11 @@ public class MainActivity extends Activity implements Observer {
 		alert.show();
 	}
 
+	/**
+	 * Dialog for requesting the user for a username to filter tasks by.
+	 * 
+	 * @param selfRef
+	 */
 	public void getCreatorFilter(final MainActivity selfRef) {
 
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -355,7 +410,10 @@ public class MainActivity extends Activity implements Observer {
 		startActivity(intent);
 	}
 
-	// MVC model this is updated when the data model (taskmanager) changes.
+	/**
+	 * Name: update Description: This is our view update. Model updates are sent
+	 * to the view via this method.
+	 */
 	@SuppressWarnings("unchecked")
 	public void update(Observable observable, Object data) {
 		taskViewAdapter.clear();

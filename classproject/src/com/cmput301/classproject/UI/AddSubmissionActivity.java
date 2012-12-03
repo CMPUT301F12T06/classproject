@@ -44,6 +44,11 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.support.v4.app.NavUtils;
 
+/**
+ * AddSubmissionActivity - activity used to add a submission
+ * @author Thomas Polasek
+ *
+ */
 public class AddSubmissionActivity extends Activity implements Observer {
 
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
