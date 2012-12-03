@@ -131,6 +131,10 @@ public class AddTaskActivity extends Activity {
 
 	}
 
+	/**
+	 * 
+	 * @returnThe ID of the phone this app is running on
+	 */
 	public String getPhoneID() {
 		TelephonyManager tManager = (TelephonyManager) this
 				.getSystemService(Context.TELEPHONY_SERVICE);

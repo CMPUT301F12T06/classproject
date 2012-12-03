@@ -71,6 +71,10 @@ public class MainActivity extends Activity implements Observer {
 			buffer = objects; // TODO use data proxy
 		}
 
+		/**
+		 * 
+		 * @param collection The tasks to add
+		 */
 		public void addAllTask(Collection<? extends Task> collection) {
 			buffer = collection;
 		}
