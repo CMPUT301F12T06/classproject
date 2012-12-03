@@ -55,7 +55,7 @@ import android.app.Application;
 // Singleton
 public class JSONServer {
 
-	private final static Logger LOGGER = Logger.getLogger(JSONServer.class
+	protected final static Logger LOGGER = Logger.getLogger(JSONServer.class
 			.getName());
 
 	public static enum Code {
@@ -67,16 +67,16 @@ public class JSONServer {
 
 	}
 
-	private HttpClient httpClient = new DefaultHttpClient();
-	private Gson gson = new Gson();
-	private HttpPost httpPost = new HttpPost(
+	protected HttpClient httpClient = new DefaultHttpClient();
+	protected Gson gson = new Gson();
+	protected HttpPost httpPost = new HttpPost(
 			"http://crowdsourcer.softwareprocess.es/F12/CMPUT301F12T06/");
 	private Object syncLock = new Object();
 
 
 	@SuppressWarnings("unused")
 	private Application appRef = null;
-	private static JSONServer instance = null;
+	protected static JSONServer instance = null;
 
 	/**
 	 * 
@@ -90,7 +90,7 @@ public class JSONServer {
 	/**
 	 * Empty constructor
 	 */
-	private JSONServer() {
+	protected JSONServer() {
 
 	}
 	
@@ -321,7 +321,7 @@ public class JSONServer {
 	 * 
 	 * @return The task with the id or null if no such task exists
 	 */
-	private Task getTask(String id) {
+	protected Task getTask(String id) {
 		Task newTask = new Task();
 		try {
 			List<BasicNameValuePair> values = new ArrayList<BasicNameValuePair>();
@@ -467,7 +467,7 @@ public class JSONServer {
 	 * http://senior.ceng.metu.edu.tr/
 	 * 2009/praeda/2009/01/11/a-simple-restful-client-at-android/
 	 */
-	private String convertStreamToString(InputStream is) {
+	protected String convertStreamToString(InputStream is) {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		StringBuilder sb = new StringBuilder();
