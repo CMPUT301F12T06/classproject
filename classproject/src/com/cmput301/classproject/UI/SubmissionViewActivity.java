@@ -114,8 +114,7 @@ public class SubmissionViewActivity extends Activity implements Observer {
 	 * @param arg
 	 */
 	public void update(Observable s, Object arg) {
-		// FIXME this is currently not needed, because we do not do interval
-		// based syncing
+		// Do nothing.
 	}
 
 	/**

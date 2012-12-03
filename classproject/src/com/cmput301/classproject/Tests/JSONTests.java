@@ -36,23 +36,39 @@ import com.cmput301.classproject.Model.Tasks.JSONServer;
 import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
-
+/*
+ * This test class tests all the methods of the JSONServer.java class.
+ * The tests are tabulated on the Wiki, under Project Part 4 Testing.
+ * The table is labeled "Error Guessing - JSON Server".
+ */
 public class JSONTests {
 
 	JSONServer server = JSONServer.getInstance();
 
 	@Test
+	/*
+	 * Test ID: Error Guessing - JSON Server 1
+	 * Tests a good connection to the server.
+	 */
 	public void testGoodConnection() throws Exception {
 		assertTrue(server.isConnected());
 	}
 
 	@Test
+	/*
+	 * Test ID: Error Guessing - JSON Server 2
+	 * Tests a bad connection to the server.
+	 */
 	public void testBadConnection() {
 		HttpPost post = new HttpPost("http://fakeAddress");
 		assertFalse(server.isConnected(post));
 	}
 
 	@Test
+	/*
+	 * Test ID: Error Guessing - JSON Server 3
+	 * Tests adding a task to the Web Service.
+	 */
 	public void testAddTask() {
 		Task task1 = new Task("JUNIT Test", "Testing", "ABC",
 				Submission.ACCESS_PHOTO | Submission.ACCESS_TEXT, true);
@@ -67,17 +83,29 @@ public class JSONTests {
 	}
 
 	@Test
+	/*
+	 * Test ID: Error Guessing - JSON Server 4
+	 * Retrieves all the tasks stored in the Web Service.
+	 */
 	public void getTasks() {
 		assertTrue(server.getAllTasks().size() > 0);
 	}
 
 	@Ignore("Only ran if the server is empty. We do not want the nuke it")
 	@Test
+	/*
+	 * Tests for an empty task list.
+	 * This is rarely run, as the tasks are stored for a long time.
+	 */
 	public void getEmptyTasks() {
 		assertTrue(server.getAllTasks().size() == 0);
 	}
 
 	@Test
+	/*
+	 * Test ID: Error Guessing - JSON Server 5
+	 * Tests adding a submission to a task.
+	 */
 	public void addSubmission() {
 		Task task1 = new Task("JUNIT Test", "Testing", "ABC",
 				Submission.ACCESS_PHOTO | Submission.ACCESS_TEXT, true);
