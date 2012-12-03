@@ -46,7 +46,9 @@ public class Picture implements Serializable {
 	 *            The Bitmap
 	 */
 	public Picture(Bitmap bitmap) {
-		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
+		int width = 400;
+		int height = bitmap.getHeight() * width / bitmap.getWidth();
+		Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
 
 		ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
 

@@ -88,25 +88,44 @@ public class Submission implements Serializable {
 
 	}
 
+	/**
+	 * Sets the images for this submission.
+	 * @param bitmaps The bitmaps containing the pictures for this submission
+	 */
 	private void setImages(ArrayList<Bitmap> bitmaps) {
 		images.clear();
 		for (Bitmap bitmap : bitmaps) {
 			images.add(new Picture(bitmap));
 		}
 	}
-
-	public String toString() {
+	
+	/**
+	 * Returns a string representation of this submission
+	 */
+	public String toString(){
 		return summary;
 	}
 
+	/**
+	 * 
+	 * @return who created this submission
+	 */
 	public String getAuthor() {
 		return author;
 	}
 
+	/**
+	 * 
+	 * @return Summary of this submission
+	 */
 	public String getSummary() {
 		return summary;
 	}
 
+	/**
+	 * This deserializes the pictures and turns them into an arraylist of bitmaps
+	 * @return
+	 */
 	public ArrayList<Bitmap> getImages() {
 		ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
 		// Converts it into the picture object
@@ -116,14 +135,26 @@ public class Submission implements Serializable {
 		return bitmaps;
 	}
 
+	/**
+	 * 
+	 * @return The text submission for this submission
+	 */
 	public String getTextSubmission() {
 		return textSubmission;
 	}
 
+	/**
+	 * 
+	 * @return The timestamp for when the submission was submitted
+	 */
 	public double getTimestamp() {
 		return timestamp;
 	}
 
+	/**
+	 * 
+	 * @return The permission object of this submission
+	 */
 	public Permission getAccess() {
 		return access;
 	}
