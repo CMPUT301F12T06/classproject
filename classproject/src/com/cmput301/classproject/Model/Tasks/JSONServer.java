@@ -71,10 +71,17 @@ public class JSONServer {
 	private Gson gson = new Gson();
 	private HttpPost httpPost = new HttpPost(
 			"http://crowdsourcer.softwareprocess.es/F12/CMPUT301F12T06/");
+	private Object syncLock = new Object();
+
 
 	@SuppressWarnings("unused")
 	private Application appRef = null;
 	private static JSONServer instance = null;
+
+	public synchronized Object getSyncLock() {
+		return syncLock;
+	}
+
 
 	/**
 	 * Empty constructor

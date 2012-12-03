@@ -24,12 +24,14 @@ MA 02110-1301, USA.
 package com.cmput301.classproject.Model.Tasks;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.cmput301.classproject.Model.TaskManager;
 import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
+import com.cmput301.classproject.UI.MainActivity;
 
 public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
 
@@ -59,8 +61,12 @@ public class AddSubmission extends AsyncTask<SubmissionData, Integer, Code> {
 	 */
 	@Override
 	protected Code doInBackground(SubmissionData... data) {
-		return JSONServer.getInstance().addSubmission(data[0].getTaskId(),
-				data[0].getSubmission());
+	
+		synchronized (JSONServer.getInstance().getSyncLock()) {
+			return JSONServer.getInstance().addSubmission(data[0].getTaskId(),
+					data[0].getSubmission()); 
+		}
+	
 	}
 
 	/**

@@ -35,8 +35,6 @@ import android.os.AsyncTask;
 public class ReceiveServerData extends
 		AsyncTask<Task, Integer, ArrayList<Task>> {
 
-	private Object syncLock = new Object();
-	
 	@SuppressWarnings("unused")
 	private TaskType type;
 	private Context context;
@@ -60,12 +58,11 @@ public class ReceiveServerData extends
 	 */
 	@Override
 	protected ArrayList<Task> doInBackground(Task... tasks) {
-		
-		synchronized(syncLock) {
-			
+
+		synchronized (JSONServer.getInstance().getSyncLock()) {
+
 			return JSONServer.getInstance().getAllTasks();
 		}
-		
 
 	}
 
@@ -79,7 +76,8 @@ public class ReceiveServerData extends
 	@Override
 	protected void onPostExecute(ArrayList<Task> result) {
 		TaskManager.cachedTasks = result;
-		//Check if cachedTasks has conflicts with current? Something not yet synced?
+		// Check if cachedTasks has conflicts with current? Something not yet
+		// synced?
 		LocalStorage.getInstance().saveTasksFromStorage(result);
 		TaskManager.getInstance().notifyAllObservers(result);
 		ApplicationCore.displayToastMessage(context, "Synced with Server");

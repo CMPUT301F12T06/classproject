@@ -48,7 +48,7 @@ import com.cmput301.classproject.Model.Tasks.SubmissionData;
 
 //
 public class TaskManager extends Observable {
-	
+
 	@SuppressWarnings("unused")
 	private Application appRef = null;
 	private static TaskManager instance = null;
@@ -56,16 +56,16 @@ public class TaskManager extends Observable {
 	
 	public static ArrayList<Task> cachedTasks = null;
 	public static String currentTask = null;
-	
+
 	private TaskManager() {
 		observers = new ArrayList<Observer>();
-		if(cachedTasks == null) 
+		if (cachedTasks == null)
 			cachedTasks = new ArrayList<Task>();
 	}
 
 	/**
-	 * Adds an observer to our list of Observers so we can
-	 * Notify them of any changes that are made 
+	 * Adds an observer to our list of Observers so we can Notify them of any
+	 * changes that are made
 	 */
 	public void addObserver(Observer observer) {
 		if (!observers.contains(observer))
@@ -73,10 +73,10 @@ public class TaskManager extends Observable {
 	}
 
 	/**
-	 * Notifies all the observers of a change and passes
-	 * in the ArrayList<Task>
+	 * Notifies all the observers of a change and passes in the ArrayList<Task>
 	 * 
-	 * @param data the ArrayList<Task>
+	 * @param data
+	 *            the ArrayList<Task>
 	 */
 	public void notifyAllObservers(Object data) {
 
@@ -84,32 +84,34 @@ public class TaskManager extends Observable {
 			observer.update(this, data);
 		}
 	}
-	
-	
+
 	/**
 	 * Adds a task to the JSONServer. This calls the AsyncTask method
-	 * ModifyServerData. 
+	 * ModifyServerData.
 	 * 
-	 * @param task		The task to add
-	 * @param mContext	The ApplicationContext in which it was called
-	 * @return			Code.SUCCESS or Code.FAILURE
+	 * @param task
+	 *            The task to add
+	 * @param mContext
+	 *            The ApplicationContext in which it was called
+	 * @return Code.SUCCESS or Code.FAILURE
 	 */
 	public Code addTask(Task task, Context mContext) {
 
 		Code returnCode = Code.SUCCESS;
-		//Have it add to the cached task and then sync it in the background if
-		//it is connected
+		// Have it add to the cached task and then sync it in the background if
+		// it is connected
 		cachedTasks.add(task);
 		LocalStorage.getInstance().saveTasksFromStorage(cachedTasks);
 		notifyAllObservers(cachedTasks);
-		
-		//Save it to the database in the background
+
+		// Save it to the database in the background
 		try {
-			//Will be done in the background with no progress dialog
+			// Will be done in the background with no progress dialog
 			boolean connected = false;
 			connected = new CheckConnection(mContext).execute().get();
-			if(connected) {
-				new ModifyServerData(JSONServer.TaskType.AddTask,mContext).execute(task);
+			if (connected) {
+				new ModifyServerData(JSONServer.TaskType.AddTask, mContext)
+						.execute(task);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -117,68 +119,74 @@ public class TaskManager extends Observable {
 
 		return returnCode;
 	}
-	
+
 	/**
-	 * Adds a Submission to a task to the server. This will retrieve
-	 * the specified task from it's id and add the submission to the 
-	 * task and update the task on the server with the new information
+	 * Adds a Submission to a task to the server. This will retrieve the
+	 * specified task from it's id and add the submission to the task and update
+	 * the task on the server with the new information
 	 * 
-	 * @param taskId		The id of the task 
-	 * @param submission	The Submission object to add
-	 * @param mContext		The ApplicationContext in which it was called
-	 * @return				Code.SUCCESS or Code.FAILURE
+	 * @param taskId
+	 *            The id of the task
+	 * @param submission
+	 *            The Submission object to add
+	 * @param mContext
+	 *            The ApplicationContext in which it was called
+	 * @return Code.SUCCESS or Code.FAILURE
 	 */
-	public Code addSubmission(String taskId, Submission submission, Context mContext){
-		
-		//Add the submission to the local cached copy
-		for(int i = 0; i < cachedTasks.size(); i++) {
-			if(cachedTasks.get(i).getId().equals(taskId)) {
+	public Code addSubmission(String taskId, Submission submission,
+			Context mContext) {
+
+		// Add the submission to the local cached copy
+		for (int i = 0; i < cachedTasks.size(); i++) {
+			if (cachedTasks.get(i).getId().equals(taskId)) {
 				cachedTasks.get(i).getSubmissions().add(submission);
 			}
 		}
 		LocalStorage.getInstance().saveTasksFromStorage(cachedTasks);
-		
+
 		Code returnCode = Code.SUCCESS;
 		notifyAllObservers(cachedTasks);
-		
-		//Save it in the background to the server
-		try {	
+
+		// Save it in the background to the server
+		try {
 			boolean connected = false;
 			connected = new CheckConnection(mContext).execute().get();
-			if(connected) {
-			//Will be done in background with no dialog. It will always load cached
-			//For speed
-				new AddSubmission(mContext).execute(new SubmissionData(taskId,submission));
+			if (connected) {
+				// Will be done in background with no dialog. It will always
+				// load cached
+				// For speed
+				new AddSubmission(mContext).execute(new SubmissionData(taskId,
+						submission));
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return returnCode;
 	}
-	
-	
+
 	/**
-	 * This basically retrieves all the tasks from the server and notifies
-	 * The observers that a change has happened
+	 * This basically retrieves all the tasks from the server and notifies The
+	 * observers that a change has happened
 	 * 
-	 * @param mContext	The ApplicationContext in which it was called
-	 * @return			Code.SUCCESS or Code.FAILURE
+	 * @param mContext
+	 *            The ApplicationContext in which it was called
+	 * @return Code.SUCCESS or Code.FAILURE
 	 */
 	public Code sync(Context mContext) {
 		// TODO add connection logic and locale file storage stuff logic
-		//Will attempt to load from local storage first
+		// Will attempt to load from local storage first
 		Code returnCode = Code.FAILURE;
-		cachedTasks = (ArrayList<Task>) LocalStorage.getInstance().loadTasksFromStorage();
-		if((cachedTasks != null))
+		cachedTasks = (ArrayList<Task>) LocalStorage.getInstance()
+				.loadTasksFromStorage();
+		if ((cachedTasks != null))
 			notifyAllObservers(cachedTasks);
-		
-		//Sync in the background 
+
+		// Sync in the background
 		try {
 			new CheckConnection(mContext).execute();
 		} catch (Exception ex) {
-			
+
 		}
-		
 
 		return returnCode;
 	}

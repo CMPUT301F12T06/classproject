@@ -35,17 +35,17 @@ import com.cmput301.classproject.Model.Tasks.JSONServer.Code;
 import com.cmput301.classproject.Model.Tasks.JSONServer.TaskType;
 
 public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
-	
+
 	private TaskType type;
 	private ProgressDialog dialog;
 	private Context context;
-	
-	public ModifyServerData(TaskType type,Context mContext) {
-		this.type=type;
+
+	public ModifyServerData(TaskType type, Context mContext) {
+		this.type = type;
 		this.context = mContext;
 		dialog = new ProgressDialog(context);
 	}
-	
+
 	/**
 	 * Displaying a ProgressDialog before executing the task
 	 */
@@ -56,45 +56,44 @@ public class ModifyServerData extends AsyncTask<Task, Integer, Code> {
 		dialog.setMessage("Please wait...");
 		dialog.setCancelable(false);
 		dialog.setIndeterminate(true);
-		//dialog.show();
+		// dialog.show();
 	}
-	
+
 	/**
 	 * Calls the JSONServer to handle the addition or deletion of a task
 	 */
 	@Override
-	protected Code doInBackground(Task...tasks) {
-		switch(type) {
+	protected Code doInBackground(Task... tasks) {
+		synchronized (JSONServer.getInstance().getSyncLock()) {
+			switch (type) {
 			case AddTask:
 				return JSONServer.getInstance().addTask(tasks[0]);
 			case RemoveTask:
 				return JSONServer.getInstance().deleteTask(tasks[0]);
 
-				
-			default: 
+			default:
 				return Code.FAILURE;
+			}
 		}
 	}
-	
+
 	/**
-	 * After completing adding or deletion of a task it will
-	 * remove the dialog message, sync and 
-	 * then notify the Activity to finish
+	 * After completing adding or deletion of a task it will remove the dialog
+	 * message, sync and then notify the Activity to finish
 	 */
 	@Override
 	protected void onPostExecute(Code result) {
-		//If we are loading local first then this is not needd. It will be done in the background if 
-		//it is online
+		// If we are loading local first then this is not needd. It will be done
+		// in the background if
+		// it is online
 		try {
 			dialog.dismiss();
 			dialog = null;
 		} catch (Exception ex) {
-			//do nothing - insurance for if the activity finishes faster
+			// do nothing - insurance for if the activity finishes faster
 		}
 		TaskManager.getInstance().sync(context);
 		((Activity) context).finish();
 
 	}
 }
-
-		

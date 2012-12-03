@@ -53,7 +53,9 @@ public class CheckConnection extends AsyncTask<Integer, Integer, Boolean> {
 	 */
 	@Override
 	protected Boolean doInBackground(Integer... data) {
-		return JSONServer.getInstance().isConnected();
+		synchronized (JSONServer.getInstance().getSyncLock()) {
+			return JSONServer.getInstance().isConnected();
+		}
 	}
 
 	/**
@@ -61,10 +63,12 @@ public class CheckConnection extends AsyncTask<Integer, Integer, Boolean> {
 	 */
 	@Override
 	protected void onPostExecute(Boolean result) {
-		if(result) {
+		if (result) {
 			JSONServer.getInstance().sync();
-			new ReceiveServerData(JSONServer.TaskType.GetTasks,context).execute();
-			LocalStorage.getInstance().saveTasksFromStorage(TaskManager.cachedTasks);
+			new ReceiveServerData(JSONServer.TaskType.GetTasks, context)
+					.execute();
+			LocalStorage.getInstance().saveTasksFromStorage(
+					TaskManager.cachedTasks);
 		}
 
 	}
