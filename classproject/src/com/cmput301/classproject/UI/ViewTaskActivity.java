@@ -135,15 +135,7 @@ public class ViewTaskActivity extends Activity implements Observer {
 			temp.setText(task.getCreator());
 
 			temp = ((TextView) findViewById(R.id.task_view_requires));
-			String requires = "";
-			if (task.getRequires() == 0)
-				requires = "Nothing";
-			if ((task.getRequires() & Submission.ACCESS_PHOTO) > 0)
-				requires += "Photo ";
-			if ((task.getRequires() & Submission.ACCESS_AUDIO) > 0)
-				requires += "Audio ";
-			if ((task.getRequires() & Submission.ACCESS_TEXT) > 0)
-				requires += "Text ";
+			String requires = requires();
 			temp.setText(requires);
 
 			temp = ((TextView) findViewById(R.id.task_view_access));
@@ -195,6 +187,29 @@ public class ViewTaskActivity extends Activity implements Observer {
 			ApplicationCore.displayToastMessageLong(this,
 					getString(R.string.view_task_no_submission_msg));
 		}
+	}
+
+	/**
+	 * ** Refactored by JDeodorant **
+	 * 
+	 * This method returns the string to set the requirements of the task.
+	 * @return String for requirements of the activity.
+	 */
+	private String requires() {
+		String requires = "";
+		if (task.getRequires() == 0) {
+			requires = "Nothing";
+		}
+		if ((task.getRequires() & Submission.ACCESS_PHOTO) > 0) {
+			requires += "Photo ";
+		}
+		if ((task.getRequires() & Submission.ACCESS_AUDIO) > 0) {
+			requires += "Audio ";
+		}
+		if ((task.getRequires() & Submission.ACCESS_TEXT) > 0) {
+			requires += "Text ";
+		}
+		return requires;
 	}
 
 	/**
