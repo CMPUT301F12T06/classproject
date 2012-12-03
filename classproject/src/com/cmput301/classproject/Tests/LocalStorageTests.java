@@ -30,22 +30,39 @@ import org.junit.Test;
 import com.cmput301.classproject.Model.LocalStorage;
 import com.cmput301.classproject.Model.Submission;
 import com.cmput301.classproject.Model.Task;
-
+/*
+ * This test class tests all the methods of the LocalStorage.java class.
+ * The tests are tabulated on the Wiki, under Project Part 4 Testing.
+ * The table is labeled "Error Guessing - LocalStorage".
+ */
 public class LocalStorageTests {
 
 	LocalStorage localStorage = LocalStorage.getInstance();
 
 	@Test
+	/*
+	 * Test ID: Error Guessing - LocalStorage 1
+	 * Tests creating local storage on the android app.
+	 */
 	public void testCreateLocalStorage() {
 		assertTrue(localStorage != null);
 	}
 
 	@Test
+	/*
+	 * Test ID: Error Guessing - LocalStorage 2
+	 * Tests validation of no entries in the local storage.
+	 * Should be run right after testCreateLocalStorage.
+	 */
 	public void testNoEntries() {
 		assertTrue(localStorage.loadTasksFromStorage().isEmpty());
 	}
 
 	@Test
+	/*
+	 * Test ID: Error Guessing - LocalStorage 3
+	 * Tests adding a task to the local storage.
+	 */
 	public void testAddEntry() {
 		Task myTask = new Task("JUnit Local Task", "Description for Test Task",
 				"Test Task Creator", Submission.ACCESS_PHOTO, true);
